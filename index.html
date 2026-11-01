@@ -5,222 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Associação de Moradores do Jardim Tarraf II · AMJT II</title>
 <meta name="description" content="Desde 2002 a AMJT II reúne vizinhos para cuidar do Jardim Tarraf II: eventos na praça, melhorias e voz junto à Prefeitura. Associe-se.">
-<meta property="og:title" content="Associação de Moradores do Jardim Tarraf II">
-<meta property="og:description" content="O Tarraf II fica melhor quando a gente cuida junto. Associe-se.">
+<meta property="og:title" content="Associação de Moradores do Jardim Tarraf II · AMJT II">
+<meta property="og:description" content="Desde 2002 a AMJT II reúne vizinhos para cuidar do Jardim Tarraf II: eventos na praça, melhorias e voz junto à Prefeitura. Associe-se.">
 <meta name="theme-color" content="#24412c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --paper:#f5efe3;
-  --paper-2:#ece4d3;
-  --ink:#1c261e;
-  --muted:#5b6359;
-  --line:#d8cdb6;
-  --green:#24412c;
-  --green-2:#2f5a3b;
-  --sun:#f0a92e;      /* ipê amarelo */
-  --sun-ink:#3a2600;
-  --ok:#2f7a45;
-  --r:14px;
-  --wrap:1120px;
-  --display:"Bricolage Grotesque", Georgia, serif;
-  --body:"Figtree", -apple-system, "Segoe UI", sans-serif;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--body);-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:var(--display);line-height:1.05;margin:0;letter-spacing:-.02em;text-wrap:balance}
-p{margin:0;text-wrap:pretty}
-a{color:inherit}
-.wrap{max-width:var(--wrap);margin:0 auto;padding:0 22px}
-.kicker{font:600 13px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--green-2)}
-:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:6px}
-
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:50px;padding:0 22px;border-radius:999px;font:700 16px/1 var(--body);text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s ease, background .15s ease}
-.btn:active{transform:translateY(1px)}
-.btn-sun{background:var(--sun);color:var(--sun-ink)}
-.btn-sun:hover{background:#f6b947}
-.btn-line{border-color:currentColor;background:transparent;color:var(--ink)}
-.btn-line:hover{background:rgba(0,0,0,.05)}
-.btn svg{width:20px;height:20px;flex:none}
-
-/* header */
-header.top{position:sticky;top:0;z-index:20;background:rgba(245,239,227,.94);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.seal{width:40px;height:40px;border-radius:50%;background:var(--green);color:var(--paper);display:grid;place-items:center;font:800 13px/1 var(--display);letter-spacing:-.02em}
-.brand b{font:700 15px/1.1 var(--display);display:block}
-.brand small{font-size:12px;color:var(--muted)}
-.top nav{display:none;gap:26px;font-weight:600;font-size:15px}
-.top nav a{text-decoration:none;color:var(--muted)}
-.top nav a:hover{color:var(--ink)}
-.top .btn{min-height:42px;padding:0 16px;font-size:14px}
-@media (min-width:900px){.top nav{display:flex}}
-
-/* hero */
-.hero{padding:44px 0 56px;border-bottom:1px solid var(--line)}
-.hero .wrap{display:grid;gap:40px}
-.hero h1{font-size:clamp(42px,9vw,84px);font-weight:800;margin:16px 0 20px}
-.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%, var(--sun) 62% 92%, transparent 92%)}
-.hero .lead{font-size:19px;color:#333b33;max-width:34ch}
-.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-@media (min-width:900px){
-  .hero{padding:72px 0 80px}
-  .hero .wrap{grid-template-columns:1.25fr .9fr;align-items:end;gap:64px}
-}
-
-/* agenda ticket */
-.agenda{background:var(--green);color:var(--paper);border-radius:var(--r);padding:24px 22px 10px;position:relative}
-.agenda h2{font-size:22px;font-weight:700;margin-bottom:4px}
-.agenda .sub{font-size:14px;opacity:.75;margin-bottom:12px}
-.agenda ol{list-style:none;margin:0;padding:0}
-.agenda li{display:grid;grid-template-columns:64px 1fr;gap:14px;padding:13px 0;border-top:1px dashed rgba(245,239,227,.25)}
-.agenda .m{font:700 13px/1.3 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--sun);padding-top:3px}
-.agenda strong{display:block;font:700 17px/1.2 var(--display)}
-.agenda span{font-size:14px;opacity:.8}
-.agenda li.now{background:rgba(240,169,46,.12);margin:0 -22px;padding:13px 22px;border-top-color:transparent}
-.agenda li.now strong::after{content:"este mês";display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;background:var(--sun);color:var(--sun-ink);font:700 11px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;vertical-align:3px}
-
-/* sections */
-section{padding:72px 0}
-.sec-head{display:grid;gap:14px;margin-bottom:40px;max-width:720px}
-.sec-head h2{font-size:clamp(32px,6vw,52px);font-weight:800}
-.sec-head p{font-size:18px;color:var(--muted)}
-
-/* what we do: editorial list */
-.do{display:grid;gap:0;border-top:2px solid var(--ink)}
-.do article{display:grid;grid-template-columns:48px 1fr;gap:6px 18px;padding:24px 0;border-bottom:1px solid var(--line)}
-.do .n{font:800 15px/1 var(--display);color:var(--green-2);padding-top:6px}
-.do h3{font-size:24px;font-weight:700;grid-column:2}
-.do p{grid-column:2;color:#3d443d;max-width:58ch}
-.do .tags{grid-column:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.do .tags i{font-style:normal;font-size:13px;font-weight:600;padding:5px 11px;border-radius:999px;background:var(--paper-2);color:var(--green)}
-@media (min-width:900px){
-  .do{grid-template-columns:1fr 1fr;column-gap:56px}
-  .do article.big{grid-column:1 / -1;grid-template-columns:48px 1fr 1fr;column-gap:18px}
-  .do article.big h3{font-size:34px}
-  .do article.big p{grid-column:3;grid-row:1 / span 2;font-size:18px}
-  .do article.big .tags{grid-column:2}
-}
-
-/* why join band */
-.why{background:var(--green);color:var(--paper)}
-.why .kicker{color:var(--sun)}
-.why .sec-head p{color:rgba(245,239,227,.8)}
-.why .grid{display:grid;gap:28px}
-.why ul{list-style:none;margin:0;padding:0;display:grid;gap:0}
-.why li{padding:20px 0;border-top:1px solid rgba(245,239,227,.18);display:grid;gap:4px}
-.why li b{font:700 20px/1.2 var(--display)}
-.why li span{color:rgba(245,239,227,.78)}
-.quote{font:700 clamp(26px,4.4vw,40px)/1.15 var(--display);letter-spacing:-.02em}
-.quote small{display:block;font:500 15px/1.5 var(--body);letter-spacing:0;margin-top:18px;color:rgba(245,239,227,.75)}
-@media (min-width:900px){.why .grid{grid-template-columns:1fr 1fr;gap:72px;align-items:start}}
-
-/* ways to help */
-.help{display:grid;gap:16px}
-.card{border:1.5px solid var(--line);border-radius:var(--r);padding:24px;background:#fbf8f1;display:grid;gap:10px;align-content:start}
-.card h3{font-size:22px;font-weight:700}
-.card p{color:var(--muted)}
-.card a.more{font-weight:700;color:var(--green);text-decoration-thickness:2px;text-underline-offset:4px;margin-top:6px}
-.card.main{background:var(--sun);border-color:var(--sun);color:var(--sun-ink)}
-.card.main p{color:#4b3510}
-.card.main h3{font-size:30px}
-@media (min-width:900px){
-  .help{grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:auto auto}
-  .card.main{grid-row:1 / span 2;padding:36px}
-  .card.wide{grid-column:2 / span 2}
-}
-
-/* form */
-.join{background:var(--paper-2);border-top:1px solid var(--line)}
-.join .grid{display:grid;gap:36px}
-@media (min-width:900px){.join .grid{grid-template-columns:.85fr 1.15fr;gap:72px}}
-.wa-panel{display:grid;gap:16px;background:#fbf8f1;border:1.5px solid var(--line);border-radius:var(--r);padding:28px 24px;align-content:start}
-.wa-panel h3{font-size:28px;font-weight:800}
-.steps{margin:0;padding:0 0 0 22px;display:grid;gap:8px;color:#3d443d}
-.steps li::marker{font-weight:800;color:var(--green-2)}
-.btn-wa{background:#1f8f4e;color:#fff;min-height:56px;font-size:18px;justify-self:start}
-.btn-wa:hover{background:#187a41}
-.wa-num{font-size:15px;color:var(--muted)}
-.wa-num a{font-weight:700;color:var(--green)}
-.contact-list{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:12px;font-size:16px}
-.contact-list a{font-weight:700;color:var(--green)}
-
-/* faq */
-details{border-bottom:1px solid var(--line);padding:18px 0}
-details:first-of-type{border-top:2px solid var(--ink)}
-summary{cursor:pointer;font:700 20px/1.3 var(--display);list-style:none;display:flex;justify-content:space-between;gap:16px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-size:26px;line-height:1;color:var(--green-2);transition:transform .2s}
-details[open] summary::after{transform:rotate(45deg)}
-details p{margin-top:10px;color:#3d443d;max-width:62ch}
-
-/* count */
-.count{margin-top:22px;font:700 22px/1.35 var(--display);letter-spacing:-.01em}
-.count b{color:var(--sun);font-size:32px}
-.count span{font:500 16px/1.5 var(--body);opacity:.8}
-
-/* eventos */
-.ev-feature{display:grid;gap:18px;background:var(--ink);color:var(--paper);border-radius:var(--r);padding:28px 24px;margin-bottom:28px}
-.ev-feature .when{font:700 13px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--sun)}
-.ev-feature h3{font-size:clamp(30px,5vw,46px);font-weight:800}
-.ev-feature p{color:rgba(245,239,227,.82);max-width:60ch}
-.ev-feature .facts{display:flex;flex-wrap:wrap;gap:10px 26px;font-size:15px}
-.ev-feature .facts b{display:block;font:800 26px/1.1 var(--display);color:var(--paper)}
-.ev-feature .quote-s{font:600 17px/1.4 var(--display);border-top:1px solid rgba(245,239,227,.18);padding-top:16px}
-.ev-list{display:grid;gap:0;border-top:2px solid var(--ink)}
-.ev-list article{display:grid;grid-template-columns:86px 1fr;gap:4px 16px;padding:20px 0;border-bottom:1px solid var(--line)}
-.ev-list .when{font:700 13px/1.35 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--green-2);padding-top:4px;grid-row:span 2}
-.ev-list h3{font-size:21px;font-weight:700}
-.ev-list p{color:#3d443d;font-size:16px}
-.ev-next{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-top:28px;padding:22px 24px;border:1.5px dashed var(--green-2);border-radius:var(--r)}
-.ev-next p{font:700 19px/1.3 var(--display);max-width:40ch}
-@media (min-width:900px){
-  .ev-feature{grid-template-columns:1.2fr 1fr;padding:40px;column-gap:48px}
-  .ev-feature .side{display:grid;gap:18px;align-content:end}
-  .ev-list{grid-template-columns:1fr 1fr;column-gap:56px}
-}
-
-/* footer */
-footer{background:var(--ink);color:rgba(245,239,227,.8);padding:48px 0 36px;font-size:15px}
-footer .grid{display:grid;gap:28px}
-footer b{color:var(--paper);font:700 18px/1.2 var(--display);display:block;margin-bottom:8px}
-footer a{color:var(--paper)}
-footer .fine{margin-top:32px;font-size:13px;opacity:.6}
-@media (min-width:900px){footer .grid{grid-template-columns:1.4fr 1fr 1fr}}
-
-/* sticky mobile CTA */
-.mcta{position:fixed;left:12px;right:12px;bottom:12px;z-index:30;display:flex;transform:translateY(140%);transition:transform .25s ease}
-.mcta.on{transform:none}
-.mcta .btn{flex:1;box-shadow:0 8px 24px rgba(28,38,30,.25)}
-@media (min-width:900px){.mcta{display:none}}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#inicio" aria-label="AMJT II, início">
+    <a class="brand" href="index.html" aria-label="AMJT II, início">
       <span class="seal" aria-hidden="true">T II</span>
       <span><b>AMJT II</b><small>Moradores do Jardim Tarraf II</small></span>
     </a>
     <nav aria-label="Principal">
-      <a href="#o-que-fazemos">O que fazemos</a>
-      <a href="#eventos">Eventos</a>
-      <a href="#por-que">Por que se associar</a>
-      <a href="#ajudar">Como ajudar</a>
-      <a href="#duvidas">Dúvidas</a>
+<a href="sobre.html">Sobre</a>
+<a href="eventos.html">Eventos</a>
+<a href="contribua.html">Contribua</a>
+<a href="contato.html">Contato</a>
     </nav>
-    <a class="btn btn-sun" href="#associe-se">Associe-se</a>
+    <div class="right">
+      <a class="btn btn-sun" data-wa="Associar" href="#" target="_blank" rel="noopener">Associe-se</a>
+      <button class="menu-btn" id="menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mnav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
   </div>
+  <nav class="mnav" id="mnav" aria-label="Menu">
+<a href="index.html" aria-current=page>Início</a>
+<a href="sobre.html">Sobre</a>
+<a href="eventos.html">Eventos</a>
+<a href="contribua.html">Contribua</a>
+<a href="contato.html">Contato</a>
+  </nav>
 </header>
 
-<main id="inicio">
-
+<main>
 <section class="hero" aria-labelledby="h1">
   <div class="wrap">
     <div>
@@ -251,58 +74,30 @@ footer .fine{margin-top:32px;font-size:13px;opacity:.6}
   </div>
 </section>
 
-<section id="o-que-fazemos" aria-labelledby="fazemos-h">
+<section aria-labelledby="fazemos-h">
   <div class="wrap">
     <div class="sec-head">
       <p class="kicker">O que a associação faz</p>
       <h2 id="fazemos-h">Trabalho de vizinho, feito por vizinhos.</h2>
-      <p>A associação é feita por moradores que doam tempo para o bairro continuar bom de viver — e ficar ainda melhor.</p>
+      <p>Eventos na praça, cuidado com o bairro e uma voz só para cobrar o que precisa ser feito.</p>
     </div>
-
     <div class="do">
-      <article class="big">
-        <span class="n">01</span>
-        <h3>A praça como ponto de encontro</h3>
-        <p>Páscoa, Arraiá, Mês dos Pais, Halloween, happy hour. Os eventos tiram as famílias de casa, fazem as crianças brincarem juntas e transformam “o pessoal da rua” em amigos. Bairro onde as pessoas se conhecem é bairro mais seguro.</p>
-        <div class="tags"><i>Páscoa</i><i>Arraiá</i><i>Mês dos Pais</i><i>Halloween</i><i>Happy Hour</i></div>
-      </article>
-      <article>
-        <span class="n">02</span>
-        <h3>Melhorias e manutenção</h3>
-        <p>Limpeza das praças (central, da Mangueira, do Braille), o muro da praça, vazamentos, coleta de lixo, velocidade e rachas nas avenidas. Registramos os problemas, levamos à Prefeitura, ao SEMAE e a quem for preciso, e cobramos resposta em nome de todos.</p>
-      </article>
-      <article>
-        <span class="n">03</span>
-        <h3>Sabadão na Praça</h3>
-        <p>Uma tarde de sábado para prestigiar quem empreende no bairro. Movimenta a praça e mantém o dinheiro girando aqui dentro.</p>
-      </article>
-      <article>
-        <span class="n">04</span>
-        <h3>Geloteca</h3>
-        <p>Uma geladeira que virou biblioteca comunitária. Pegue um livro, deixe outro: leitura livre para todas as idades.</p>
-      </article>
-      <article>
-        <span class="n">05</span>
-        <h3>Informação que chega</h3>
-        <p>Comunicados, avisos e convites no Instagram e no grupo do WhatsApp. Você fica sabendo do que acontece no bairro antes de virar boato.</p>
-      </article>
+      <article><span class="n">01</span><h3>A praça como ponto de encontro</h3><p>Páscoa, Arraiá, Mês dos Pais, Dia das Crianças, Halloween. Bairro onde as pessoas se conhecem é bairro mais seguro.</p></article>
+      <article><span class="n">02</span><h3>Melhorias e manutenção</h3><p>Praças, muro, vazamentos, coleta, velocidade nas ruas: a associação registra, encaminha e cobra resposta.</p></article>
     </div>
+    <a class="more-link" href="sobre.html">Conheça a associação →</a>
   </div>
 </section>
 
-<section id="eventos" aria-labelledby="ev-h" style="padding-top:0">
+<section aria-labelledby="ev-h" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
       <p class="kicker">Eventos</p>
       <h2 id="ev-h">A praça cheia é o nosso melhor resultado.</h2>
-      <p>Os eventos são organizados por moradores, com doações e ajuda de quem pode. Veja o que já rolou e entre no grupo para saber do próximo.</p>
+      
     </div>
     <div id="ev-feature"></div>
-    <div class="ev-list" id="ev-list"></div>
-    <div class="ev-next">
-      <p>Quer saber do próximo evento ou ajudar a organizar?</p>
-      <a class="btn btn-sun" data-wa-group href="#" target="_blank" rel="noopener">Entrar no grupo de eventos</a>
-    </div>
+    <a class="more-link" href="eventos.html" style="margin-top:0">Ver todos os eventos →</a>
   </div>
 </section>
 
@@ -312,7 +107,7 @@ footer .fine{margin-top:32px;font-size:13px;opacity:.6}
       <div class="sec-head" style="margin-bottom:28px">
         <p class="kicker">Por que se associar</p>
         <h2 id="why-h">Associação forte é bairro forte.</h2>
-        <p>Tudo o que você viu acima depende de duas coisas: gente participando e uma contribuição que paga a conta. Cada novo associado aumenta as duas.</p>
+        <p>Tudo o que a associação faz depende de duas coisas: gente participando e uma contribuição que paga a conta. Cada novo associado aumenta as duas.</p>
         <p class="count"><b>721</b> casas no Tarraf II.<br><b>Menos de 200</b> são associadas.<br><span>Imagine o bairro com todas.</span></p>
       </div>
       <p class="quote">Uma voz pedindo melhoria é um morador reclamando. Centenas de vozes juntas são um bairro sendo ouvido.<small>Quanto mais associados, mais peso a associação tem para representar o Tarraf II junto à Prefeitura e à Câmara.</small></p>
@@ -326,98 +121,18 @@ footer .fine{margin-top:32px;font-size:13px;opacity:.6}
   </div>
 </section>
 
-<section id="ajudar" aria-labelledby="ajudar-h">
+<section class="band">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker">Como ajudar</p>
-      <h2 id="ajudar-h">Cada um ajuda do jeito que pode.</h2>
-    </div>
-    <div class="help">
-      <div class="card main">
-        <h3>Seja associado</h3>
-        <p>É a forma que mais fortalece o bairro. Sua contribuição mantém os eventos e as melhorias acontecendo, e seu nome soma na hora de cobrar o poder público.</p>
-        <a class="btn btn-line" style="color:var(--sun-ink);justify-self:start;margin-top:10px" href="#" target="_blank" rel="noopener" data-wa="Associar">Quero me associar</a>
-      </div>
-      <div class="card">
-        <h3>Seja voluntário</h3>
-        <p>Por quatro anos, o Grupo Amigas Margaridas recolheu voluntariamente o lixo da praça central, e encerrou esse trabalho em outubro. Precisamos de gente para cuidar da praça, montar as festas e cuidar da Geloteca.</p>
-        <a class="more" href="#" target="_blank" rel="noopener" data-wa="Voluntariar">Quero ajudar</a>
-      </div>
-      <div class="card">
-        <h3>Apoie como comércio</h3>
-        <p>Tem negócio no bairro? Patrocine um evento ou participe do Sabadão na Praça.</p>
-        <a class="more" href="#" target="_blank" rel="noopener" data-wa="Apoiar">Quero apoiar</a>
-      </div>
-      <div class="card wide">
-        <h3>Aponte um problema</h3>
-        <p>Buraco, lâmpada queimada, praça precisando de cuidado? Conte pra gente e a associação encaminha.</p>
-        <a class="more" href="#" target="_blank" rel="noopener" data-wa="Sugerir">Enviar sugestão</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="join" id="associe-se" aria-labelledby="join-h">
-  <div class="wrap grid">
     <div>
-      <div class="sec-head" style="margin-bottom:0">
-        <p class="kicker">Faça parte</p>
-        <h2 id="join-h">Venha fortalecer o Tarraf II.</h2>
-        <p>A inscrição é feita direto com a associação pelo WhatsApp. Leva menos de um minuto.</p>
-      </div>
-      <ul class="contact-list">
-        <li>Instagram: <a href="https://www.instagram.com/jardimtarraf2" target="_blank" rel="noopener">@jardimtarraf2</a></li>
-        <li>E-mail: <a data-email href="#">associacaot2@gmail.com</a></li>
-        <li>WhatsApp: <a data-wa="Associar" href="#" target="_blank" rel="noopener" data-num></a></li>
-        <li>Eventos: <a data-wa-group href="#" target="_blank" rel="noopener">grupo do WhatsApp</a></li>
-      </ul>
+      <h2>Faça parte. O bairro agradece.</h2>
+      <p>Associe-se, seja voluntário, apoie com seu negócio ou doe pelo Pix.</p>
     </div>
-
-    <div>
-      <div class="wa-panel">
-        <p class="kicker">Inscrição pelo WhatsApp</p>
-        <h3>Mande uma mensagem e pronto.</h3>
-        <ol class="steps">
-          <li>Toque no botão: o WhatsApp abre com a mensagem pronta.</li>
-          <li>Complete com seu nome e endereço e envie.</li>
-          <li>A associação responde com o valor da mensalidade e como pagar.</li>
-        </ol>
-        <a class="btn btn-wa" data-wa="Associar" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a>
-        <p class="wa-num">ou salve o número: <a data-wa="Associar" href="#" target="_blank" rel="noopener" data-num></a></p>
-      </div>
+    <div class="ctas">
+      <a class="btn btn-dark" href="contribua.html">Como contribuir</a>
+      <a class="btn btn-line" data-wa="Associar" href="#" target="_blank" rel="noopener">Quero me associar</a>
     </div>
   </div>
 </section>
-
-<section id="duvidas" aria-labelledby="faq-h">
-  <div class="wrap" style="max-width:820px">
-    <div class="sec-head">
-      <p class="kicker">Dúvidas</p>
-      <h2 id="faq-h">Perguntas frequentes</h2>
-    </div>
-    <details>
-      <summary>Quanto custa ser associado?</summary>
-      <p>A contribuição é uma mensalidade definida pelos associados. Envie a ficha e a gente te passa o valor atual e a forma de pagamento.</p>
-    </details>
-    <details>
-      <summary>Quem pode se associar?</summary>
-      <p>Moradores do Jardim Tarraf II — de casa ou de condomínio, donos ou inquilinos.</p>
-    </details>
-    <details>
-      <summary>Para onde vai o dinheiro?</summary>
-      <p>Para os eventos, as melhorias e a manutenção do bairro. A associação presta contas aos associados.</p>
-    </details>
-    <details>
-      <summary>Preciso ser associado para ir aos eventos?</summary>
-      <p>Não. Os eventos são abertos aos moradores. Mas é a contribuição dos associados que faz eles acontecerem.</p>
-    </details>
-    <details>
-      <summary>A associação tem CNPJ?</summary>
-      <p>Sim. A AMJT II é uma associação sem fins lucrativos registrada desde 13/06/2002, CNPJ 05.152.486/0001-05.</p>
-    </details>
-  </div>
-</section>
-
 </main>
 
 <footer>
@@ -437,75 +152,20 @@ footer .fine{margin-top:32px;font-size:13px;opacity:.6}
       <div>
         <b>Fale com a gente</b>
         <a data-email href="#">associacaot2@gmail.com</a><br>
-        <a data-wa="Associar" href="#" target="_blank" rel="noopener">WhatsApp da associação</a>
+        <a data-wa="Contato" href="#" target="_blank" rel="noopener">WhatsApp da associação</a>
       </div>
     </div>
+    <nav aria-label="Rodapé">
+<a href="index.html" aria-current=page>Início</a>
+<a href="sobre.html">Sobre</a>
+<a href="eventos.html">Eventos</a>
+<a href="contribua.html">Contribua</a>
+<a href="contato.html">Contato</a>
+    </nav>
     <p class="fine">Feito por moradores, para moradores.</p>
   </div>
 </footer>
-
 <div class="mcta" id="mcta"><a class="btn btn-wa" data-wa="Associar" href="#" target="_blank" rel="noopener" style="justify-self:auto"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a></div>
-
-<script>
-/* ===== Configuração: ajuste aqui ===== */
-const CONFIG = {
-  email: "associacaot2@gmail.com",
-  // WhatsApp oficial para inscrição (só dígitos: 55 + DDD + número)
-  whatsapp: "5517991154582",
-  grupoEventos: "https://chat.whatsapp.com/DBK75Jvrozn5hmdGqLZHoJ"
-};
-
-/* ===== Eventos: edite esta lista para atualizar o site =====
-   destaque:true = aparece em grande no topo da seção (use no evento mais recente). */
-const EVENTOS = [
-  { destaque:true, quando:"31 de outubro de 2026", titulo:"Halloween na Praça",
-    texto:"Organizado pelos próprios vizinhos: decoração montada junto à tarde, recreação com danças e gincanas, passeio de doces ou travessuras pelo bairro e piquenique na praça. Os doces vieram de doações e de Pix para a associação.",
-    fatos:[["39","crianças inscritas"],["18","famílias na lista"],["15h","montagem coletiva"]],
-    fala:"“Foi lindo ver as crianças fantasiadas e se divertindo.” — moradora, no grupo" },
-  { quando:"Outubro", titulo:"Dia das Crianças", texto:"Festa para a criançada na praça." },
-  { quando:"Sábado à tarde", titulo:"Sabadão na Praça", texto:"Tarde com os empreendedores do bairro. Chame a família e prestigie quem trabalha aqui." },
-  { quando:"Agosto", titulo:"Mês dos Pais", texto:"Homenagem aos pais e às famílias do bairro." },
-  { quando:"Junho", titulo:"Arraiá do Tarraf", texto:"A festa junina do bairro, na praça." },
-  { quando:"Abril", titulo:"Páscoa no bairro", texto:"Diversão para as crianças na praça." },
-  { quando:"Durante o ano", titulo:"Happy Hour dos vizinhos", texto:"Encontro de adultos para se conhecer além do “bom dia” no portão." }
-];
-(function(){
-  const esc = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-  const f = EVENTOS.find(e => e.destaque);
-  if (f) document.getElementById("ev-feature").innerHTML =
-    '<div class="ev-feature"><div><p class="when">Último evento · '+esc(f.quando)+'</p><h3 style="margin:12px 0 14px">'+esc(f.titulo)+'</h3><p>'+esc(f.texto)+'</p></div>'+
-    '<div class="side">'+(f.fatos?'<div class="facts">'+f.fatos.map(x=>'<div><b>'+esc(x[0])+'</b>'+esc(x[1])+'</div>').join("")+'</div>':'')+
-    (f.fala?'<p class="quote-s">'+esc(f.fala)+'</p>':'')+'</div></div>';
-  document.getElementById("ev-list").innerHTML = EVENTOS.filter(e => !e.destaque).map(e =>
-    '<article><span class="when">'+esc(e.quando)+'</span><h3>'+esc(e.titulo)+'</h3><p>'+esc(e.texto)+'</p></article>').join("");
-})();
-
-document.querySelectorAll("[data-wa-group]").forEach(a => a.href = CONFIG.grupoEventos);
-document.querySelectorAll("[data-email]").forEach(a => { a.href = "mailto:" + CONFIG.email; a.textContent = CONFIG.email; });
-
-/* Destaca o evento do mês atual na agenda */
-const mesAtual = String(new Date().getMonth()+1);
-document.querySelectorAll(".agenda li[data-mes]").forEach(li => li.classList.toggle("now", li.dataset.mes === mesAtual));
-
-/* Links de WhatsApp com mensagem pronta para cada intenção */
-const MSGS = {
-  Associar:   "Olá! Moro no Jardim Tarraf II e quero me associar à AMJT II.\nNome: \nEndereço: ",
-  Voluntariar:"Olá! Moro no Jardim Tarraf II e quero ser voluntário(a) da associação.\nNome: ",
-  Apoiar:     "Olá! Tenho um negócio e quero apoiar os eventos da AMJT II.\nNome/empresa: ",
-  Sugerir:    "Olá! Quero apontar um problema/sugerir uma melhoria no Jardim Tarraf II:\n"
-};
-const fmtNum = n => n.replace(/^55(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
-document.querySelectorAll("[data-wa]").forEach(a => {
-  a.href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(MSGS[a.dataset.wa] || MSGS.Associar);
-  if (a.hasAttribute("data-num")) a.textContent = fmtNum(CONFIG.whatsapp);
-});
-
-/* CTA fixo no celular depois do topo, escondido na seção do formulário */
-const mcta = document.getElementById("mcta"), join = document.getElementById("associe-se"), hero = document.querySelector(".hero");
-let pastHero = false, inJoin = false;
-const upd = () => mcta.classList.toggle("on", pastHero && !inJoin);
-new IntersectionObserver(([en]) => { pastHero = !en.isIntersecting; upd(); }).observe(hero);
-new IntersectionObserver(([en]) => { inJoin = en.isIntersecting; upd(); }, {threshold:.05}).observe(join);
-</script>
+<script src="site.js"></script>
 </body>
 </html>
