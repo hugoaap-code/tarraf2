@@ -114,6 +114,7 @@
   const WA = window.AMJT_WA || '';
   const typeOf = k => GROUPS.produto[k] ? 'produto' : GROUPS.servico[k] ? 'servico' : '';
   let ads = [], type = 'all', cat = 'all';
+  const pager = amjtPager(grid, { noun: ['anúncio', 'anúncios'], label: 'Páginas dos anúncios', top: count, onChange: () => apply(true) });
   const params = new URLSearchParams(location.search);
   if (CATS[params.get('categoria')]) cat = params.get('categoria');
   if (['produto', 'servico'].includes(params.get('tipo'))) type = params.get('tipo');
@@ -146,12 +147,14 @@
     type === 'all' ? u.searchParams.delete('tipo') : u.searchParams.set('tipo', type);
     history.replaceState(null, '', u);
   }
-  function apply() {
+  function apply(keep) {
+    if (keep !== true) pager.reset();   // mudou filtro/busca: volta para a página 1
     const q = norm(search.value.trim());
     document.querySelectorAll('[data-cl-type]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.clType === type)));
     const list = ads.filter(a => (type === 'all' || a.tipo === type) && (cat === 'all' || a.categoria === cat) && (!q || norm(a.titulo + ' ' + a.descricao + ' ' + (CATS[a.categoria] || '')).includes(q)));
-    grid.innerHTML = list.map(card).join('');
-    count.textContent = list.length + (list.length === 1 ? ' anúncio' : ' anúncios');
+    const pg = pager.slice(list.length);
+    grid.innerHTML = list.slice(pg.from, pg.to).map(card).join('');
+    count.textContent = list.length + (list.length === 1 ? ' anúncio' : ' anúncios') + pg.suffix;
     empty.hidden = list.length !== 0;
     const chips = [];
     if (cat !== 'all') chips.push(`<button type="button" class="chip" data-clear="cat">${esc(CATS[cat])} ${X}<span class="sr-only">remover filtro</span></button>`);
@@ -173,8 +176,8 @@
     buildSelect(); syncUrl(); apply();
   });
   search.addEventListener('input', apply);
-  buildSelect(); apply(); count.textContent = 'Carregando anúncios…'; empty.hidden = true;
-  fetch(window.AMJT_ENDPOINT + '?lista=classificados').then(r => r.json()).then(r => { ads = (r && r.anuncios) || []; buildSelect(); apply(); })
+  buildSelect(); apply(true); count.textContent = 'Carregando anúncios…'; empty.hidden = true;
+  fetch(window.AMJT_ENDPOINT + '?lista=classificados').then(r => r.json()).then(r => { ads = (r && r.anuncios) || []; buildSelect(); apply(true); })
     .catch(() => { count.textContent = 'Não foi possível carregar os anúncios agora.'; empty.hidden = false; });
   document.querySelectorAll('[data-form-again]').forEach(b => b.addEventListener('click', () => {
     const panel = b.closest('[data-success]'), form = panel.parentElement.querySelector('form[data-form]');
@@ -238,17 +241,19 @@ document.querySelectorAll('[data-carousel]').forEach(car => {
   let cat = sel.querySelector(`option[value="${CSS.escape(P.get('categoria') || 'all')}"]`) ? (P.get('categoria') || 'all') : 'all';
   let direct = P.get('telefone') === '1' ? '1' : 'all';
   search.value = P.get('q') || '';
-  function apply(sync) {
-    const q = norm(search.value.trim()); let n = 0;
-    cards.forEach(c => {
-      const ok = (cat === 'all' || c.dataset.cat === cat) && (direct === 'all' || c.dataset.direct === '1') && (!q || q.split(/\s+/).every(w => norm(c.dataset.q).includes(w)));
-      c.hidden = !ok; if (ok) n++;
-    });
-    groups.forEach(h => { const g = cards.filter(c => c.dataset.cat === h.dataset.group && !c.hidden).length; h.hidden = !g; h.querySelector('span').textContent = g; });
+  const pager = amjtPager(grid, { noun: ['indicação', 'indicações'], label: 'Páginas das indicações', top: count, onChange: () => apply(false, true) });
+  function apply(sync, keep) {
+    if (keep !== true) pager.reset();   // mudou filtro/busca: volta para a página 1
+    const q = norm(search.value.trim());
+    const match = cards.filter(c => (cat === 'all' || c.dataset.cat === cat) && (direct === 'all' || c.dataset.direct === '1') && (!q || q.split(/\s+/).every(w => norm(c.dataset.q).includes(w))));
+    const n = match.length, pg = pager.slice(n), page = new Set(match.slice(pg.from, pg.to));
+    cards.forEach(c => { c.hidden = !page.has(c); });
+    // Título do grupo aparece se o grupo tem card nesta página; o número é o total do grupo com os filtros.
+    groups.forEach(h => { const k = h.dataset.group; h.hidden = !cards.some(c => c.dataset.cat === k && !c.hidden); h.querySelector('span').textContent = match.filter(c => c.dataset.cat === k).length; });
     sel.value = cat;
     chips.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.indCat === cat)));
     segs.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.indDirect === direct)));
-    count.textContent = n + (n === 1 ? ' indicação' : ' indicações');
+    count.textContent = n + (n === 1 ? ' indicação' : ' indicações') + pg.suffix;
     empty.hidden = n !== 0;
     const a = [];
     if (cat !== 'all') a.push(`<button type="button" class="chip" data-clear="cat">${esc(label(cat))} ${X}<span class="sr-only">remover filtro</span></button>`);
@@ -276,5 +281,63 @@ document.querySelectorAll('[data-carousel]').forEach(car => {
     if (k === 'direct' || k === 'all') direct = 'all';
     apply(true);
   });
-  apply(false);
+  apply(false, true);
 })();
+
+/* v6.6: paginação compartilhada (Classificados e Indicações). 12 por página, ?pagina=N na URL,
+   números com reticências no computador e "Página X de Y" no celular; rola de volta ao topo da lista. */
+function amjtPager(list, o) {
+  const per = o.per || 12, KEY = 'pagina';
+  const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ARROW = d => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="${d ? 'm9 6 6 6-6 6' : 'm15 6-6 6 6 6'}"/></svg>`;
+  const nav = document.createElement('nav');
+  nav.className = 'pager'; nav.setAttribute('aria-label', o.label || 'Paginação'); nav.hidden = true;
+  list.insertAdjacentElement('afterend', nav);
+  let page = Math.max(1, parseInt(new URLSearchParams(location.search).get(KEY), 10) || 1), pages = 1;
+  function setUrl() {
+    const u = new URL(location.href);
+    page > 1 ? u.searchParams.set(KEY, page) : u.searchParams.delete(KEY);
+    history.replaceState(null, '', u);
+  }
+  function nums() {   // 1 … 4 [5] 6 … 12
+    const want = new Set([1, pages, page - 1, page, page + 1].filter(n => n >= 1 && n <= pages));
+    if (page <= 3) [2, 3, 4].forEach(n => n <= pages && want.add(n));
+    if (page >= pages - 2) [pages - 1, pages - 2, pages - 3].forEach(n => n >= 1 && want.add(n));
+    const out = []; let last = 0;
+    [...want].sort((a, b) => a - b).forEach(n => { if (n - last > 1) out.push(0); out.push(n); last = n; });
+    return out;
+  }
+  function render(total, from, to) {
+    nav.hidden = pages < 2;
+    if (nav.hidden) { nav.innerHTML = ''; return; }
+    const btn = (n, txt, cls, aria, dis) => `<button type="button" class="${cls}" data-page="${n}" aria-label="${aria}"${dis ? ' disabled' : ''}>${txt}</button>`;
+    nav.innerHTML =
+      `<p class="pager-info">Mostrando <b>${from + 1}–${to}</b> de <b>${total}</b> ${total === 1 ? o.noun[0] : o.noun[1]}</p>` +
+      `<div class="pager-ctrl">` +
+      btn(page - 1, `${ARROW(0)}<span>Anterior</span>`, 'pager-btn pager-prev', 'Página anterior', page === 1) +
+      `<ol class="pager-pages">` + nums().map(n => n ? `<li><button type="button" class="pager-num" data-page="${n}"${n === page ? ' aria-current="page"' : ''} aria-label="Página ${n}">${n}</button></li>` : '<li class="pager-gap" aria-hidden="true">…</li>').join('') + `</ol>` +
+      `<span class="pager-mob" aria-hidden="true">Página <b>${page}</b> de ${pages}</span>` +
+      btn(page + 1, `<span>Próxima</span>${ARROW(1)}`, 'pager-btn pager-next', 'Próxima página', page === pages) +
+      `</div>`;
+  }
+  nav.addEventListener('click', e => {
+    const b = e.target.closest('[data-page]'); if (!b || b.disabled) return;
+    const n = +b.dataset.page; if (n === page || n < 1 || n > pages) return;
+    page = n; setUrl(); o.onChange();
+    const top = o.top || list;
+    top.scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth', block: 'start' });
+    if (!top.hasAttribute('tabindex')) top.setAttribute('tabindex', '-1');
+    top.focus({ preventScroll: true });
+  });
+  return {
+    reset() { if (page !== 1) { page = 1; setUrl(); } },
+    slice(total) {
+      pages = Math.max(1, Math.ceil(total / per));
+      if (total && page > pages) { page = pages; setUrl(); }   // lista vazia (ainda carregando): mantém a página pedida na URL
+      if (page > pages) { render(0, 0, 0); return { from: 0, to: 0, suffix: '' }; }
+      const from = (page - 1) * per, to = Math.min(total, from + per);
+      render(total, from, to);
+      return { from, to, suffix: pages > 1 ? ` · página ${page} de ${pages}` : '' };
+    }
+  };
+}

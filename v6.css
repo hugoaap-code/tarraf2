@@ -303,3 +303,33 @@ select[data-cat-select]:disabled{opacity:.6;cursor:not-allowed}
 @media(max-width:380px){.top .brand .brand-name b{font-size:13px}}
 .ind-toolbar{grid-template-columns:1fr minmax(220px,320px)}
 @media(max-width:860px){.ind-toolbar{grid-template-columns:1fr}}
+
+/* v6.6: paginação (Classificados e Indicações) */
+.filter-count{scroll-margin-top:110px}
+.filter-count:focus{outline:none}
+.pager{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px;margin-top:28px;padding:14px 14px 14px 22px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.pager[hidden]{display:none}
+.pager-info{margin:0;color:var(--muted);font-size:14px}
+.pager-info b{color:var(--ink);font-weight:700}
+.pager-ctrl{display:flex;align-items:center;gap:6px}
+.pager-pages{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+.pager-num,.pager-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;padding:0 12px;border-radius:999px;border:1px solid transparent;background:transparent;color:var(--ink);font:600 15px/1 var(--body);cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s var(--ease)}
+.pager-num:hover,.pager-btn:not(:disabled):hover{border-color:var(--leaf);color:var(--leaf)}
+.pager-num[aria-current=page]{background:var(--forest);color:var(--cream);border-color:var(--forest);box-shadow:0 0 0 4px rgba(47,122,76,.14);cursor:default}
+.pager-btn{padding:0 16px;border-color:var(--line);font-size:14px}
+.pager-next:not(:disabled){background:var(--sun);border-color:var(--sun);color:var(--sun-ink)}
+.pager-next:not(:disabled):hover{background:var(--sun-2);border-color:var(--sun-2);color:var(--sun-ink);transform:translateX(2px)}
+.pager-prev:not(:disabled):hover{transform:translateX(-2px)}
+.pager-btn:disabled{opacity:.4;cursor:not-allowed}
+.pager-btn .ico{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.pager-gap{min-width:24px;text-align:center;color:var(--muted);font-weight:700;letter-spacing:.1em}
+.pager-mob{display:none;font:500 14px/1 var(--body);color:var(--muted);white-space:nowrap}
+.pager-mob b{color:var(--ink)}
+@media(max-width:720px){
+  .pager{flex-direction:column;align-items:stretch;border-radius:24px;padding:14px;gap:12px}
+  .pager-info{text-align:center}
+  .pager-ctrl{justify-content:space-between}
+  .pager-pages{display:none}
+  .pager-mob{display:block}
+}
+@media(prefers-reduced-motion:reduce){.pager-num,.pager-btn{transition:none}.pager-btn:hover{transform:none!important}}
