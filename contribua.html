@@ -2,135 +2,115 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Contribua · AMJT II, Jardim Tarraf II</title>
 <meta name="description" content="Associe-se, seja voluntário, apoie com seu negócio ou doe pelo Pix para a AMJT II.">
 <meta property="og:title" content="Contribua · AMJT II, Jardim Tarraf II">
 <meta property="og:description" content="Associe-se, seja voluntário, apoie com seu negócio ou doe pelo Pix para a AMJT II.">
-<meta name="theme-color" content="#24412c">
+<meta name="theme-color" content="#0e2a1c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="top">
-  <div class="wrap">
+  <div class="bar">
     <a class="brand" href="index.html" aria-label="AMJT II, início">
       <span class="seal" aria-hidden="true">T II</span>
       <span><b>AMJT II</b><small>Moradores do Jardim Tarraf II</small></span>
     </a>
-    <nav aria-label="Principal">
-<a href="sobre.html">Sobre</a>
-<a href="eventos.html">Eventos</a>
-<a href="contribua.html" aria-current=page>Contribua</a>
-<a href="contato.html">Contato</a>
+    <nav class="d" aria-label="Principal">
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="contribua.html" aria-current=page>Contribua</a>
+      <a href="contato.html">Contato</a>
     </nav>
     <div class="right">
       <a class="btn btn-sun" data-wa="Associar" href="#" target="_blank" rel="noopener">Associe-se</a>
-      <button class="menu-btn" id="menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mnav">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
+      <button class="menu-btn" id="menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mnav"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
   <nav class="mnav" id="mnav" aria-label="Menu">
-<a href="index.html">Início</a>
-<a href="sobre.html">Sobre</a>
-<a href="eventos.html">Eventos</a>
-<a href="contribua.html" aria-current=page>Contribua</a>
-<a href="contato.html">Contato</a>
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="contribua.html" aria-current=page>Contribua</a>
+      <a href="contato.html">Contato</a>
   </nav>
 </header>
 
 <main>
-<section class="phero">
+<section class="dark phero">
+  <div class="dots"></div>
   <div class="wrap">
-    <p class="kicker">Contribua</p>
-    <h1>Cada um ajuda do jeito que pode.</h1>
-    <p class="lead">A associação vive da mensalidade dos associados, das doações e do tempo de quem se voluntaria. Escolha a sua forma de fortalecer o bairro.</p>
+    <span class="pill rv">Contribua</span>
+    <h1 class="rv" style="--d:.05s">Cada um ajuda <span class="s">do jeito que pode.</span></h1>
+    <p class="lead rv" style="--d:.1s">A associação vive da mensalidade dos associados, das doações e do tempo de quem se voluntaria. Escolha a sua forma de fortalecer o bairro.</p>
   </div>
 </section>
 
-<section aria-label="Formas de contribuir">
+<section class="sec">
   <div class="wrap">
-    <div class="help">
-      <div class="card main">
+    <div class="bento">
+      <article class="tile sun lg span2 row2 rv">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
         <h3>Seja associado</h3>
-        <p>É a forma que mais fortalece o bairro. Sua contribuição mantém os eventos e as melhorias acontecendo, e seu nome soma na hora de cobrar o poder público.</p>
-        <a class="btn btn-line" style="color:var(--sun-ink);justify-self:start;margin-top:10px" href="#" target="_blank" rel="noopener" data-wa="Associar">Quero me associar</a>
-      </div>
-      <div class="card">
+        <p>É a forma que mais fortalece o bairro. Sua mensalidade mantém os eventos e as melhorias acontecendo, e seu nome soma na hora de cobrar o poder público.</p>
+        <div style="margin-top:auto"><a class="btn btn-dark" data-wa="Associar" href="#" target="_blank" rel="noopener"><svg class="wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a></div>
+      </article>
+      <article class="tile span2 rv" style="--d:.06s">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></span>
         <h3>Seja voluntário</h3>
-        <p>Por quatro anos, o Grupo Amigas Margaridas recolheu voluntariamente o lixo da praça central, e encerrou esse trabalho em outubro. Precisamos de gente para cuidar da praça, montar as festas e cuidar da Geloteca.</p>
-        <a class="more" href="#" target="_blank" rel="noopener" data-wa="Voluntariar">Quero ajudar</a>
-      </div>
-      <div class="card">
-        <h3>Apoie como comércio</h3>
-        <p>Tem negócio no bairro? Patrocine um evento ou participe do Sabadão na Praça.</p>
-        <a class="more" href="#" target="_blank" rel="noopener" data-wa="Apoiar">Quero apoiar</a>
-      </div>
-      <div class="card wide">
+        <p>Por quatro anos o Grupo Amigas Margaridas recolheu o lixo da praça central e encerrou esse trabalho em outubro. Precisamos de gente para cuidar da praça, montar as festas e cuidar da Geloteca.</p>
+        <a class="link" data-wa="Voluntariar" href="#" target="_blank" rel="noopener">Quero ajudar <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      </article>
+      <article class="tile mint rv" style="--d:.1s">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>
+        <h3>Apoie com seu negócio</h3>
+        <p>Patrocine um evento ou participe do Sabadão na Praça.</p>
+        <a class="link" data-wa="Apoiar" href="#" target="_blank" rel="noopener">Quero apoiar <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      </article>
+      <article class="tile forest rv" style="--d:.14s">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span>
         <h3>Doe pelo Pix</h3>
-        <p>Qualquer valor ajuda a comprar doces, decoração e o que os eventos e a praça precisam. Chave Pix (e-mail) da associação:</p>
-        <div class="pix"><code>associacaot2@gmail.com</code><button class="copy" type="button" data-copy="associacaot2@gmail.com">Copiar chave</button></div>
-      </div>
+        <p>Qualquer valor ajuda nos doces, na decoração e na praça. Chave (e-mail):</p>
+        <div class="pix"><code style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3);color:var(--cream);font-size:14px">associacaot2@gmail.com</code><button class="copy" type="button" data-copy="associacaot2@gmail.com" style="background:var(--sun);color:var(--sun-ink)"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copiar chave</span></button></div>
+      </article>
     </div>
-
   </div>
 </section>
 
-<section class="join" id="associe-se" aria-labelledby="join-h">
+<section class="sec join" id="associe-se" style="padding-top:0">
   <div class="wrap grid">
     <div>
-      <div class="sec-head" style="margin-bottom:0">
-        <p class="kicker">Faça parte</p>
-        <h2 id="join-h">Venha fortalecer o Tarraf II.</h2>
-        <p>A inscrição é feita direto com a associação pelo WhatsApp. Leva menos de um minuto.</p>
-      </div>
-      <ul class="contact-list">
-        <li>Instagram: <a href="https://www.instagram.com/jardimtarraf2" target="_blank" rel="noopener">@jardimtarraf2</a></li>
-        <li>E-mail: <a data-email href="#">associacaot2@gmail.com</a></li>
-        <li>WhatsApp: <a data-wa="Associar" href="#" target="_blank" rel="noopener" data-num></a></li>
-        <li>Eventos: <a data-wa-group href="#" target="_blank" rel="noopener">grupo do WhatsApp</a></li>
-      </ul>
+      <div class="head rv ">
+      <span class="pill">Inscrição pelo WhatsApp</span>
+      <h2>Mande uma mensagem <span class="s">e pronto.</span></h2>
+      <p>A inscrição é feita direto com a associação. Leva menos de um minuto.</p>
     </div>
-
-    <div>
-      <div class="wa-panel">
-        <p class="kicker">Inscrição pelo WhatsApp</p>
-        <h3>Mande uma mensagem e pronto.</h3>
-        <ol class="steps">
-          <li>Toque no botão: o WhatsApp abre com a mensagem pronta.</li>
-          <li>Complete com seu nome e endereço e envie.</li>
-          <li>A associação responde com o valor da mensalidade e como pagar.</li>
-        </ol>
-        <a class="btn btn-wa" data-wa="Associar" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a>
-        <p class="wa-num">ou salve o número: <a data-wa="Associar" href="#" target="_blank" rel="noopener" data-num></a></p>
-      </div>
+      <div class="rv"><a class="btn btn-wa" data-wa="Associar" href="#" target="_blank" rel="noopener"><svg class="wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a></div>
+      <p class="wa-num rv">ou salve o número: <a data-wa="Associar" href="#" target="_blank" rel="noopener" data-num></a></p>
     </div>
+    <ol class="steps">
+      <li class="rv">Toque no botão: o WhatsApp abre com a mensagem pronta.</li>
+      <li class="rv" style="--d:.08s">Complete com seu nome e endereço e envie.</li>
+      <li class="rv" style="--d:.16s">A associação responde com o valor da mensalidade e como pagar.</li>
+    </ol>
   </div>
 </section>
 
-<section aria-labelledby="faq-h">
-  <div class="wrap" style="max-width:820px">
-    <div class="sec-head">
-      <p class="kicker">Dúvidas</p>
-      <h2 id="faq-h">Sobre contribuição</h2>
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="head rv ">
+      <span class="pill">Dúvidas</span>
+      <h2>Sobre contribuição</h2>
       
     </div>
-    <details>
-      <summary>Quanto custa ser associado?</summary>
-      <p>A contribuição é uma mensalidade definida pelos associados. Mande uma mensagem no WhatsApp e a gente te passa o valor atual e a forma de pagamento.</p>
-    </details>
-    <details>
-      <summary>Para onde vai o dinheiro?</summary>
-      <p>Para os eventos, as melhorias e a manutenção do bairro. A associação presta contas aos associados.</p>
-    </details>
-    <details>
-      <summary>Preciso ser associado para ir aos eventos?</summary>
-      <p>Não. Os eventos são abertos aos moradores. Mas é a contribuição dos associados que faz eles acontecerem.</p>
-    </details>
+    <div class="faq"><details class="rv"><summary>Quanto custa ser associado?</summary><p>A contribuição é uma mensalidade definida pelos associados. Mande uma mensagem no WhatsApp e a gente te passa o valor atual e a forma de pagamento.</p></details>
+<details class="rv"><summary>Para onde vai o dinheiro?</summary><p>Para os eventos, as melhorias e a manutenção do bairro. A associação presta contas aos associados.</p></details>
+<details class="rv"><summary>Preciso ser associado para ir aos eventos?</summary><p>Não. Os eventos são abertos aos moradores. Mas é a contribuição dos associados que faz eles acontecerem.</p></details></div>
   </div>
 </section>
 </main>
@@ -140,7 +120,7 @@
     <div class="grid">
       <div>
         <b>Associação dos Moradores do Jardim Tarraf II</b>
-        AMJT II · CNPJ 05.152.486/0001-05 · Fundada em 2002<br>
+        AMJT II · CNPJ 05.152.486/0001-05 · Desde 2002<br>
         Rua José Elias Abud, 225 · Jardim Tarraf II<br>
         São José do Rio Preto/SP · CEP 15092-490
       </div>
@@ -156,16 +136,17 @@
       </div>
     </div>
     <nav aria-label="Rodapé">
-<a href="index.html">Início</a>
-<a href="sobre.html">Sobre</a>
-<a href="eventos.html">Eventos</a>
-<a href="contribua.html" aria-current=page>Contribua</a>
-<a href="contato.html">Contato</a>
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="contribua.html" aria-current=page>Contribua</a>
+      <a href="contato.html">Contato</a>
     </nav>
+    <div class="wordmark" aria-hidden="true">Tarraf <span class="s">II</span></div>
     <p class="fine">Feito por moradores, para moradores.</p>
   </div>
 </footer>
-<div class="mcta" id="mcta"><a class="btn btn-wa" data-wa="Associar" href="#" target="_blank" rel="noopener" style="justify-self:auto"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a></div>
-<script src="site.js"></script>
+<div class="mcta" id="mcta"><a class="btn btn-wa" data-wa="Associar" href="#" target="_blank" rel="noopener"><svg class="wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a></div>
+<script src="app.js"></script>
 </body>
 </html>
