@@ -11,7 +11,7 @@
   const q=norm(search.value.trim());let count=0;
   buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.blogFilter===type)));
   cards.forEach(c=>{const match=(type==='all'||c.dataset.blogCategory===type)&&(!q||norm(c.dataset.blogSearch).includes(q));c.hidden=!match;if(match){count++;c.classList.add('in');}});
-  document.getElementById('blog-count').textContent=count+(count===1?' post':' posts');
+  const bc=document.getElementById('blog-count');if(bc)bc.textContent=count+(count===1?' post':' posts');
   document.getElementById('blog-empty').hidden=count!==0;
  }
  buttons.forEach(b=>b.addEventListener('click',()=>{type=b.dataset.blogFilter;const url=new URL(location.href);if(type==='all')url.searchParams.delete('tipo');else url.searchParams.set('tipo',type);history.replaceState(null,'',url);apply();}));
