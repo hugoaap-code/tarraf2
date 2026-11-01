@@ -301,3 +301,5 @@ select[data-cat-select]:disabled{opacity:.6;cursor:not-allowed}
 .top .brand .brand-name{display:flex;flex-direction:column;gap:2px}
 .top .brand .brand-name b{font:800 15px/1.1 var(--display);letter-spacing:-.02em;white-space:nowrap}
 @media(max-width:380px){.top .brand .brand-name b{font-size:13px}}
+.ind-toolbar{grid-template-columns:1fr minmax(220px,320px)}
+@media(max-width:860px){.ind-toolbar{grid-template-columns:1fr}}
