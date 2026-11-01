@@ -150,3 +150,55 @@ p.pix-value,.pix-box>div>p.pix-value{font:800 54px/1 var(--display);color:var(--
 .ad-empty .ib{display:grid;place-items:center;width:56px;height:56px;border-radius:18px;background:var(--mint);color:var(--forest-2)}
 .ad-empty b{font:800 22px/1.2 var(--display)}
 .ad-empty p{color:var(--muted)}
+
+/* ---------- v6.1: Empresas Amigas (faixa global) ---------- */
+.partners-band{padding:72px 0;background:linear-gradient(160deg,#e6f2e9 0%,#f6efd9 100%);border-top:1px solid var(--line)}
+.pb-grid{display:grid;gap:28px;align-items:center}
+@media(min-width:920px){.pb-grid{grid-template-columns:1.25fr .95fr;gap:48px}}
+.pb-kicker{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--forest);color:var(--sun-2);font:700 13px/1 var(--body);letter-spacing:.03em;text-transform:uppercase}
+.pb-kicker .ico{width:16px;height:16px;color:var(--sun)}
+.pb-thanks h2{font-size:clamp(32px,4.4vw,50px);margin:16px 0 12px}
+.pb-thanks>p{color:var(--forest-2);max-width:52ch}
+.pb-companies{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
+.pb-company{position:relative;display:flex;align-items:center;gap:14px;padding:14px 22px 14px 14px;border-radius:22px;background:#fff;text-decoration:none;color:var(--ink);box-shadow:var(--shadow-lg);border:2px solid var(--sun);transition:transform .25s var(--ease)}
+.pb-company:hover{transform:translateY(-3px)}
+.pb-company img{width:64px;height:64px;border-radius:16px;object-fit:contain;background:var(--cream);padding:6px}
+.pb-company b{display:block;font:800 20px/1.1 var(--display)}
+.pb-company small{color:var(--leaf);font-weight:700;font-size:13px}
+.pb-company::after{content:"Empresa Amiga";position:absolute;top:-11px;right:14px;padding:4px 10px;border-radius:999px;background:var(--sun);color:var(--sun-ink);font:700 10.5px/1 var(--body);letter-spacing:.05em;text-transform:uppercase}
+.pb-card{display:grid;gap:14px;padding:28px;border-radius:28px;background:var(--forest);color:#fff;box-shadow:0 30px 60px -30px rgba(14,42,28,.9)}
+.pb-card-title{font:800 24px/1.15 var(--display);letter-spacing:-.02em}
+.pb-perks{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pb-perks li{display:flex;gap:10px;align-items:center;color:rgba(255,255,255,.88);font-size:15px}
+.pb-perks .ico{width:20px;height:20px;color:var(--sun);flex:none}
+.pb-price{color:var(--sun-2);font-size:15px}
+.pb-price b{color:#fff;font-size:18px}
+.pb-card .btn{width:100%}
+.pb-card .link{color:var(--sun-2);justify-self:center}
+.companies-cta{margin-top:22px;color:var(--muted)}
+
+/* ---------- v6.1: Classificados ---------- */
+.ad-tools{margin-bottom:14px}
+.cat-bar{flex-wrap:wrap;margin-bottom:18px}
+.cat-bar button{font-size:13.5px}
+.ad-grid{display:grid;gap:16px}
+@media(min-width:640px){.ad-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.ad-grid{grid-template-columns:repeat(3,1fr)}}
+.ad-card{display:flex;flex-direction:column;gap:10px;padding:22px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.ad-card .ad-tags{display:flex;flex-wrap:wrap;gap:6px}
+.ad-tag{padding:5px 10px;border-radius:999px;background:var(--mint);color:var(--forest-2);font:700 12px/1 var(--body)}
+.ad-tag.servico{background:#fde9c4;color:var(--sun-ink)}
+.ad-card h3{font-size:22px;line-height:1.15}
+.ad-card p{color:var(--muted);font-size:15px;white-space:pre-line}
+.ad-card .ad-price{font:800 22px/1 var(--display);color:var(--ink)}
+.ad-card .ad-who{font-size:14px}
+.ad-card .ad-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:auto;padding-top:6px}
+.ad-card .btn{min-height:44px;padding:0 18px;font-size:14px}
+.field select{width:100%;font:500 16px/1.4 var(--body);color:var(--ink);background:var(--cream);border:1.5px solid transparent;border-radius:14px;padding:13px 14px;appearance:auto}
+.field select:focus{outline:none;border-color:var(--leaf);background:#fff}
+.was-validated .field select:invalid{border-color:#d0613a;background:#fff6f2}
+.pix-step [data-form-again]{justify-self:start}
+.story-credit{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.article-content>p:first-child::first-letter{font:800 3.2em/0.9 var(--display);float:left;margin:6px 10px 0 0;color:var(--leaf)}
+.choice input[type=radio],.check input[type=checkbox]{width:20px;height:20px;padding:0;flex:none;margin:0;accent-color:var(--leaf)}
+.plans-choice label{justify-content:flex-start}

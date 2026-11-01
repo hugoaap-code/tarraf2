@@ -79,3 +79,50 @@
     });
   });
 })();
+
+/* v6.1: Classificados — lista aprovada vinda do Apps Script, filtros por tipo/categoria/busca. */
+(() => {
+  const grid = document.getElementById('ad-grid');
+  if (!grid) return;
+  const CATS = window.AMJT_CATS || {};
+  const count = document.getElementById('ad-count'), empty = document.getElementById('ad-empty'), search = document.getElementById('ad-search');
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const WA = window.AMJT_WA || '';
+  let ads = [], type = 'all', cat = 'all';
+  const params = new URLSearchParams(location.search);
+  if (CATS[params.get('categoria')]) cat = params.get('categoria');
+  function linkOf(l) {
+    l = String(l || '').trim(); if (!l) return '';
+    if (l.startsWith('@')) return 'https://instagram.com/' + l.slice(1);
+    return /^https?:\/\//.test(l) ? l : 'https://' + l;
+  }
+  function card(a) {
+    const wa = a.whatsapp ? `<a class="btn btn-wa" href="https://wa.me/${esc(a.whatsapp)}?text=${encodeURIComponent('Olá! Vi seu anúncio "' + a.titulo + '" nos Classificados do Tarraf II.')}" target="_blank" rel="noopener">${WA} WhatsApp</a>` : '';
+    const ln = linkOf(a.link) ? `<a class="link" href="${esc(linkOf(a.link))}" target="_blank" rel="noopener nofollow">Ver perfil ↗</a>` : '';
+    return `<article class="ad-card"><div class="ad-tags"><span class="ad-tag ${esc(a.tipo)}">${a.tipo === 'servico' ? 'Serviço' : 'Produto'}</span><span class="ad-tag">${esc(CATS[a.categoria] || 'Outros')}</span></div><h3>${esc(a.titulo)}</h3><p>${esc(a.descricao)}</p>${a.preco ? `<p class="ad-price">${esc(a.preco)}</p>` : ''}<p class="ad-who">Anunciado por ${esc(a.nome)}</p><div class="ad-actions">${wa}${ln}</div></article>`;
+  }
+  function apply() {
+    const q = norm(search.value.trim());
+    document.querySelectorAll('[data-ad-type]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.adType === type)));
+    document.querySelectorAll('[data-ad-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.adFilter === cat)));
+    const list = ads.filter(a => (type === 'all' || a.tipo === type) && (cat === 'all' || a.categoria === cat) && (!q || norm(a.titulo + ' ' + a.descricao + ' ' + (CATS[a.categoria] || '')).includes(q)));
+    grid.innerHTML = list.map(card).join('');
+    count.textContent = list.length + (list.length === 1 ? ' anúncio' : ' anúncios');
+    empty.hidden = list.length !== 0;
+  }
+  document.querySelectorAll('[data-ad-type]').forEach(b => b.addEventListener('click', () => { type = b.dataset.adType; apply(); }));
+  document.querySelectorAll('[data-ad-filter]').forEach(b => b.addEventListener('click', () => {
+    cat = b.dataset.adFilter; const u = new URL(location.href);
+    if (cat === 'all') u.searchParams.delete('categoria'); else u.searchParams.set('categoria', cat);
+    history.replaceState(null, '', u); apply();
+  }));
+  search.addEventListener('input', apply);
+  fetch(window.AMJT_ENDPOINT + '?lista=classificados').then(r => r.json()).then(r => { ads = (r && r.anuncios) || []; apply(); })
+    .catch(() => { count.textContent = 'Não foi possível carregar os anúncios agora.'; empty.hidden = false; });
+  document.querySelectorAll('[data-form-again]').forEach(b => b.addEventListener('click', () => {
+    const panel = b.closest('[data-success]'), form = panel.parentElement.querySelector('form[data-form]');
+    form.reset(); form.classList.remove('was-validated'); form.querySelector('[type=submit]').disabled = false;
+    form.querySelector('.form-status').textContent = ''; panel.hidden = true; form.hidden = false; form.scrollIntoView({ behavior: 'smooth' });
+  }));
+})();
