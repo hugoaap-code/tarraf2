@@ -297,3 +297,7 @@ select[data-cat-select]:disabled{opacity:.6;cursor:not-allowed}
 .ind-group span{display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 8px;border-radius:999px;background:var(--mint);color:var(--forest-2);font:700 13px/1 var(--body)}
 .ind-group[hidden]{display:none}
 @media(max-width:700px){.ind-sec{padding-top:28px}.ind-group{font-size:22px;margin-top:14px}}
+/* v6.6 brand: nome completo em 2 linhas no header */
+.top .brand .brand-name{display:flex;flex-direction:column;gap:2px}
+.top .brand .brand-name b{font:800 15px/1.1 var(--display);letter-spacing:-.02em;white-space:nowrap}
+@media(max-width:380px){.top .brand .brand-name b{font-size:13px}}
