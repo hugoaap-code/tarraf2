@@ -126,3 +126,12 @@
     form.querySelector('.form-status').textContent = ''; panel.hidden = true; form.hidden = false; form.scrollIntoView({ behavior: 'smooth' });
   }));
 })();
+
+/* v6.2: esconde a barra fixa "Quero me associar" no celular quando a faixa de Empresas Amigas ou o rodapé aparecem. */
+(() => {
+  const m = document.getElementById('mcta');
+  if (!m) return;
+  const seen = new Set();
+  const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)); m.classList.toggle('mcta-off', seen.size > 0); }, { threshold: 0.05 });
+  document.querySelectorAll('.partners-band, footer').forEach(el => io.observe(el));
+})();

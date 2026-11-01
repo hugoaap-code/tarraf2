@@ -202,3 +202,9 @@ p.pix-value,.pix-box>div>p.pix-value{font:800 54px/1 var(--display);color:var(--
 .article-content>p:first-child::first-letter{font:800 3.2em/0.9 var(--display);float:left;margin:6px 10px 0 0;color:var(--leaf)}
 .choice input[type=radio],.check input[type=checkbox]{width:20px;height:20px;padding:0;flex:none;margin:0;accent-color:var(--leaf)}
 .plans-choice label{justify-content:flex-start}
+
+/* v6.2: faixa Empresas Amigas — fundo próprio, colada no rodapé, sem faixa creme entre as duas */
+.partners-band{background:#fff;border-top:1px solid var(--line);padding:76px 0 104px;position:relative}
+.partners-band::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:linear-gradient(90deg,var(--sun),var(--leaf),var(--sun))}
+body:has(.partners-band) footer{margin-top:-40px;position:relative;z-index:1}
+.mcta.mcta-off{transform:translateY(160%)!important}
