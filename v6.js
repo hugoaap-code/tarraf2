@@ -191,3 +191,34 @@
   const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)); m.classList.toggle('mcta-off', seen.size > 0); }, { threshold: 0.05 });
   document.querySelectorAll('.partners-band, footer').forEach(el => io.observe(el));
 })();
+
+/* v6.4: carrossel do topo dos posts (deslizar, setas, teclado, miniaturas). */
+document.querySelectorAll('[data-carousel]').forEach(car => {
+  const track = car.querySelector('.pc-track'), slides = [...car.querySelectorAll('.pc-slide')];
+  const thumbs = [...car.querySelectorAll('.pc-thumb')], cap = car.querySelector('.pc-caption');
+  const prev = car.querySelector('.pc-prev'), next = car.querySelector('.pc-next'), count = car.querySelector('.pc-count b');
+  if (slides.length < 2) return;
+  let cur = 0;
+  const go = i => { i = Math.max(0, Math.min(slides.length - 1, i)); track.scrollTo({ left: slides[i].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); };
+  const mark = i => {
+    if (i === cur && count.textContent == i + 1) return;
+    cur = i; count.textContent = i + 1;
+    thumbs.forEach((t, n) => t.setAttribute('aria-current', String(n === i)));
+    if (cap) cap.textContent = slides[i].querySelector('.pc-open').dataset.caption || '';
+    prev.disabled = i === 0; next.disabled = i === slides.length - 1;
+    const t = thumbs[i], box = t.parentElement;
+    if (t.offsetLeft < box.scrollLeft || t.offsetLeft + t.offsetWidth > box.scrollLeft + box.clientWidth)
+      box.scrollTo({ left: t.offsetLeft - box.clientWidth / 2 + t.offsetWidth / 2, behavior: 'smooth' });
+  };
+  let raf;
+  track.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => mark(Math.round(track.scrollLeft / track.clientWidth))); }, { passive: true });
+  prev.addEventListener('click', () => go(cur - 1));
+  next.addEventListener('click', () => go(cur + 1));
+  thumbs.forEach(t => t.addEventListener('click', () => go(+t.dataset.go)));
+  car.addEventListener('keydown', e => {
+    if (e.target.closest('input,textarea')) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+  });
+  mark(0); cur = -1; mark(0);
+});
