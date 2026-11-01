@@ -2,135 +2,139 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Associação de Moradores do Jardim Tarraf II · AMJT II</title>
 <meta name="description" content="Desde 2002 a AMJT II reúne vizinhos para cuidar do Jardim Tarraf II: eventos na praça, melhorias e voz junto à Prefeitura. Associe-se.">
 <meta property="og:title" content="Associação de Moradores do Jardim Tarraf II · AMJT II">
 <meta property="og:description" content="Desde 2002 a AMJT II reúne vizinhos para cuidar do Jardim Tarraf II: eventos na praça, melhorias e voz junto à Prefeitura. Associe-se.">
-<meta name="theme-color" content="#24412c">
+<meta name="theme-color" content="#0e2a1c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="top">
-  <div class="wrap">
+  <div class="bar">
     <a class="brand" href="index.html" aria-label="AMJT II, início">
       <span class="seal" aria-hidden="true">T II</span>
       <span><b>AMJT II</b><small>Moradores do Jardim Tarraf II</small></span>
     </a>
-    <nav aria-label="Principal">
-<a href="sobre.html">Sobre</a>
-<a href="eventos.html">Eventos</a>
-<a href="contribua.html">Contribua</a>
-<a href="contato.html">Contato</a>
+    <nav class="d" aria-label="Principal">
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="contribua.html">Contribua</a>
+      <a href="contato.html">Contato</a>
     </nav>
     <div class="right">
       <a class="btn btn-sun" data-wa="Associar" href="#" target="_blank" rel="noopener">Associe-se</a>
-      <button class="menu-btn" id="menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mnav">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
+      <button class="menu-btn" id="menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mnav"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
   <nav class="mnav" id="mnav" aria-label="Menu">
-<a href="index.html" aria-current=page>Início</a>
-<a href="sobre.html">Sobre</a>
-<a href="eventos.html">Eventos</a>
-<a href="contribua.html">Contribua</a>
-<a href="contato.html">Contato</a>
+      <a href="index.html" aria-current=page>Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="contribua.html">Contribua</a>
+      <a href="contato.html">Contato</a>
   </nav>
 </header>
 
 <main>
-<section class="hero" aria-labelledby="h1">
+<section class="dark hero">
+  <div class="dots"></div>
   <div class="wrap">
     <div>
-      <p class="kicker">Desde 2002 · Zona Sul de Rio Preto</p>
-      <h1 id="h1">O Tarraf II fica melhor quando a gente <em>cuida junto.</em></h1>
-      <p class="lead">A Associação de Moradores reúne vizinhos para ocupar a praça, organizar eventos e levar as necessidades do bairro a quem decide. Quanto mais gente junto, mais força o bairro tem.</p>
-      <div class="ctas">
-        <a class="btn btn-sun" data-wa="Associar" href="#" target="_blank" rel="noopener">Quero me associar</a>
-        <a class="btn btn-line" data-wa-group href="#" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
-          Grupo de eventos no WhatsApp
-        </a>
+      <span class="pill rv">Desde 2002 · Zona Sul de Rio Preto</span>
+      <h1 class="rv" style="--d:.05s">O Tarraf II fica melhor quando a gente <span class="s">cuida junto.</span></h1>
+      <p class="lead rv" style="--d:.1s">A Associação de Moradores reúne vizinhos para ocupar a praça, organizar eventos e levar as necessidades do bairro a quem decide.</p>
+      <div class="ctas rv" style="--d:.15s">
+        <a class="btn btn-sun" data-wa="Associar" href="#" target="_blank" rel="noopener"><svg class="wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a>
+        <a class="btn btn-ghost" href="eventos.html">Ver os eventos <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
       </div>
     </div>
-
-    <aside class="agenda" aria-labelledby="agenda-h">
-      <h2 id="agenda-h">Um ano no Tarraf II</h2>
-      <p class="sub">O que a associação já leva para a praça</p>
-      <ol>
-        <li data-mes="4"><div class="m">Abr</div><div><strong>Páscoa no bairro</strong><span>Diversão para a criançada</span></div></li>
-        <li data-mes="6"><div class="m">Jun</div><div><strong>Arraiá do Tarraf</strong><span>Festa junina do bairro</span></div></li>
-        <li data-mes="8"><div class="m">Ago</div><div><strong>Mês dos Pais</strong><span>Homenagem às famílias</span></div></li>
-        <li><div class="m">Sáb</div><div><strong>Sabadão na Praça</strong><span>Feira com empreendedores do bairro</span></div></li>
-        <li data-mes="10"><div class="m">Out</div><div><strong>Dia das Crianças</strong><span>Festa para a criançada na praça</span></div></li>
-        <li data-mes="10"><div class="m">Out</div><div><strong>Halloween na Praça</strong><span>Fantasias, gincanas e doces ou travessuras</span></div></li>
-      </ol>
-    </aside>
+    <div class="stack rv" style="--d:.2s" aria-label="Eventos do bairro">
+      <div class="post p1"><div class="emo">🌽</div><span class="m">Junho</span><h3>Arraiá do Tarraf</h3><p>A festa junina do bairro, na praça.</p></div>
+      <div class="post p2"><div class="emo">🎈</div><span class="m">Outubro</span><h3>Dia das Crianças</h3><p>Festa para a criançada na praça.</p></div>
+      <div class="post p3"><span class="tag">Último</span><div class="emo">🎃</div><span class="m">31 de outubro</span><h3>Halloween na Praça</h3><p>39 crianças, gincanas e doces ou travessuras pelo bairro.</p></div>
+    </div>
+    <div class="stats rv">
+      <div><b>2002</b><span>ano de fundação</span></div>
+      <div><b>721</b><span>casas no bairro</span></div>
+      <div><b>39<em>+</em></b><span>crianças no Halloween</span></div>
+      <div><b>100<em>%</em></b><span>feito por voluntários</span></div>
+    </div>
   </div>
 </section>
 
-<section aria-labelledby="fazemos-h">
+<div class="marquee" aria-hidden="true"><div class="track"><span>Páscoa</span><span class="st">✦</span><span>Arraiá</span><span class="st">✦</span><span>Mês dos Pais</span><span class="st">✦</span><span>Sabadão na Praça</span><span class="st">✦</span><span>Dia das Crianças</span><span class="st">✦</span><span>Halloween</span><span class="st">✦</span><span>Geloteca</span><span class="st">✦</span><span>Happy Hour</span><span class="st">✦</span><span>Páscoa</span><span class="st">✦</span><span>Arraiá</span><span class="st">✦</span><span>Mês dos Pais</span><span class="st">✦</span><span>Sabadão na Praça</span><span class="st">✦</span><span>Dia das Crianças</span><span class="st">✦</span><span>Halloween</span><span class="st">✦</span><span>Geloteca</span><span class="st">✦</span><span>Happy Hour</span><span class="st">✦</span></div></div>
+
+<section class="sec" style="padding-top:40px">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker">O que a associação faz</p>
-      <h2 id="fazemos-h">Trabalho de vizinho, feito por vizinhos.</h2>
+    <div class="head rv ">
+      <span class="pill">O que a associação faz</span>
+      <h2>Trabalho de vizinho, <span class="s">feito por vizinhos.</span></h2>
       <p>Eventos na praça, cuidado com o bairro e uma voz só para cobrar o que precisa ser feito.</p>
     </div>
-    <div class="do">
-      <article><span class="n">01</span><h3>A praça como ponto de encontro</h3><p>Páscoa, Arraiá, Mês dos Pais, Dia das Crianças, Halloween. Bairro onde as pessoas se conhecem é bairro mais seguro.</p></article>
-      <article><span class="n">02</span><h3>Melhorias e manutenção</h3><p>Praças, muro, vazamentos, coleta, velocidade nas ruas: a associação registra, encaminha e cobra resposta.</p></article>
+    <div class="bento">
+      <article class="tile forest lg span2 rv">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <h3>A praça como <span class="s" style="color:var(--sun)">ponto de encontro</span></h3>
+        <p>Bairro onde as pessoas se conhecem é bairro mais seguro.</p>
+        <a class="link" href="eventos.html">Ver eventos <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      </article>
+      <article class="tile mint span2 rv" style="--d:.08s">
+        <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+        <h3>Melhorias e manutenção</h3>
+        <p>Praças, muro, vazamentos, coleta, velocidade nas ruas: a associação registra, encaminha e cobra resposta.</p>
+        <a class="link" href="sobre.html">Conheça a associação <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      </article>
     </div>
-    <a class="more-link" href="sobre.html">Conheça a associação →</a>
   </div>
 </section>
 
-<section aria-labelledby="ev-h" style="padding-top:0">
+<section class="sec" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker">Eventos</p>
-      <h2 id="ev-h">A praça cheia é o nosso melhor resultado.</h2>
+    <div class="head rv ">
+      <span class="pill">Eventos</span>
+      <h2>A praça cheia é o nosso <span class="s">melhor resultado.</span></h2>
       
     </div>
     <div id="ev-feature"></div>
-    <a class="more-link" href="eventos.html" style="margin-top:0">Ver todos os eventos →</a>
+    <a class="link rv" href="eventos.html">Ver todos os eventos <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
   </div>
 </section>
 
-<section class="why" id="por-que" aria-labelledby="why-h">
+<section class="dark why sec">
+  <div class="dots"></div>
   <div class="wrap grid">
     <div>
-      <div class="sec-head" style="margin-bottom:28px">
-        <p class="kicker">Por que se associar</p>
-        <h2 id="why-h">Associação forte é bairro forte.</h2>
-        <p>Tudo o que a associação faz depende de duas coisas: gente participando e uma contribuição que paga a conta. Cada novo associado aumenta as duas.</p>
-        <p class="count"><b>721</b> casas no Tarraf II.<br><b>Menos de 200</b> são associadas.<br><span>Imagine o bairro com todas.</span></p>
-      </div>
-      <p class="quote">Uma voz pedindo melhoria é um morador reclamando. Centenas de vozes juntas são um bairro sendo ouvido.<small>Quanto mais associados, mais peso a associação tem para representar o Tarraf II junto à Prefeitura e à Câmara.</small></p>
+      <div class="head rv ">
+      <span class="pill">Por que se associar</span>
+      <h2>Associação forte é <span class="s">bairro forte.</span></h2>
+      <p>Tudo o que a associação faz depende de duas coisas: gente participando e uma contribuição que paga a conta. Cada novo associado aumenta as duas.</p>
     </div>
-    <ul>
-      <li><b>Voz e voto</b><span>Participe das assembleias e ajude a decidir as prioridades do bairro.</span></li>
-      <li><b>Sua contribuição vira coisa concreta</b><span>Eventos, melhorias e manutenção — com prestação de contas aos associados.</span></li>
-      <li><b>Informação em primeira mão</b><span>Saiba antes o que vai acontecer na sua rua e na praça.</span></li>
-      <li><b>Conhecer quem mora do lado</b><span>Vizinhos que se conhecem se ajudam e se protegem.</span></li>
-    </ul>
+      <div class="meter rv" style="--w:27%">
+        <div class="row"><span>Casas associadas</span><span>Meta</span></div>
+        <div class="row"><b class="sun">~200</b><b>721</b></div>
+        <div class="bar-t"><div class="bar-f"></div></div>
+        <small>Menos de 200 das 721 casas do bairro são associadas. Imagine o Tarraf II com todas.</small>
+      </div>
+    </div>
+    <div class="benefits">
+      <div class="benefit rv"><span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/></svg></span><div><b>Voz e voto</b><span>Participe das assembleias e ajude a decidir as prioridades do bairro.</span></div></div>
+      <div class="benefit rv" style="--d:.06s"><span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><div><b>Sua contribuição vira coisa concreta</b><span>Eventos, melhorias e manutenção, com prestação de contas aos associados.</span></div></div>
+      <div class="benefit rv" style="--d:.12s"><span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><div><b>Informação em primeira mão</b><span>Saiba antes o que vai acontecer na sua rua e na praça.</span></div></div>
+      <div class="benefit rv" style="--d:.18s"><span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><b>Conhecer quem mora do lado</b><span>Uma voz pedindo melhoria é um morador reclamando. Centenas juntas são um bairro sendo ouvido.</span></div></div>
+    </div>
   </div>
 </section>
 
-<section class="band">
+<section class="band sec" style="padding:0;margin-top:80px">
   <div class="wrap">
-    <div>
-      <h2>Faça parte. O bairro agradece.</h2>
-      <p>Associe-se, seja voluntário, apoie com seu negócio ou doe pelo Pix.</p>
-    </div>
-    <div class="ctas">
-      <a class="btn btn-dark" href="contribua.html">Como contribuir</a>
-      <a class="btn btn-line" data-wa="Associar" href="#" target="_blank" rel="noopener">Quero me associar</a>
-    </div>
+    <div class="rv"><h2>Faça parte. <span class="s">O bairro agradece.</span></h2><p>Associe-se, seja voluntário, apoie com seu negócio ou doe pelo Pix.</p></div>
+    <div class="ctas rv" style="--d:.1s"><a class="btn btn-dark" href="contribua.html">Como contribuir <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a><a class="btn btn-line" data-wa="Associar" href="#" target="_blank" rel="noopener"><svg class="wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a></div>
   </div>
 </section>
 </main>
@@ -140,7 +144,7 @@
     <div class="grid">
       <div>
         <b>Associação dos Moradores do Jardim Tarraf II</b>
-        AMJT II · CNPJ 05.152.486/0001-05 · Fundada em 2002<br>
+        AMJT II · CNPJ 05.152.486/0001-05 · Desde 2002<br>
         Rua José Elias Abud, 225 · Jardim Tarraf II<br>
         São José do Rio Preto/SP · CEP 15092-490
       </div>
@@ -156,16 +160,17 @@
       </div>
     </div>
     <nav aria-label="Rodapé">
-<a href="index.html" aria-current=page>Início</a>
-<a href="sobre.html">Sobre</a>
-<a href="eventos.html">Eventos</a>
-<a href="contribua.html">Contribua</a>
-<a href="contato.html">Contato</a>
+      <a href="index.html" aria-current=page>Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="contribua.html">Contribua</a>
+      <a href="contato.html">Contato</a>
     </nav>
+    <div class="wordmark" aria-hidden="true">Tarraf <span class="s">II</span></div>
     <p class="fine">Feito por moradores, para moradores.</p>
   </div>
 </footer>
-<div class="mcta" id="mcta"><a class="btn btn-wa" data-wa="Associar" href="#" target="_blank" rel="noopener" style="justify-self:auto"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a></div>
-<script src="site.js"></script>
+<div class="mcta" id="mcta"><a class="btn btn-wa" data-wa="Associar" href="#" target="_blank" rel="noopener"><svg class="wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg> Quero me associar</a></div>
+<script src="app.js"></script>
 </body>
 </html>
