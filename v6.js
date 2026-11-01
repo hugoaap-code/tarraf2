@@ -80,18 +80,43 @@
   });
 })();
 
-/* v6.1: Classificados — lista aprovada vinda do Apps Script, filtros por tipo/categoria/busca. */
+/* v6.3: Classificados — lista aprovada vinda do Apps Script; filtros compactos (tipo + categoria + busca)
+   e, no formulário, categorias que mudam conforme Produto/Serviço. */
 (() => {
+  const CATS = window.AMJT_CATS || {}, GROUPS = window.AMJT_CAT_GROUPS || { produto: {}, servico: {} };
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const X = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+
+  // Formulário: categoria depende do tipo
+  const catSel = document.querySelector('[data-cat-select]');
+  if (catSel) {
+    const form = catSel.closest('form');
+    const fill = tipo => {
+      const g = GROUPS[tipo] || {};
+      catSel.innerHTML = `<option value="">${tipo === 'servico' ? 'Escolha o tipo de serviço' : 'Escolha o tipo de produto'}</option>` +
+        Object.entries(g).map(([k, l]) => `<option value="${esc(k)}">${esc(l)}</option>`).join('');
+      catSel.disabled = false;
+      const t = form.querySelector('[name=titulo]'); if (t) t.placeholder = tipo === 'servico' ? 'Ex.: Diarista às terças e quintas' : 'Ex.: Bolos caseiros sob encomenda';
+      const hint = form.querySelector('[data-cat-hint]'); if (hint) hint.textContent = tipo === 'servico' ? 'Mostrando categorias de serviços.' : 'Mostrando categorias de produtos.';
+    };
+    form.querySelectorAll('input[name=tipo_anuncio]').forEach(r => r.addEventListener('change', () => r.checked && fill(r.value)));
+    form.addEventListener('reset', () => setTimeout(() => {
+      catSel.innerHTML = '<option value="">Escolha primeiro: produto ou serviço</option>'; catSel.disabled = true;
+      const hint = form.querySelector('[data-cat-hint]'); if (hint) hint.textContent = 'As categorias mudam conforme a sua escolha acima.';
+    }));
+  }
+
   const grid = document.getElementById('ad-grid');
   if (!grid) return;
-  const CATS = window.AMJT_CATS || {};
   const count = document.getElementById('ad-count'), empty = document.getElementById('ad-empty'), search = document.getElementById('ad-search');
-  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const sel = document.getElementById('ad-cat'), active = document.getElementById('ad-active');
   const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const WA = window.AMJT_WA || '';
+  const typeOf = k => GROUPS.produto[k] ? 'produto' : GROUPS.servico[k] ? 'servico' : '';
   let ads = [], type = 'all', cat = 'all';
   const params = new URLSearchParams(location.search);
   if (CATS[params.get('categoria')]) cat = params.get('categoria');
+  if (['produto', 'servico'].includes(params.get('tipo'))) type = params.get('tipo');
   function linkOf(l) {
     l = String(l || '').trim(); if (!l) return '';
     if (l.startsWith('@')) return 'https://instagram.com/' + l.slice(1);
@@ -102,23 +127,54 @@
     const ln = linkOf(a.link) ? `<a class="link" href="${esc(linkOf(a.link))}" target="_blank" rel="noopener nofollow">Ver perfil ↗</a>` : '';
     return `<article class="ad-card"><div class="ad-tags"><span class="ad-tag ${esc(a.tipo)}">${a.tipo === 'servico' ? 'Serviço' : 'Produto'}</span><span class="ad-tag">${esc(CATS[a.categoria] || 'Outros')}</span></div><h3>${esc(a.titulo)}</h3><p>${esc(a.descricao)}</p>${a.preco ? `<p class="ad-price">${esc(a.preco)}</p>` : ''}<p class="ad-who">Anunciado por ${esc(a.nome)}</p><div class="ad-actions">${wa}${ln}</div></article>`;
   }
+  // Monta o seletor de categorias: agrupado por Produtos/Serviços, com contagem; categorias com anúncio primeiro.
+  function buildSelect() {
+    const n = {}; ads.forEach(a => { n[a.categoria] = (n[a.categoria] || 0) + 1; });
+    const group = (t, label) => {
+      const items = Object.entries(GROUPS[t]).map(([k, l]) => [k, l, n[k] || 0]).sort((x, y) => (y[2] > 0) - (x[2] > 0));
+      return `<optgroup label="${label}">` + items.map(([k, l, c]) => `<option value="${esc(k)}">${esc(l)}${c ? ` (${c})` : ''}</option>`).join('') + '</optgroup>';
+    };
+    const total = type === 'all' ? ads.length : ads.filter(a => a.tipo === type).length;
+    sel.innerHTML = `<option value="all">${type === 'servico' ? 'Todos os serviços' : type === 'produto' ? 'Todos os produtos' : 'Todas as categorias'}${ads.length ? ` (${total})` : ''}</option>` +
+      (type !== 'servico' ? group('produto', 'Produtos') : '') + (type !== 'produto' ? group('servico', 'Serviços') : '');
+    if (cat !== 'all' && !sel.querySelector(`option[value="${CSS.escape(cat)}"]`)) cat = 'all';
+    sel.value = cat;
+  }
+  function syncUrl() {
+    const u = new URL(location.href);
+    cat === 'all' ? u.searchParams.delete('categoria') : u.searchParams.set('categoria', cat);
+    type === 'all' ? u.searchParams.delete('tipo') : u.searchParams.set('tipo', type);
+    history.replaceState(null, '', u);
+  }
   function apply() {
     const q = norm(search.value.trim());
     document.querySelectorAll('[data-ad-type]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.adType === type)));
-    document.querySelectorAll('[data-ad-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.adFilter === cat)));
     const list = ads.filter(a => (type === 'all' || a.tipo === type) && (cat === 'all' || a.categoria === cat) && (!q || norm(a.titulo + ' ' + a.descricao + ' ' + (CATS[a.categoria] || '')).includes(q)));
     grid.innerHTML = list.map(card).join('');
     count.textContent = list.length + (list.length === 1 ? ' anúncio' : ' anúncios');
     empty.hidden = list.length !== 0;
+    const chips = [];
+    if (cat !== 'all') chips.push(`<button type="button" class="chip" data-clear="cat">${esc(CATS[cat])} ${X}<span class="sr-only">remover filtro</span></button>`);
+    if (q) chips.push(`<button type="button" class="chip" data-clear="q">“${esc(search.value.trim())}” ${X}<span class="sr-only">remover busca</span></button>`);
+    if (type !== 'all' || chips.length) chips.push('<button type="button" class="clear" data-clear="all">Limpar filtros</button>');
+    active.innerHTML = chips.join(''); active.hidden = !chips.length;
   }
-  document.querySelectorAll('[data-ad-type]').forEach(b => b.addEventListener('click', () => { type = b.dataset.adType; apply(); }));
-  document.querySelectorAll('[data-ad-filter]').forEach(b => b.addEventListener('click', () => {
-    cat = b.dataset.adFilter; const u = new URL(location.href);
-    if (cat === 'all') u.searchParams.delete('categoria'); else u.searchParams.set('categoria', cat);
-    history.replaceState(null, '', u); apply();
+  document.querySelectorAll('[data-ad-type]').forEach(b => b.addEventListener('click', () => {
+    type = b.dataset.adType; if (cat !== 'all' && type !== 'all' && typeOf(cat) && typeOf(cat) !== type) cat = 'all';
+    buildSelect(); syncUrl(); apply();
   }));
+  sel.addEventListener('change', () => { cat = sel.value; if (cat !== 'all' && type !== 'all' && typeOf(cat) !== type) type = typeOf(cat) || 'all'; syncUrl(); apply(); });
+  active.addEventListener('click', e => {
+    const b = e.target.closest('[data-clear]'); if (!b) return;
+    const k = b.dataset.clear;
+    if (k === 'cat' || k === 'all') cat = 'all';
+    if (k === 'q' || k === 'all') search.value = '';
+    if (k === 'all') type = 'all';
+    buildSelect(); syncUrl(); apply();
+  });
   search.addEventListener('input', apply);
-  fetch(window.AMJT_ENDPOINT + '?lista=classificados').then(r => r.json()).then(r => { ads = (r && r.anuncios) || []; apply(); })
+  buildSelect(); apply(); count.textContent = 'Carregando anúncios…'; empty.hidden = true;
+  fetch(window.AMJT_ENDPOINT + '?lista=classificados').then(r => r.json()).then(r => { ads = (r && r.anuncios) || []; buildSelect(); apply(); })
     .catch(() => { count.textContent = 'Não foi possível carregar os anúncios agora.'; empty.hidden = false; });
   document.querySelectorAll('[data-form-again]').forEach(b => b.addEventListener('click', () => {
     const panel = b.closest('[data-success]'), form = panel.parentElement.querySelector('form[data-form]');
