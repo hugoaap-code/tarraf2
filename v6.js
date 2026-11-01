@@ -106,10 +106,10 @@
     }));
   }
 
-  const grid = document.getElementById('ad-grid');
+  const grid = document.getElementById('cl-grid');
   if (!grid) return;
-  const count = document.getElementById('ad-count'), empty = document.getElementById('ad-empty'), search = document.getElementById('ad-search');
-  const sel = document.getElementById('ad-cat'), active = document.getElementById('ad-active');
+  const count = document.getElementById('cl-count'), empty = document.getElementById('cl-empty'), search = document.getElementById('cl-search');
+  const sel = document.getElementById('cl-cat'), active = document.getElementById('cl-active');
   const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const WA = window.AMJT_WA || '';
   const typeOf = k => GROUPS.produto[k] ? 'produto' : GROUPS.servico[k] ? 'servico' : '';
@@ -125,7 +125,7 @@
   function card(a) {
     const wa = a.whatsapp ? `<a class="btn btn-wa" href="https://wa.me/${esc(a.whatsapp)}?text=${encodeURIComponent('Olá! Vi seu anúncio "' + a.titulo + '" nos Classificados do Tarraf II.')}" target="_blank" rel="noopener">${WA} WhatsApp</a>` : '';
     const ln = linkOf(a.link) ? `<a class="link" href="${esc(linkOf(a.link))}" target="_blank" rel="noopener nofollow">Ver perfil ↗</a>` : '';
-    return `<article class="ad-card"><div class="ad-tags"><span class="ad-tag ${esc(a.tipo)}">${a.tipo === 'servico' ? 'Serviço' : 'Produto'}</span><span class="ad-tag">${esc(CATS[a.categoria] || 'Outros')}</span></div><h3>${esc(a.titulo)}</h3><p>${esc(a.descricao)}</p>${a.preco ? `<p class="ad-price">${esc(a.preco)}</p>` : ''}<p class="ad-who">Anunciado por ${esc(a.nome)}</p><div class="ad-actions">${wa}${ln}</div></article>`;
+    return `<article class="cl-card"><div class="cl-tags"><span class="cl-tag ${esc(a.tipo)}">${a.tipo === 'servico' ? 'Serviço' : 'Produto'}</span><span class="cl-tag">${esc(CATS[a.categoria] || 'Outros')}</span></div><h3>${esc(a.titulo)}</h3><p>${esc(a.descricao)}</p>${a.preco ? `<p class="cl-price">${esc(a.preco)}</p>` : ''}<p class="cl-who">Anunciado por ${esc(a.nome)}</p><div class="cl-actions">${wa}${ln}</div></article>`;
   }
   // Monta o seletor de categorias: agrupado por Produtos/Serviços, com contagem; categorias com anúncio primeiro.
   function buildSelect() {
@@ -148,7 +148,7 @@
   }
   function apply() {
     const q = norm(search.value.trim());
-    document.querySelectorAll('[data-ad-type]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.adType === type)));
+    document.querySelectorAll('[data-cl-type]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.clType === type)));
     const list = ads.filter(a => (type === 'all' || a.tipo === type) && (cat === 'all' || a.categoria === cat) && (!q || norm(a.titulo + ' ' + a.descricao + ' ' + (CATS[a.categoria] || '')).includes(q)));
     grid.innerHTML = list.map(card).join('');
     count.textContent = list.length + (list.length === 1 ? ' anúncio' : ' anúncios');
@@ -159,8 +159,8 @@
     if (type !== 'all' || chips.length) chips.push('<button type="button" class="clear" data-clear="all">Limpar filtros</button>');
     active.innerHTML = chips.join(''); active.hidden = !chips.length;
   }
-  document.querySelectorAll('[data-ad-type]').forEach(b => b.addEventListener('click', () => {
-    type = b.dataset.adType; if (cat !== 'all' && type !== 'all' && typeOf(cat) && typeOf(cat) !== type) cat = 'all';
+  document.querySelectorAll('[data-cl-type]').forEach(b => b.addEventListener('click', () => {
+    type = b.dataset.clType; if (cat !== 'all' && type !== 'all' && typeOf(cat) && typeOf(cat) !== type) cat = 'all';
     buildSelect(); syncUrl(); apply();
   }));
   sel.addEventListener('change', () => { cat = sel.value; if (cat !== 'all' && type !== 'all' && typeOf(cat) !== type) type = typeOf(cat) || 'all'; syncUrl(); apply(); });
