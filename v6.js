@@ -222,3 +222,59 @@ document.querySelectorAll('[data-carousel]').forEach(car => {
   });
   mark(0); cur = -1; mark(0);
 });
+
+/* v6.5: Indicações — filtro por categoria (select + chips), busca e "com telefone"; estado na URL (?categoria=&q=). */
+(() => {
+  const grid = document.getElementById('ind-grid'); if (!grid) return;
+  const cards = [...grid.querySelectorAll('.ind-card')], sel = document.getElementById('ind-cat'), search = document.getElementById('ind-search');
+  const count = document.getElementById('ind-count'), empty = document.getElementById('ind-empty'), active = document.getElementById('ind-active');
+  const groups = [...grid.querySelectorAll('.ind-group')];
+  const chips = [...document.querySelectorAll('[data-ind-cat]')], segs = [...document.querySelectorAll('[data-ind-direct]')];
+  const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const X = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+  const label = k => (sel.querySelector(`option[value="${CSS.escape(k)}"]`) || {}).textContent?.replace(/\s*\(\d+\)$/, '') || k;
+  const P = new URLSearchParams(location.search);
+  let cat = sel.querySelector(`option[value="${CSS.escape(P.get('categoria') || 'all')}"]`) ? (P.get('categoria') || 'all') : 'all';
+  let direct = P.get('telefone') === '1' ? '1' : 'all';
+  search.value = P.get('q') || '';
+  function apply(sync) {
+    const q = norm(search.value.trim()); let n = 0;
+    cards.forEach(c => {
+      const ok = (cat === 'all' || c.dataset.cat === cat) && (direct === 'all' || c.dataset.direct === '1') && (!q || q.split(/\s+/).every(w => norm(c.dataset.q).includes(w)));
+      c.hidden = !ok; if (ok) n++;
+    });
+    groups.forEach(h => { const g = cards.filter(c => c.dataset.cat === h.dataset.group && !c.hidden).length; h.hidden = !g; h.querySelector('span').textContent = g; });
+    sel.value = cat;
+    chips.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.indCat === cat)));
+    segs.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.indDirect === direct)));
+    count.textContent = n + (n === 1 ? ' indicação' : ' indicações');
+    empty.hidden = n !== 0;
+    const a = [];
+    if (cat !== 'all') a.push(`<button type="button" class="chip" data-clear="cat">${esc(label(cat))} ${X}<span class="sr-only">remover filtro</span></button>`);
+    if (q) a.push(`<button type="button" class="chip" data-clear="q">“${esc(search.value.trim())}” ${X}<span class="sr-only">remover busca</span></button>`);
+    if (direct !== 'all') a.push(`<button type="button" class="chip" data-clear="direct">Com telefone ${X}<span class="sr-only">remover filtro</span></button>`);
+    if (a.length > 1) a.push('<button type="button" class="clear" data-clear="all">Limpar filtros</button>');
+    active.innerHTML = a.join(''); active.hidden = !a.length;
+    if (sync) {
+      const u = new URL(location.href);
+      cat === 'all' ? u.searchParams.delete('categoria') : u.searchParams.set('categoria', cat);
+      search.value.trim() ? u.searchParams.set('q', search.value.trim()) : u.searchParams.delete('q');
+      direct === 'all' ? u.searchParams.delete('telefone') : u.searchParams.set('telefone', '1');
+      history.replaceState(null, '', u);
+    }
+  }
+  sel.addEventListener('change', () => { cat = sel.value; apply(true); });
+  chips.forEach(b => b.addEventListener('click', () => { cat = cat === b.dataset.indCat ? 'all' : b.dataset.indCat; apply(true); }));
+  segs.forEach(b => b.addEventListener('click', () => { direct = b.dataset.indDirect; apply(true); }));
+  let t; search.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => apply(true), 120); });
+  active.addEventListener('click', e => {
+    const b = e.target.closest('[data-clear]'); if (!b) return;
+    const k = b.dataset.clear;
+    if (k === 'cat' || k === 'all') cat = 'all';
+    if (k === 'q' || k === 'all') search.value = '';
+    if (k === 'direct' || k === 'all') direct = 'all';
+    apply(true);
+  });
+  apply(false);
+})();
