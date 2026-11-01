@@ -1,0 +1,152 @@
+/* AMJT II v6: menu com submenu, formulários, Pix, programação, Empresa Amiga, Loja/Classificados */
+
+/* ---------- menu ---------- */
+.top nav.d{align-items:center}
+.dd{position:relative}
+.dd-btn{display:inline-flex;align-items:center;gap:4px;border:0;background:none;cursor:pointer;font:600 15px/1 var(--body);color:var(--muted);padding:9px 12px 9px 16px;border-radius:999px;transition:background .2s,color .2s}
+.dd-btn:hover,.dd.open .dd-btn,.dd:focus-within .dd-btn{color:var(--ink);background:rgba(255,255,255,.7)}
+.dd.is-active .dd-btn{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+.dd-btn .chev{width:16px;height:16px;transition:transform .2s var(--ease)}
+.dd.open .dd-btn .chev{transform:rotate(180deg)}
+.dd-menu{position:absolute;top:calc(100% + 10px);left:50%;transform:translate(-50%,6px);min-width:260px;padding:8px;border-radius:20px;background:#fffdf8;box-shadow:var(--shadow-lg);border:1px solid var(--line);display:grid;gap:2px;opacity:0;visibility:hidden;transition:opacity .18s,transform .18s var(--ease),visibility .18s;z-index:60}
+.dd-menu::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px}
+.dd:hover .dd-menu,.dd.open .dd-menu,.dd:focus-within .dd-menu{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.top nav.d .dd-menu a{display:grid;gap:2px;padding:10px 14px;border-radius:14px;color:var(--ink);background:none;box-shadow:none}
+.top nav.d .dd-menu a b{font:700 15px/1.2 var(--body)}
+.top nav.d .dd-menu a span{font:500 13px/1.3 var(--body);color:var(--muted)}
+.top nav.d .dd-menu a:hover,.top nav.d .dd-menu a[aria-current=page]{background:var(--mint)}
+.right .btn[aria-current=page]{box-shadow:inset 0 0 0 2px var(--sun-ink)}
+.mnav-label{padding:14px 16px 4px;font:700 12px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mnav a.sub{font-size:19px;padding-left:28px}
+.mnav a.mnav-join{margin-top:6px;background:var(--sun);color:var(--sun-ink)}
+.mnav a.mnav-join::after{color:var(--sun-ink)}
+@media (min-width:920px) and (max-width:1080px){.top nav.d a,.dd-btn{padding-left:11px;padding-right:11px;font-size:14px}}
+
+/* ---------- blocos gerais ---------- */
+.journey-nav .wrap{grid-template-columns:repeat(4,1fr)}
+@media(max-width:560px){.journey-nav .wrap{grid-template-columns:repeat(2,1fr)}.journey-nav a{display:flex}}
+.dd-btn{font-size:15px;color:var(--muted)}
+.contrib-grid{display:grid;gap:14px;margin-top:8px}
+.contrib{display:flex;gap:16px;align-items:flex-start;padding:20px;border-radius:22px;background:#fff;border:1px solid var(--line)}
+.contrib .ib{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--mint);color:var(--forest-2)}
+.contrib b{display:block;font:700 17px/1.25 var(--body);margin-bottom:4px}
+.contrib span{color:var(--muted);font-size:15px;line-height:1.5}
+@media(min-width:720px){.contrib-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1040px){.sec .contrib-grid{grid-template-columns:repeat(3,1fr)}.membership-layout .contrib-grid{grid-template-columns:1fr 1fr}}
+.partner-strip{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;padding:28px 30px;border-radius:28px;background:var(--mint)}
+.partner-strip h3{font-size:clamp(24px,3vw,32px);margin:8px 0 6px}
+.partner-strip p{color:var(--forest-2);max-width:52ch}
+.stack-actions{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:22px}
+.join-steps{display:grid;gap:10px;margin:22px 0 26px;padding:0;list-style:none;counter-reset:s}
+.join-steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;column-gap:14px;align-items:start;padding:16px 18px;border-radius:20px;background:#fff;border:1px solid var(--line)}
+.join-steps li::before{content:counter(s);grid-row:span 2;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--forest);color:var(--sun);font:800 18px/1 var(--display)}
+.join-steps li b{font:700 17px/1.3 var(--body)}
+.join-steps li span{color:var(--muted);font-size:15px}
+.membership-layout .membership-price{margin:6px 0 30px}
+.form-layout{display:grid;gap:36px}
+@media(min-width:920px){.form-layout{grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}.form-layout>div:first-child{position:sticky;top:108px}}
+.form-col{min-width:0}
+@media(min-width:920px){.join-layout{grid-template-columns:1fr 1fr;grid-template-areas:"intro form" "contrib form";align-items:start}.join-intro{grid-area:intro}.join-layout .form-col{grid-area:form}.join-contrib{grid-area:contrib}}
+.join-contrib .membership-copy{margin-top:20px}
+
+/* ---------- programação ---------- */
+.schedule-grid{display:grid;gap:18px}
+@media(min-width:760px){.schedule-grid{grid-template-columns:1fr 1fr}}
+.slot{background:#fff;border-radius:28px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.slot .real-photo img{aspect-ratio:16/9}
+.slot-body{padding:24px 26px 26px}
+.slot-when{display:inline-flex;align-items:baseline;gap:10px;padding:8px 14px;border-radius:999px;background:var(--forest);color:#fff;margin-bottom:14px}
+.slot-when span{font:600 13px/1 var(--body);letter-spacing:.04em;text-transform:uppercase;color:var(--sun-2)}
+.slot-when b{font:800 22px/1 var(--display)}
+.slot h3{font-size:26px;margin-bottom:8px}
+.slot p{color:var(--muted)}
+.slot-where{display:flex;gap:8px;align-items:center;margin-top:14px;font-size:14px;font-weight:600;color:var(--forest-2)!important}
+.slot-where .ico{width:18px;height:18px}
+.where-card{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:22px;padding:20px 22px;border-radius:22px;background:var(--cream-2)}
+.where-card .ib{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:#fff}
+.where-card div{flex:1 1 260px}
+.where-card b{display:block}
+.where-card span{color:var(--muted);font-size:15px}
+
+/* ---------- formulários ---------- */
+.form-card,.pix-step{background:#fff;border-radius:30px;box-shadow:var(--shadow-lg);padding:30px;min-width:0}
+.form-head h2{font-size:clamp(28px,3.4vw,36px);margin:14px 0 6px}
+.form-head p{color:var(--muted);font-size:15px}
+.form-card em,.choice legend em{color:#b4421b;font-style:normal;font-weight:700}
+.fields{display:grid;gap:14px;margin-top:22px}
+@media(min-width:560px){.fields{grid-template-columns:1fr 1fr}.field.full,.check.full,.choice.full{grid-column:1/-1}}
+.field{display:grid;gap:6px;min-width:0;border:0;padding:0;margin:0}
+.field>span,.choice legend{font:600 14px/1.3 var(--body);color:var(--ink)}
+.field small{font-weight:500;color:var(--muted)}
+.field input,.field textarea{width:100%;font:500 16px/1.4 var(--body);color:var(--ink);background:var(--cream);border:1.5px solid transparent;border-radius:14px;padding:13px 14px;transition:border-color .2s,background .2s}
+.field textarea{resize:vertical;min-height:90px}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--leaf);background:#fff}
+.was-validated .field input:invalid,.was-validated .field textarea:invalid{border-color:#d0613a;background:#fff6f2}
+.choice{display:flex;flex-wrap:wrap;gap:10px}
+.choice legend{margin-bottom:8px;width:100%}
+.choice label{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:999px;background:var(--cream);cursor:pointer;font-weight:600;font-size:15px;border:1.5px solid transparent}
+.choice label:has(input:checked){background:var(--mint);border-color:var(--leaf)}
+.plans-choice label{flex:1 1 100%;border-radius:16px}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--muted);padding:14px;border-radius:16px;background:var(--cream)}
+.check input{width:20px;height:20px;margin-top:1px;flex:none;accent-color:var(--leaf)}
+.was-validated .check input:invalid+span{color:#b4421b}
+.form-legal{font-size:12.5px;color:var(--muted);margin:16px 0 0}
+.form-status{min-height:22px;margin:10px 0;font-weight:600;font-size:15px}
+.form-status.err{color:#b4421b}
+.form-status.wait{color:var(--forest-2)}
+.form-card .btn[type=submit]{width:100%}
+.form-card .btn[disabled]{opacity:.65;pointer-events:none}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* ---------- Pix ---------- */
+.pix-step{display:grid;gap:14px;outline:none}
+.pix-step[hidden]{display:none}
+.pix-step>.pill{justify-self:start}
+.pix-step h3{font-size:clamp(26px,3.4vw,34px)}
+.proto{color:var(--muted)}
+.proto b{color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:15px}
+.pix-box{display:grid;gap:20px;align-items:center;padding:20px;border-radius:24px;background:var(--cream)}
+@media(min-width:560px){.pix-box{grid-template-columns:200px 1fr}}
+.pix-box img{width:100%;max-width:220px;height:auto;border-radius:16px;background:#fff;padding:8px;justify-self:center}
+.pix-box>div{min-width:0}
+.pix-box>div>p{font-size:14px;color:var(--muted);margin-bottom:6px}
+p.pix-value,.pix-box>div>p.pix-value{font:800 54px/1 var(--display);color:var(--ink);margin-bottom:14px}
+.pix-value span{font-size:22px;vertical-align:top}
+.pix-value small{font:500 15px/1 var(--body);color:var(--muted)}
+.pix-step .pix{display:flex;gap:8px;align-items:center;background:#fff;border-radius:14px;padding:6px 6px 6px 12px;min-width:0}
+.pix-step .pix code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;border:0;padding:4px 0;background:none}
+.pix-step .pix code:not(.pix-code){white-space:normal;word-break:break-all;font-weight:700}
+.pix-step .copy{flex:none;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:10px;padding:9px 12px;background:var(--forest);color:#fff;font:600 13px/1 var(--body);cursor:pointer}
+.pix-step .copy .ico{width:16px;height:16px}
+.pix-note{font-size:14px;color:var(--muted)}
+.next-step{display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:18px;background:var(--mint);color:var(--forest-2);font-weight:600}
+.next-step .ico{margin-top:2px}
+
+/* ---------- Empresa Amiga ---------- */
+.seal-badge{display:inline-flex;align-items:center;gap:16px;margin-top:26px;padding:14px 26px 14px 14px;border-radius:999px;background:var(--forest);color:#fff;box-shadow:0 18px 40px -18px rgba(14,42,28,.8);border:3px solid var(--sun)}
+.seal-badge img{width:68px;height:68px;border-radius:50%;border:3px solid var(--sun)}
+.seal-badge span{font:600 15px/1.05 var(--body);letter-spacing:.02em;text-transform:uppercase;color:var(--sun-2)}
+.seal-badge b{display:block;font:800 30px/1 var(--display);text-transform:none;letter-spacing:-.02em;color:#fff}
+.seal-badge small{display:block;font:500 13px/1.2 var(--body);text-transform:none;color:var(--sun-2)}
+.sponsor-plan button.btn{margin-top:auto}
+.company-grid{display:grid;gap:16px}
+@media(min-width:720px){.company-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.company-grid{grid-template-columns:repeat(3,1fr)}}
+.company-card{position:relative;display:flex;gap:16px;align-items:center;padding:22px;border-radius:24px;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:transform .25s var(--ease)}
+.company-card:hover{transform:translateY(-3px)}
+.company-card img{width:72px;height:72px;border-radius:18px;object-fit:contain;background:var(--cream);padding:8px;flex:none}
+.company-card b{display:block;font:800 20px/1.1 var(--display)}
+.company-card span{display:block;color:var(--muted);font-size:14px;margin:4px 0}
+.company-card small{color:var(--leaf);font-weight:700}
+.company-seal{position:absolute;top:-10px;right:16px;margin:0!important;padding:5px 10px;border-radius:999px;background:var(--sun);color:var(--sun-ink)!important;font:700 11px/1 var(--body)!important;letter-spacing:.04em;text-transform:uppercase}
+
+/* ---------- Loja / Classificados ---------- */
+.ad-grid{display:grid;gap:16px}
+@media(min-width:720px){.ad-grid{grid-template-columns:repeat(3,1fr)}}
+.ad-card{display:grid;gap:8px;padding:22px;border-radius:24px;background:#fff;border:1px solid var(--line)}
+.ad-price{font:800 22px/1 var(--display)}
+.ad-who{font-size:14px;color:var(--muted)}
+.ad-empty{display:grid;justify-items:center;text-align:center;gap:10px;padding:44px 24px;border-radius:28px;background:#fff;border:1.5px dashed rgba(15,28,21,.18)}
+.ad-empty .ib{display:grid;place-items:center;width:56px;height:56px;border-radius:18px;background:var(--mint);color:var(--forest-2)}
+.ad-empty b{font:800 22px/1.2 var(--display)}
+.ad-empty p{color:var(--muted)}
