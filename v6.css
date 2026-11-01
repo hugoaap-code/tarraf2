@@ -228,3 +228,7 @@ body:has(.partners-band) footer{margin-top:-40px;position:relative;z-index:1}
 select[data-cat-select]:disabled{opacity:.6;cursor:not-allowed}
 @media(max-width:860px){.ad-toolbar{grid-template-columns:1fr 1fr}.ad-toolbar .seg{grid-column:1/-1;width:100%}.seg button{flex:1}}
 @media(max-width:520px){.ad-toolbar{grid-template-columns:1fr}}
+
+/* Blog: espaço entre filtros/busca e o grid (o texto e o contador que davam esse espaço foram removidos) */
+.blog-tools+.blog-grid{margin-top:40px}
+@media(max-width:520px){.blog-tools+.blog-grid{margin-top:28px}}
