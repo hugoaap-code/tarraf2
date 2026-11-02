@@ -235,19 +235,28 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
 
     /* ---------- inscrição ---------- */
     const form = $('[data-nt-form]'), ok = $('[data-nt-success]'), closed = $('[data-nt-closed]');
-    const prevs = $('[data-nt-previews]'), input = $('[data-nt-files]');
+    const prevs = $('[data-nt-previews]'), inputs = $$('[data-nt-files]', form), input = inputs[0];
     let files = []; const MAXF = 10;
     function fecharInscricoes() { if (S.fase && !S.fase.inscricoes_abertas && ok.hidden) { form.hidden = true; closed.hidden = false; } }
     function drawPrevs() {
       prevs.innerHTML = files.map((f, k) => `<div class="nt-prev"><img src="${f.url}" alt="Foto ${k + 1} escolhida"><button type="button" data-rm="${k}" aria-label="Remover foto ${k + 1}">×</button></div>`).join('');
-      $('.nt-drop b', form).textContent = files.length ? (files.length < MAXF ? `Adicionar mais fotos (${files.length} de ${MAXF})` : `Máximo de ${MAXF} fotos`) : 'Escolher fotos';
+      $('[data-nt-count]', form).textContent = !files.length ? 'Nenhuma foto escolhida.'
+        : files.length < MAXF ? `${files.length} de ${MAXF} fotos. Pode adicionar mais.` : `${MAXF} fotos: limite atingido.`;
     }
-    input.addEventListener('change', () => {
-      let sobra = 0;
-      for (const f of input.files) { if (!(/^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|heif)$/i.test(f.name))) continue; if (files.length >= MAXF) { sobra++; continue; } files.push({ f, url: URL.createObjectURL(f) }); }
-      const st0 = $('.form-status', form); st0.className = 'form-status' + (sobra ? ' err' : ''); st0.textContent = sobra ? `Cabem até ${MAXF} fotos por inscrição; ${sobra} ficaram de fora.` : '';
-      input.value = ''; $('.nt-photos', form).classList.remove('invalid'); drawPrevs();
-    });
+    /* 3 botões (câmera, galeria, arquivos) alimentam a mesma lista de fotos */
+    inputs.forEach(inp => inp.addEventListener('change', () => {
+      let sobra = 0, naoFoto = 0;
+      for (const f of inp.files) {
+        if (!(/^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|heif)$/i.test(f.name))) { naoFoto++; continue; }
+        if (files.length >= MAXF) { sobra++; continue; }
+        files.push({ f, url: URL.createObjectURL(f) });
+      }
+      const avisos = [];
+      if (naoFoto) avisos.push(naoFoto === 1 ? '1 arquivo não é foto e ficou de fora.' : `${naoFoto} arquivos não são fotos e ficaram de fora.`);
+      if (sobra) avisos.push(`Cabem até ${MAXF} fotos por inscrição; ${sobra} ficaram de fora.`);
+      const st0 = $('.form-status', form); st0.className = 'form-status' + (avisos.length ? ' err' : ''); st0.textContent = avisos.join(' ');
+      inp.value = ''; $('.nt-photos', form).classList.remove('invalid'); drawPrevs();
+    }));
     prevs.addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b) return; const [r] = files.splice(+b.dataset.rm, 1); URL.revokeObjectURL(r.url); drawPrevs(); });
     function shrink(item) {   // reduz no celular antes de enviar (máx. 1600 px, JPG)
       return new Promise((res, rej) => {

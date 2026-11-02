@@ -338,3 +338,13 @@ body:has(.nt-hero) main .band{margin:32px 12px 56px!important}
    senão aparecia a borda reta de um "cartão" embaixo da onda e uma mancha cinza (2ª camada semitransparente). */
 .nt-hero{border-radius:0}
 .nt-snowcap{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 64' preserveAspectRatio='none'%3E%3Cpath fill='%23fbf6ec' d='M0 40 C40 18 80 22 120 34 S200 56 250 36 S330 8 380 26 S460 54 510 34 S570 14 600 30 V64 H0Z'/%3E%3C/svg%3E")}
+
+/* Fotos: 3 botões Tirar foto / Galeria / Arquivos (02/11/2026) */
+.nt-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.nt-pick-btn{position:relative;display:grid;justify-items:center;gap:6px;padding:16px 8px;border-radius:16px;border:2px dashed rgba(15,28,21,.2);background:var(--cream);cursor:pointer;text-align:center;transition:border-color .2s,background .2s}
+.nt-pick-btn:hover,.nt-pick-btn:focus-within{border-color:var(--xmas);background:#fff}
+.nt-pick-btn input{position:absolute;width:1px;height:1px;opacity:0}
+.nt-pick-btn .ico{width:28px;height:28px;color:var(--xmas)}
+.nt-pick-btn b{font:700 15px/1.2 var(--body)}
+.nt-pick-count{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.nt-photos.invalid .nt-pick-btn{border-color:#b4421b}
