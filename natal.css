@@ -274,6 +274,16 @@ body:has(.nt-hero) .nt-toolbar .seg button[aria-pressed=true]{background:var(--p
 .nt-actions [data-vote].btn-sun:hover,[data-nt-dvote].btn-sun:hover{background:#d63d35}
 .btn.nt-voted,.nt-actions [data-vote].nt-voted{background:#e3f1e7;color:var(--forest-2);box-shadow:none}
 .nt-actions [data-vote][disabled]:not(.nt-voted){background:#efe4e2;color:#7d5a57;box-shadow:none}
+/* "Seu voto": clicar de novo tira o voto; a etiqueta "× tirar" mostra isso */
+.nt-actions [data-vote].nt-voted:hover,[data-nt-dvote].nt-voted:hover{background:#d4eadb;color:var(--forest-2)}
+.nt-undo{display:inline-flex;align-items:center;gap:3px;margin-left:8px;padding:3px 8px 3px 6px;border-radius:999px;background:#fff;color:var(--xmas-deep);border:1px solid rgba(200,50,43,.35);font-size:12px;font-weight:700;line-height:1}
+.nt-undo .ico,.nt-actions .btn .nt-undo .ico,.nt-d-actions .btn .nt-undo .ico{width:12px;height:12px;stroke-width:2.6}
+[data-nt-dvote].nt-voted{white-space:nowrap}
+.nt-actions [data-vote].nt-voted{position:relative;overflow:visible}
+.nt-undo-dot{position:absolute;top:-7px;right:-5px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#fff;color:var(--xmas-deep);border:1.5px solid rgba(200,50,43,.5);box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.nt-actions .btn .nt-undo-dot .ico{width:12px;height:12px;stroke-width:2.8}
+.nt-voted:hover .nt-undo-dot,.nt-voted:focus-visible .nt-undo-dot{background:var(--xmas);border-color:var(--xmas);color:#fff}
+.nt-voted:hover .nt-undo,.nt-voted:focus-visible .nt-undo{background:var(--xmas);border-color:var(--xmas);color:#fff}
 .nt-stats span:first-child .ico,.nt-d-stats span:first-child .ico{color:var(--xmas)}
 
 /* formulário: fita listrada no topo */

@@ -15,6 +15,7 @@
     camera: svg('<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'),
     pin: svg('<path d="M12 21s-6-5.4-6-11a6 6 0 0 1 12 0c0 5.6-6 11-6 11Z"/><circle cx="12" cy="10" r="2.2"/>'),
     check: svg('<path d="m5 12 4.5 4.5L19 7"/>'),
+    x: svg('<path d="M6 6l12 12M18 6 6 18"/>'),
   };
   const ddmm = iso => { const [y, m, d] = String(iso).slice(0, 10).split('-'); return `${d}/${m}`; };
   const quando = iso => { try { const t = new Date(iso); return t.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + t.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
@@ -61,10 +62,14 @@
       return r.sort(by);
     };
 
-    function voteLabel(x) {
+    function voteLabel(x, compacto) {   // compacto = botão do card (pouco espaço): só um × no canto
       const f = S.fase || {};
       const meu = S.meu[x.categoria];
-      if (meu === x.id) return { t: `${IC.check} Seu voto de hoje`, dis: true, cls: 'nt-voted' };
+      if (meu === x.id) {   // já votou aqui hoje: clicar de novo tira o voto (e libera votar em outra da categoria)
+        if (!f.votacao_aberta) return { t: `${IC.check} Seu voto`, dis: true, cls: 'nt-voted' };
+        return { t: compacto ? `${IC.check} Seu voto<span class="nt-undo-dot" aria-hidden="true">${IC.x}</span>` : `${IC.check} Seu voto<span class="nt-undo">${IC.x}tirar</span>`, dis: false, cls: 'nt-voted', undo: true,
+                 tip: 'Seu voto. Toque para tirar o voto' };
+      }
       if (f.encerrado) return { t: 'Votação encerrada', dis: true };
       if (!f.votacao_aberta) return { t: `Votação abre ${ddmm(f.votacao_de)}`, dis: true };
       if (meu) return { t: 'Volte amanhã', dis: true };
@@ -88,7 +93,7 @@
     }
 
     function card(x, rank) {
-      const v = voteLabel(x), f = x.fotos[0];
+      const v = voteLabel(x, true), f = x.fotos[0];
       const showRank = S.sort === 'votos' && x.votos > 0;
       const medal = rank <= 3 && x.votos > 0 ? ` r${rank}` : '';
       return `<article class="nt-card${rank === 1 && x.votos > 0 && S.sort === 'votos' ? ' is-top' : ''}" data-id="${x.id}">
@@ -96,7 +101,7 @@
 ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar</span>` : ''}${x.fotos.length > 1 ? `<span class="nt-nphotos">${IC.camera}${x.fotos.length}</span>` : ''}</button>
 <div class="nt-body"><span class="nt-tag">${esc(catTag(x.categoria))}</span><h3>${esc(nomeDe(x))}</h3><p class="nt-who">${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span></p>
 <div class="nt-stats"><span>${IC.heart}<b data-v>${x.votos}</b> ${x.votos === 1 ? 'voto' : 'votos'}</span><span>${IC.chat}<b>${x.comentarios}</b></span></div>
-<div class="nt-actions"><button type="button" class="btn btn-sun ${v.cls || ''}" data-vote="${x.id}"${v.dis ? ' disabled' : ''}>${v.t}</button><button type="button" class="btn btn-line" data-open="${x.id}">${IC.chat} Comentar</button></div></div></article>`;
+<div class="nt-actions"><button type="button" class="btn btn-sun ${v.cls || ''}" data-vote="${x.id}"${v.dis ? ' disabled' : ''}${v.tip ? ` title="${v.tip}" aria-label="${v.tip}"` : ''}>${v.t}</button><button type="button" class="btn btn-line" data-open="${x.id}">${IC.chat} Comentar</button></div></div></article>`;
     }
 
     function render() {
@@ -119,6 +124,8 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
     }
 
     async function votar(id, btn) {
+      const alvo = S.itens.find(y => y.id === id);
+      if (alvo && S.meu[alvo.categoria] === id) return desvotar(id, btn);
       if (btn) { btn.disabled = true; }
       try {
         const j = await api('/votar', { id, visitante: VIS });
@@ -126,8 +133,24 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
         const x = S.itens.find(y => y.id === id); if (x) x.votos = j.votos;
         render(); if (S.aberto === id) preencher(x);
         const b = $(`.nt-card[data-id="${id}"] [data-v]`); if (b) b.parentElement.classList.add('nt-pop');
-        msg(S.aberto ? `Voto registrado em ${catNome(x.categoria)}! Volte amanhã para votar de novo.` : '');
-        if (!S.aberto) info.innerHTML = `Voto registrado em <b>${esc(nomeDe(x))}</b> (${esc(catNome(x.categoria))})! Vote também nas outras categorias.`;
+        msg(S.aberto ? `Voto registrado em ${catNome(x.categoria)}! Mudou de ideia? Toque em “Seu voto” para tirar.` : '');
+        if (!S.aberto) info.innerHTML = `Voto registrado em <b>${esc(nomeDe(x))}</b> (${esc(catNome(x.categoria))})! Mudou de ideia? Toque em “Seu voto” para tirar.`;
+      } catch (e) {
+        if (e.data && e.data.meus_votos_hoje) { S.meu = e.data.meus_votos_hoje; render(); if (S.aberto) preencher(S.itens.find(y => y.id === S.aberto)); }
+        if (S.aberto) msg(e.message, true); else { info.textContent = e.message; if (btn) btn.disabled = false; }
+      }
+    }
+
+    /* clicou de novo em "Seu voto": tira o voto de hoje e libera votar de novo na categoria */
+    async function desvotar(id, btn) {
+      if (btn) { btn.disabled = true; }
+      try {
+        const j = await api('/desvotar', { id, visitante: VIS });
+        S.meu = j.meus_votos_hoje || {};
+        const x = S.itens.find(y => y.id === id); if (x) x.votos = j.votos;
+        render(); if (S.aberto === id) preencher(x);
+        const t = `Voto retirado de ${nomeDe(x)}. Você pode votar de novo hoje em ${catNome(x.categoria)}.`;
+        if (S.aberto) msg(t); else info.innerHTML = `Voto retirado de <b>${esc(nomeDe(x))}</b>. Você pode votar de novo hoje em ${esc(catNome(x.categoria))}.`;
       } catch (e) {
         if (e.data && e.data.meus_votos_hoje) { S.meu = e.data.meus_votos_hoje; render(); if (S.aberto) preencher(S.itens.find(y => y.id === S.aberto)); }
         if (S.aberto) msg(e.message, true); else { info.textContent = e.message; if (btn) btn.disabled = false; }
@@ -174,6 +197,7 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
       $('#nt-d-votos-l').textContent = x.votos === 1 ? 'voto' : 'votos'; $('#nt-d-ncom-l').textContent = x.comentarios === 1 ? 'comentário' : 'comentários';
       const v = voteLabel(x), b = $('[data-nt-dvote]', dlg);
       b.innerHTML = v.t; b.disabled = v.dis; b.classList.toggle('nt-voted', !!v.cls);
+      if (v.tip) { b.title = v.tip; b.setAttribute('aria-label', v.tip); } else { b.removeAttribute('title'); b.removeAttribute('aria-label'); }
       const url = SITE + 'natal/' + x.id;
       $('[data-nt-wa]', dlg).href = 'https://wa.me/?text=' + encodeURIComponent(`Vota na ${nomeDe(x)} (${x.rua}), categoria ${catNome(x.categoria)}, no É Natal no Tarraf II! 🎄✨ Dá para votar todo dia: ${url}`);
     }
