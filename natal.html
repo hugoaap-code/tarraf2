@@ -2,11 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://site.amjt2.com.br https://hugoaap-code.github.io; connect-src 'self' https://site.amjt2.com.br https://script.google.com https://script.googleusercontent.com https://api.ipify.org; form-action 'self' https://script.google.com; base-uri 'self'; object-src 'none'; script-src 'self' 'sha256-+KRZCSVFZ4yo4QM+6hSZ4W9fn2aY4X1PDrWqJPoXb9o=' 'sha256-Xe/BPVze3CwjNmYC7656ktpXQSkrRt/3q5S73Zoy+I8='">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>É Natal no Tarraf II · Associação dos Moradores do Jardim Tarraf II</title>
-<meta name="description" content="É Natal no Tarraf II: concurso de decoração e fantasias do Jardim Tarraf II. Cinco categorias, voto diário e comentários sem cadastro.">
+<meta name="description" content="É Natal no Tarraf II: concurso de decoração e fantasias do Jardim Tarraf II. Cinco categorias, voto diário e comentários.">
 <meta property="og:title" content="É Natal no Tarraf II · Associação dos Moradores do Jardim Tarraf II">
-<meta property="og:description" content="É Natal no Tarraf II: concurso de decoração e fantasias do Jardim Tarraf II. Cinco categorias, voto diário e comentários sem cadastro.">
+<meta property="og:description" content="É Natal no Tarraf II: concurso de decoração e fantasias do Jardim Tarraf II. Cinco categorias, voto diário e comentários.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="AMJT II · Jardim Tarraf II">
 <meta property="og:locale" content="pt_BR">
@@ -26,7 +27,7 @@
 <link rel="stylesheet" href="style.css?v=8ba10144"><link rel="stylesheet" href="journey.css?v=de66128b"><link rel="stylesheet" href="portal.css?v=290b38ca"><link rel="stylesheet" href="v6.css?v=5c70b842">
 <link rel="stylesheet" href="natal.css?v=b67ee982">
 <script>window.NATAL_CATS={"ext-super": {"nome": "Externo · Superprodução", "emoji": "🏠✨"}, "ext-simples": {"nome": "Externo · Produção simples", "emoji": "🏠🌟"}, "int-super": {"nome": "Interno · Superprodução", "emoji": "🛋️✨"}, "int-simples": {"nome": "Interno · Produção simples", "emoji": "🛋️🌟"}, "fantasia": {"nome": "Fantasias", "emoji": "🎅"}};</script>
-<script src="natal.js?v=1f936cac" defer></script>
+<script src="natal.js?v=448a1618" defer></script>
 </head>
 <body>
 <header class="top">
@@ -80,8 +81,8 @@
     </div>
 <ol class="nt-cal">
 <li><span class="nt-when">Passo 1</span><b>Escolha a categoria</b><span>Externa ou interna, superprodução ou simples, ou fantasia. Uma inscrição por categoria.</span></li>
-<li><span class="nt-when">Até 10/12</span><b>Inscreva</b><span>Nome, rua e até 10 fotos. A associação aprova e publica. <a class="nt-go" href="#inscrever">Inscreva-se <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></span></li>
-<li><span class="nt-when">11/12 a 25/12</span><b>Vote todo dia</b><span>Um voto por dia em cada categoria. Sem cadastro.</span></li>
+<li><span class="nt-when">Até 10/12</span><b>Inscreva</b><span>Nome, rua e até 10 fotos. <a class="nt-go" href="#inscrever">Inscreva-se <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></span></li>
+<li><span class="nt-when">11/12 a 25/12</span><b>Vote todo dia</b><span>Um voto por dia em cada categoria.</span></li>
 <li><span class="nt-when">26/12</span><b>Resultado</b><span>1º, 2º e 3º lugar em cada categoria.</span></li>
 </ol>
 </div></section><section class="sec dark nt-cats-sec"><div class="wrap">
@@ -95,7 +96,7 @@
 <div class="head rv ">
       <span class="pill">Participantes</span>
       <h2>Quem brilha mais <span class="s">no Tarraf II?</span></h2>
-      <p>Vote e comente sem cadastro: um voto por dia em cada categoria.</p>
+      <p>Vote e comente: um voto por dia em cada categoria.</p>
     </div>
 <div class="nt-chips" role="group" aria-label="Categoria"><button type="button" data-nt-cat="all" aria-pressed="true">Todas</button><button type="button" data-nt-cat="ext-super" aria-pressed="false">🏠✨ Externo Superprodução</button><button type="button" data-nt-cat="ext-simples" aria-pressed="false">🏠🌟 Externo Produção simples</button><button type="button" data-nt-cat="int-super" aria-pressed="false">🛋️✨ Interno Superprodução</button><button type="button" data-nt-cat="int-simples" aria-pressed="false">🛋️🌟 Interno Produção simples</button><button type="button" data-nt-cat="fantasia" aria-pressed="false">🎅 Fantasias</button></div>
 <div class="nt-toolbar">
@@ -123,11 +124,10 @@
 <div class="nt-previews" data-nt-previews></div></div>
 <label class="check full"><input type="checkbox" name="aceite" value="sim" required><span>Moro no Jardim Tarraf II e autorizo a publicação das fotos, do nome e da rua no site e nas redes da associação.</span></label>
 </div>
-<p class="form-legal">A inscrição é publicada após a aprovação da associação.</p>
 <p class="form-status" role="status" aria-live="polite"></p>
 <button class="btn btn-sun" type="submit">Enviar inscrição <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
 </form>
-<div class="pix-step" data-nt-success hidden tabindex="-1"><span class="pill">Recebida</span><h3>Inscrição feita! <span class="s">Agora é com a gente.</span></h3><p class="proto">Protocolo <b data-nt-proto>—</b></p><p class="next-step"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> Depois da aprovação, ela aparece aqui. Aí é compartilhar o link e pedir votos!</p><button class="btn btn-line" type="button" data-nt-again>Inscrever em outra categoria</button></div>
+<div class="pix-step" data-nt-success hidden tabindex="-1"><span class="pill">Recebida</span><h3>Inscrição feita! <span class="s">Agora é com a gente.</span></h3><p class="proto">Protocolo <b data-nt-proto>—</b></p><p class="next-step"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> Em breve ela aparece aqui. Aí é compartilhar o link e pedir votos!</p><button class="btn btn-line" type="button" data-nt-again>Inscrever em outra categoria</button></div>
 <div class="nt-closed" data-nt-closed hidden><b>As inscrições foram encerradas.</b><p>Agora é votar e torcer! Veja os participantes acima.</p></div></div></div></section><section class="sec warm"><div class="wrap"><div class="head rv ">
       <span class="pill">Regulamento rápido</span>
       <h2>Brilhar pode. <span class="s">Roubar voto, não.</span></h2>
@@ -136,7 +136,7 @@
 <details class="rv"><summary>Posso participar em mais de uma categoria?</summary><p>Pode. Cada inscrição vale para uma categoria, então faça uma inscrição para cada uma, com as fotos daquela produção.</p></details>
 <details class="rv"><summary>Como votar?</summary><p>De 11/12 a 25/12, um voto por dia em cada categoria, sem cadastro. Vale votar em você.</p></details>
 <details class="rv"><summary>O que aparece no site?</summary><p>Fotos, nome, rua, categoria e, se você quiser, o nome e a história da decoração.</p></details>
-<details class="rv"><summary>E se algo estiver errado?</summary><p>A associação remove comentários ofensivos, pode trocar a categoria de uma inscrição e anula votos automáticos.</p></details></div></div></section><section class="band sec" style="padding:0;margin-top:80px">
+<details class="rv"><summary>E se algo estiver errado?</summary><p>A associação remove comentários ofensivos, pode trocar a categoria de uma inscrição e anula votos automáticos ou suspeitos (por exemplo, muitos votos seguidos da mesma rede).</p></details></div></div></section><section class="band sec" style="padding:0;margin-top:80px">
   <div class="wrap">
     <div class="rv"><h2>Não precisa ser a maior <span class="s">nem a mais cara.</span></h2><p>No Tarraf II, quem participa já ganhou. 🎄</p></div>
     <div class="ctas rv" style="--d:.1s"><a class="btn btn-dark" href="#inscrever">Quero participar <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></div>

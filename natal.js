@@ -175,7 +175,7 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
       const v = voteLabel(x), b = $('[data-nt-dvote]', dlg);
       b.innerHTML = v.t; b.disabled = v.dis; b.classList.toggle('nt-voted', !!v.cls);
       const url = SITE + 'natal/' + x.id;
-      $('[data-nt-wa]', dlg).href = 'https://wa.me/?text=' + encodeURIComponent(`Vota na ${nomeDe(x)} (${x.rua}), categoria ${catNome(x.categoria)}, no É Natal no Tarraf II! 🎄✨ Um voto por dia, sem cadastro: ${url}`);
+      $('[data-nt-wa]', dlg).href = 'https://wa.me/?text=' + encodeURIComponent(`Vota na ${nomeDe(x)} (${x.rua}), categoria ${catNome(x.categoria)}, no É Natal no Tarraf II! 🎄✨ Dá para votar todo dia: ${url}`);
     }
     function comentarios(lista) {
       const ol = $('#nt-comments');
