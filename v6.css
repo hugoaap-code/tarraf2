@@ -333,3 +333,22 @@ select[data-cat-select]:disabled{opacity:.6;cursor:not-allowed}
   .pager-mob{display:block}
 }
 @media(prefers-reduced-motion:reduce){.pager-num,.pager-btn{transition:none}.pager-btn:hover{transform:none!important}}
+
+/* v6.6: fotos preenchem o carrossel (corte central) e a foto ampliada navega com setas/swipe */
+.pc-open img{object-fit:cover;object-position:50% 40%}
+.pc-bg{display:none}
+.pc-slide,.post-carousel.single .pc-slide{height:clamp(320px,68vh,620px)}
+@media(max-width:700px){.pc-slide,.post-carousel.single .pc-slide{height:auto;aspect-ratio:4/4.4}}
+.pd-stage{position:relative;background:#07120b;touch-action:pan-y}
+.pd-nav,.pd-count{display:none}
+#photo-dialog.has-gallery .pd-nav{display:grid;place-items:center;position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:52px;height:52px;padding:0 0 4px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(14,42,28,.7);backdrop-filter:blur(6px);color:#fff;font:400 34px/1 var(--body);cursor:pointer;transition:background .2s,opacity .2s}
+#photo-dialog.has-gallery .pd-nav:hover{background:var(--sun);color:var(--sun-ink);border-color:var(--sun)}
+#photo-dialog.has-gallery .pd-nav[disabled]{opacity:.25;pointer-events:none}
+.pd-prev{left:14px}.pd-next{right:14px}
+#photo-dialog.has-gallery .pd-count{display:block;position:absolute;left:14px;bottom:14px;z-index:2;background:rgba(14,42,28,.75);color:var(--cream);font:600 13px/1 var(--body);padding:7px 11px;border-radius:999px}
+.pd-in-r{animation:pdInR .28s ease}.pd-in-l{animation:pdInL .28s ease}
+@keyframes pdInR{from{opacity:.2;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes pdInL{from{opacity:.2;transform:translateX(-36px)}to{opacity:1;transform:none}}
+@media(max-width:700px){#photo-dialog.has-gallery .pd-nav{width:42px;height:42px;font-size:28px}.pd-prev{left:8px}.pd-next{right:8px}}
+@media(prefers-reduced-motion:reduce){.pd-in-r,.pd-in-l{animation:none}}
+#photo-dialog .dialog-close{position:absolute;top:12px;right:12px;left:auto;margin:0}

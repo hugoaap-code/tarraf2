@@ -224,6 +224,7 @@ document.querySelectorAll('[data-carousel]').forEach(car => {
     if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
   });
   mark(0); cur = -1; mark(0);
+  car.amjtGo = i => { track.style.scrollBehavior = 'auto'; track.scrollLeft = slides[i].offsetLeft; track.style.scrollBehavior = ''; };
 });
 
 /* v6.5: Indicações — filtro por categoria (select + chips), busca e "com telefone"; estado na URL (?categoria=&q=). */
@@ -341,3 +342,45 @@ function amjtPager(list, o) {
     }
   };
 }
+
+
+/* v6.6: foto ampliada do carrossel dos posts com setas, swipe, teclado e contador; ao fechar, o carrossel fica na mesma foto. */
+(() => {
+  const pd = document.getElementById('photo-dialog'); if (!pd) return;
+  const img = document.getElementById('photo-full'), cap = document.getElementById('photo-caption');
+  const stage = document.createElement('div'); stage.className = 'pd-stage';
+  img.parentNode.insertBefore(stage, img); stage.appendChild(img);
+  stage.insertAdjacentHTML('beforeend', '<button type="button" class="pd-nav pd-prev" aria-label="Foto anterior">‹</button><button type="button" class="pd-nav pd-next" aria-label="Próxima foto">›</button><span class="pd-count" aria-live="polite"></span>');
+  const prev = stage.querySelector('.pd-prev'), next = stage.querySelector('.pd-next'), count = stage.querySelector('.pd-count');
+  let list = [], idx = 0, car = null;
+  function show(i, dir) {
+    idx = Math.max(0, Math.min(list.length - 1, i)); const b = list[idx];
+    img.classList.remove('pd-in-l', 'pd-in-r'); void img.offsetWidth;
+    img.src = b.dataset.photo; img.alt = (b.querySelector('img') || {}).alt || '';
+    if (dir) img.classList.add(dir > 0 ? 'pd-in-r' : 'pd-in-l');
+    cap.textContent = b.dataset.caption || '';
+    count.textContent = (idx + 1) + ' / ' + list.length;
+    prev.disabled = idx === 0; next.disabled = idx === list.length - 1;
+    [list[idx + 1], list[idx - 1]].forEach(n => { if (n) (new Image()).src = n.dataset.photo; });
+  }
+  document.querySelectorAll('[data-carousel]').forEach(c => {
+    const btns = [...c.querySelectorAll('.pc-open')];
+    if (btns.length < 2) return;
+    btns.forEach((b, i) => b.addEventListener('click', () => { list = btns; car = c; pd.classList.add('has-gallery'); show(i); }));
+  });
+  document.querySelectorAll('[data-photo]').forEach(b => { if (!b.closest('[data-carousel]')) b.addEventListener('click', () => { pd.classList.remove('has-gallery'); list = []; car = null; }); });
+  prev.addEventListener('click', e => { e.stopPropagation(); show(idx - 1, -1); });
+  next.addEventListener('click', e => { e.stopPropagation(); show(idx + 1, 1); });
+  pd.addEventListener('keydown', e => {
+    if (!list.length) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1, 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1, -1); }
+  });
+  let x0 = null, y0 = 0;
+  stage.addEventListener('touchstart', e => { if (list.length) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; } }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? show(idx + 1, 1) : show(idx - 1, -1);
+  });
+  pd.addEventListener('close', () => { if (car && car.amjtGo) car.amjtGo(idx); });
+})();
