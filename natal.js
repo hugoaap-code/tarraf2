@@ -231,14 +231,16 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
     /* ---------- inscrição ---------- */
     const form = $('[data-nt-form]'), ok = $('[data-nt-success]'), closed = $('[data-nt-closed]');
     const prevs = $('[data-nt-previews]'), input = $('[data-nt-files]');
-    let files = [];
+    let files = []; const MAXF = 10;
     function fecharInscricoes() { if (S.fase && !S.fase.inscricoes_abertas && ok.hidden) { form.hidden = true; closed.hidden = false; } }
     function drawPrevs() {
       prevs.innerHTML = files.map((f, k) => `<div class="nt-prev"><img src="${f.url}" alt="Foto ${k + 1} escolhida"><button type="button" data-rm="${k}" aria-label="Remover foto ${k + 1}">×</button></div>`).join('');
-      $('.nt-drop b', form).textContent = files.length ? (files.length < 5 ? 'Adicionar mais fotos' : 'Máximo de 5 fotos') : 'Escolher fotos';
+      $('.nt-drop b', form).textContent = files.length ? (files.length < MAXF ? `Adicionar mais fotos (${files.length} de ${MAXF})` : `Máximo de ${MAXF} fotos`) : 'Escolher fotos';
     }
     input.addEventListener('change', () => {
-      for (const f of input.files) { if (files.length >= 5) break; if (/^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|heif)$/i.test(f.name)) files.push({ f, url: URL.createObjectURL(f) }); }
+      let sobra = 0;
+      for (const f of input.files) { if (!(/^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|heif)$/i.test(f.name))) continue; if (files.length >= MAXF) { sobra++; continue; } files.push({ f, url: URL.createObjectURL(f) }); }
+      const st0 = $('.form-status', form); st0.className = 'form-status' + (sobra ? ' err' : ''); st0.textContent = sobra ? `Cabem até ${MAXF} fotos por inscrição; ${sobra} ficaram de fora.` : '';
       input.value = ''; $('.nt-photos', form).classList.remove('invalid'); drawPrevs();
     });
     prevs.addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b) return; const [r] = files.splice(+b.dataset.rm, 1); URL.revokeObjectURL(r.url); drawPrevs(); });

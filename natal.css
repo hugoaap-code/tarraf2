@@ -317,3 +317,11 @@ body:has(.nt-hero) footer::before{content:"";position:absolute;left:0;right:0;to
 /* band() do site põe margin-top:80px inline; aqui precisa de !important */
 body:has(.nt-hero) main .band{margin:32px 12px 56px!important}
 @media(min-width:900px){body:has(.nt-hero) main .band{margin:48px 12px 72px!important}}
+
+/* categoria no formulário: só o nome + aviso de uma inscrição por categoria (02/11/2026) */
+.nt-one{margin:0 0 4px;padding:10px 14px;border-radius:14px;background:#fff1d6;color:#5b4210;font-size:14px;line-height:1.45}
+.nt-one b{color:var(--xmas-deep)}
+.nt-cat-field{gap:6px}
+.nt-cat-opt{padding:10px 14px;align-items:center}
+.nt-cat-opt input{margin-top:0}
+@media(min-width:560px){.nt-cat-field{grid-template-columns:1fr 1fr}.nt-cat-field legend,.nt-one{grid-column:1/-1}}
