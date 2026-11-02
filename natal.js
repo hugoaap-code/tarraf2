@@ -19,6 +19,7 @@
   const ddmm = iso => { const [y, m, d] = String(iso).slice(0, 10).split('-'); return `${d}/${m}`; };
   const quando = iso => { try { const t = new Date(iso); return t.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + t.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
   const CATS = window.NATAL_CATS || {};
+  const MEDAL = { 1: '🥇 ', 2: '🥈 ', 3: '🥉 ' };
   const catNome = k => (CATS[k] || {}).nome || '';
   const catTag = k => CATS[k] ? `${CATS[k].emoji} ${CATS[k].nome}` : '';
   const nomeDe = x => x.titulo || (x.categoria === 'fantasia' ? `Fantasia de ${x.nome}` : `Decoração de ${x.nome}`);
@@ -92,7 +93,7 @@
       const medal = rank <= 3 && x.votos > 0 ? ` r${rank}` : '';
       return `<article class="nt-card${rank === 1 && x.votos > 0 && S.sort === 'votos' ? ' is-top' : ''}" data-id="${x.id}">
 <button type="button" class="nt-photo" data-open="${x.id}" aria-label="Ver a decoração de ${esc(x.nome)}"><img src="${esc(src(f.thumb))}" alt="${esc(nomeDe(x))}, ${esc(x.rua)}" loading="lazy" decoding="async" width="720" height="540">
-${showRank ? `<span class="nt-rank${medal}">${rank}º lugar</span>` : ''}${x.fotos.length > 1 ? `<span class="nt-nphotos">${IC.camera}${x.fotos.length}</span>` : ''}</button>
+${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar</span>` : ''}${x.fotos.length > 1 ? `<span class="nt-nphotos">${IC.camera}${x.fotos.length}</span>` : ''}</button>
 <div class="nt-body"><span class="nt-tag">${esc(catTag(x.categoria))}</span><h3>${esc(nomeDe(x))}</h3><p class="nt-who">${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span></p>
 <div class="nt-stats"><span>${IC.heart}<b data-v>${x.votos}</b> ${x.votos === 1 ? 'voto' : 'votos'}</span><span>${IC.chat}<b>${x.comentarios}</b></span></div>
 <div class="nt-actions"><button type="button" class="btn btn-sun ${v.cls || ''}" data-vote="${x.id}"${v.dis ? ' disabled' : ''}>${v.t}</button><button type="button" class="btn btn-line" data-open="${x.id}">${IC.chat} Comentar</button></div></div></article>`;
@@ -160,7 +161,7 @@ ${showRank ? `<span class="nt-rank${medal}">${rank}º lugar</span>` : ''}${x.fot
     function preencher(x) {
       const rk = rankOf()[x.id];
       $('#nt-d-cat').textContent = catTag(x.categoria);
-      $('#nt-d-rank').textContent = x.votos > 0 ? `${rk}º lugar em ${catNome(x.categoria)}` : '';
+      $('#nt-d-rank').textContent = x.votos > 0 ? `${MEDAL[rk] || ''}${rk}º lugar em ${catNome(x.categoria)}` : '';
       $('#nt-d-title').textContent = nomeDe(x);
       $('#nt-d-who').innerHTML = `${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span>`;
       $('#nt-d-desc').textContent = x.descricao || '';
