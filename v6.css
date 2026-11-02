@@ -357,3 +357,6 @@ select[data-cat-select]:disabled{opacity:.6;cursor:not-allowed}
    Sem isso o cartão encostava na listra do topo da faixa (Sobre, Blog, Contato). */
 main .band:has(+ .partners-band){margin-bottom:48px}
 @media(min-width:900px){main .band:has(+ .partners-band){margin-bottom:72px}}
+
+/* Rodapé sem o letreiro "Tarraf II" (Hugo, 02/11/2026): linha fina separa os links da frase final */
+footer .fine{margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
