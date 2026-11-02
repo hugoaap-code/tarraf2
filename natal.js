@@ -43,6 +43,11 @@
     try { localStorage.setItem(VK, VIS); } catch (e) {}
   }
 
+  /* links de edição das inscrições feitas neste navegador {id: link} (sem cadastro: quem tem o link edita) */
+  const EK = 'amjt2_natal_edit';
+  const meusLinks = () => { try { return JSON.parse(localStorage.getItem(EK) || '{}') || {}; } catch (e) { return {}; } };
+  const guardaLink = (id, link) => { try { const m = meusLinks(); m[id] = link; localStorage.setItem(EK, JSON.stringify(m)); } catch (e) {} };
+
   /* ================= PÁGINA PÚBLICA ================= */
   const grid = $('#nt-grid');
   if (grid) {
@@ -214,6 +219,8 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
       const v = voteLabel(x), b = $('[data-nt-dvote]', dlg);
       b.innerHTML = v.t; b.disabled = v.dis; b.classList.toggle('nt-voted', !!v.cls);
       if (v.tip) { b.title = v.tip; b.setAttribute('aria-label', v.tip); } else { b.removeAttribute('title'); b.removeAttribute('aria-label'); }
+      const ed = $('[data-nt-dedit]', dlg), lk = meusLinks()[x.id];
+      ed.hidden = !lk; if (lk) ed.href = lk;
       const url = SITE + 'natal/' + x.id;
       $('[data-nt-wa]', dlg).href = 'https://wa.me/?text=' + encodeURIComponent(`Vota na ${nomeDe(x)} (${x.rua}), categoria ${catNome(x.categoria)}, no É Natal no Tarraf II! 🎄✨ Dá para votar todo dia: ${url}`);
     }
@@ -277,7 +284,9 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
     const form = $('[data-nt-form]'), ok = $('[data-nt-success]'), closed = $('[data-nt-closed]');
     const prevs = $('[data-nt-previews]'), input = $('[data-nt-files]');
     let files = []; const MAXF = 10;
-    function fecharInscricoes() { if (S.fase && !S.fase.inscricoes_abertas && ok.hidden) { form.hidden = true; closed.hidden = false; } }
+    const edited = $('[data-nt-edited]'), ETOKEN = new URLSearchParams(location.search).get('editar');
+    let EDIT = null;   // {t, x}: modo edição (link secreto)
+    function fecharInscricoes() { if (!ETOKEN && S.fase && !S.fase.inscricoes_abertas && ok.hidden) { form.hidden = true; closed.hidden = false; } }
     function drawPrevs() {
       prevs.innerHTML = files.map((f, k) => `<div class="nt-prev"><img src="${f.url}" alt="Foto ${k + 1} escolhida"><button type="button" data-rm="${k}" aria-label="Remover foto ${k + 1}">×</button></div>`).join('');
       $('.nt-drop b', form).textContent = files.length ? (files.length < MAXF ? `Adicionar mais fotos (${files.length} de ${MAXF})` : `Máximo de ${MAXF} fotos`) : 'Escolher fotos';
@@ -315,12 +324,29 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
       }
       btn.disabled = true; st.className = 'form-status wait'; st.textContent = 'Preparando as fotos…';
       try {
-        const fotos = []; for (const f of files) fotos.push(await shrink(f));
+        const fotos = []; for (const f of files) fotos.push(f.keep ? f.keep : await shrink(f));
         st.textContent = 'Enviando…';
         const fd = new FormData(form);
+        if (EDIT) {
+          const j = await api('/editar', { t: EDIT.t, nome: fd.get('nome'), rua: fd.get('rua'), titulo: fd.get('titulo'),
+            descricao: fd.get('descricao'), website: fd.get('website'), fotos });
+          $('[data-nt-edited-msg]', edited).textContent = j.aplicada ? 'Pronto! Sua inscrição foi atualizada. Em breve ela aparece aqui.'
+            : 'Pronto! Em breve a alteração aparece no site. Votos e comentários continuam.';
+          form.hidden = true; edited.hidden = false; edited.scrollIntoView({ behavior: 'smooth', block: 'start' }); edited.focus({ preventScroll: true });
+          st.textContent = ''; st.className = 'form-status'; btn.disabled = false;
+          return;
+        }
         const j = await api('/inscrever', { categoria: fd.get('categoria'), nome: fd.get('nome'), rua: fd.get('rua'), titulo: fd.get('titulo'),
           descricao: fd.get('descricao'), aceite: fd.get('aceite') === 'sim', website: fd.get('website'), visitante: VIS, fotos });
         $('[data-nt-proto]', ok).textContent = j.protocolo;
+        const box = $('[data-nt-ebox]', ok); box.hidden = !j.editar;
+        if (j.editar) {
+          guardaLink(j.id, j.editar);
+          $('[data-nt-elink]', ok).textContent = j.editar;
+          $('[data-nt-ewa]', ok).href = 'https://wa.me/?text=' + encodeURIComponent(`Meu link para editar a inscrição ${j.protocolo} no É Natal no Tarraf II 🎄: ${j.editar}`);
+          const as = $('[data-nt-eassoc]', ok);
+          as.href = `https://wa.me/${as.dataset.num}?text=` + encodeURIComponent(`Olá! Quero alterar minha inscrição ${j.protocolo} no É Natal no Tarraf II.`);
+        }
         form.hidden = true; ok.hidden = false; ok.scrollIntoView({ behavior: 'smooth', block: 'start' }); ok.focus({ preventScroll: true });
         files.forEach(f => URL.revokeObjectURL(f.url)); files = []; drawPrevs(); form.reset(); form.classList.remove('was-validated');
         st.textContent = ''; st.className = 'form-status';
@@ -328,6 +354,40 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
       btn.disabled = false;
     });
     $('[data-nt-again]').addEventListener('click', () => { ok.hidden = true; form.hidden = false; form.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    $('[data-nt-ecopy]', ok).addEventListener('click', async e => {
+      const b = e.currentTarget, code = $('[data-nt-elink]', ok), lbl = $('span', b);
+      try { await navigator.clipboard.writeText(code.textContent); lbl.textContent = 'Copiado!'; }
+      catch (x) { const r = document.createRange(); r.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(r); lbl.textContent = 'Selecionado'; }
+      setTimeout(() => { lbl.textContent = 'Copiar'; }, 2500);
+    });
+
+    /* ---------- edição pelo link secreto (?editar=<token>) ---------- */
+    async function modoEditar(t) {
+      const head = $('.form-head', form), alvo = $('#inscrever');
+      try {
+        const j = await api('/editar?t=' + encodeURIComponent(t)), x = j.inscricao;
+        EDIT = { t, x }; guardaLink(x.id, SITE + 'natal?editar=' + t);
+        $('.pill', head).textContent = 'Editar inscrição';
+        $('h2', head).textContent = `Editar ${x.protocolo}`;
+        $('p', head).textContent = j.alteracao_pendente ? 'Sua última alteração ainda vai aparecer no site. Se salvar de novo, vale esta versão.'
+          : 'Mude o que quiser e salve. Votos e comentários continuam.';
+        const cf = $('.nt-cat-field', form); cf.hidden = true; $$('input[name=categoria]', form).forEach(r => { r.disabled = true; });
+        if (!$('.nt-edit-cat', form)) cf.insertAdjacentHTML('afterend', '<p class="full nt-edit-cat"></p>');
+        $('.nt-edit-cat', form).innerHTML = `Categoria: <b>${esc(catTag(x.categoria))}</b>. Para trocar, fale com a associação.`;
+        const ac = form.querySelector('input[name=aceite]'); if (ac) { ac.disabled = true; ac.closest('label').hidden = true; }
+        ['nome', 'rua', 'titulo', 'descricao'].forEach(k => { form.elements[k].value = x[k] || ''; });
+        files.forEach(f => { if (!f.keep) URL.revokeObjectURL(f.url); });
+        files = x.fotos.map(f => ({ keep: f.nome, url: src(f.thumb) })); drawPrevs();
+        $('[type=submit]', form).firstChild.textContent = 'Salvar alterações ';
+        ok.hidden = true; edited.hidden = true; closed.hidden = true; form.hidden = false;
+      } catch (e) {
+        closed.innerHTML = `<b>Não deu para abrir a edição.</b><p>${esc(e.message)}</p>`;
+        form.hidden = true; ok.hidden = true; closed.hidden = false;
+      }
+      setTimeout(() => alvo.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
+    }
+    $('[data-nt-edit-again]').addEventListener('click', () => modoEditar(EDIT.t));
+    if (ETOKEN) modoEditar(ETOKEN);
 
     load();
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !S.aberto) load(); });
@@ -354,11 +414,28 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
     function desenhar() {
       const n = s => DATA.inscricoes.filter(x => x.status === s).length;
       const sus = DATA.suspeitos || [];
-      $('#nt-admin-stats').textContent = `${n('pendente')} pendentes · ${n('aprovado')} publicadas · ${n('oculto')} ocultas · ${DATA.votos_total} votos (${DATA.votos_hoje} hoje${DATA.votos_anulados ? ', ' + DATA.votos_anulados + ' anulados' : ''}) · ${DATA.comentarios.length} comentários`;
+      const alts = DATA.alteracoes || [];
+      $('#nt-admin-stats').textContent = `${alts.length ? alts.length + ' alterações esperando · ' : ''}${n('pendente')} pendentes · ${n('aprovado')} publicadas · ${n('oculto')} ocultas · ${DATA.votos_total} votos (${DATA.votos_hoje} hoje${DATA.votos_anulados ? ', ' + DATA.votos_anulados + ' anulados' : ''}) · ${DATA.comentarios.length} comentários`;
       $$('[data-nt-tab]').forEach(b => {
         const t = b.dataset.ntTab; b.setAttribute('aria-pressed', String(t === TAB));
-        b.textContent = { pendente: 'Pendentes', aprovado: 'Publicadas', oculto: 'Ocultas', comentarios: 'Comentários', votos: 'Votos suspeitos' }[t] + ` (${t === 'comentarios' ? DATA.comentarios.length : t === 'votos' ? sus.length : n(t)})`;
+        b.textContent = { pendente: 'Pendentes', aprovado: 'Publicadas', oculto: 'Ocultas', comentarios: 'Comentários', alteracoes: 'Alterações', votos: 'Votos suspeitos' }[t]
+          + ` (${t === 'comentarios' ? DATA.comentarios.length : t === 'votos' ? sus.length : t === 'alteracoes' ? alts.length : n(t)})`;
       });
+      if (TAB === 'alteracoes') {
+        // Mudanças feitas pelo próprio inscrito (link de edição) em inscrições já publicadas. Aprovar troca no site; votos ficam.
+        const rot = { nome: 'Nome no site', rua: 'Rua', titulo: 'Título', descricao: 'História' };
+        const th = fs => fs.map(f => `<a href="${esc(src(f.full))}" target="_blank" rel="noopener"><img src="${esc(src(f.thumb))}" alt="foto"></a>`).join('');
+        list.innerHTML = alts.map(a => {
+          const mud = Object.keys(rot).filter(k => (a.antes[k] || '') !== (a.depois[k] || ''))
+            .map(k => `<dt>${rot[k]}</dt><dd><s>${esc(a.antes[k] || '—')}</s><br><b>${esc(a.depois[k] || '—')}</b></dd>`).join('');
+          const fm = a.antes.fotos.map(f => f.full).join() !== a.depois.fotos.map(f => f.full).join();
+          return `<div class="nt-arow"><div><span class="nt-badge pendente">alteração</span> <small>PP${String(a.inscricao_id).padStart(3, '0')} · ${esc(quando(a.criado))}</small></div>
+<h3>${esc(nomeDe({ ...a.depois, categoria: a.categoria }))}</h3>${mud ? `<dl>${mud}</dl>` : ''}
+${fm ? `<p><small>Fotos novas (${a.depois.fotos.length})</small></p><div class="nt-athumbs">${th(a.depois.fotos)}</div><p><small>Antes (${a.antes.fotos.length})</small></p><div class="nt-athumbs nt-old">${th(a.antes.fotos)}</div>` : ''}
+<div class="nt-abtns"><button type="button" class="btn btn-sun" data-alt="${a.id}" data-acao="aprovar">Aprovar alteração</button><button type="button" class="btn btn-line" data-alt="${a.id}" data-acao="recusar">Recusar</button></div></div>`;
+        }).join('') || '<p>Nenhuma alteração esperando.</p>';
+        return;
+      }
       if (TAB === 'votos') {
         // Muitos votos da mesma rede (IP) na mesma inscrição no mesmo dia. Condomínio/4G dividem IP: olhe o horário antes de anular.
         list.innerHTML = '<p class="nt-crow"><small>Grupos com 4 ou mais votos da mesma rede, na mesma inscrição, no mesmo dia. Uma família ou um condomínio podem dividir a mesma rede: desconfie quando os votos vêm em poucos minutos. Anular não apaga nada e pode ser desfeito.</small></p>' +
@@ -382,7 +459,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
 <dl><dt>Nome no site</dt><dd>${esc(x.nome)}</dd><dt>Rua</dt><dd>${esc(x.rua)}</dd><dt>Número</dt><dd>${esc(x.numero || '—')}</dd>
 <dt>Celular</dt><dd>${cel.length >= 10 ? `<a href="https://wa.me/55${cel}" target="_blank" rel="noopener">${esc(x.celular)}</a>` : esc(x.celular || '—')}</dd>
 <dt>História</dt><dd>${esc(x.descricao || '—')}</dd><dt>Votos</dt><dd>${x.votos}</dd><dt>Comentários</dt><dd>${x.comentarios}</dd></dl>
-<div class="nt-abtns">${acts.map(([s, l, c]) => `<button type="button" class="btn ${c}" data-st="${s}" data-id="${x.id}">${l}</button>`).join('')}${x.status === 'aprovado' ? `<a class="btn btn-line" href="natal?d=${x.id}" target="_blank" rel="noopener">Ver no site</a>` : ''}</div></div>`;
+<div class="nt-abtns">${acts.map(([s, l, c]) => `<button type="button" class="btn ${c}" data-st="${s}" data-id="${x.id}">${l}</button>`).join('')}${x.status === 'aprovado' ? `<a class="btn btn-line" href="natal?d=${x.id}" target="_blank" rel="noopener">Ver no site</a>` : ''}<button type="button" class="btn btn-line" data-elink="${x.id}">Novo link de edição</button></div></div>`;
       }).join('') || '<p>Nada por aqui.</p>';
     }
     keyForm.addEventListener('submit', e => { e.preventDefault(); KEY = $('#nt-key').value.trim(); try { localStorage.setItem(AK, KEY); } catch (x) {} carregar(); });
@@ -394,10 +471,21 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
       catch (er) { alert(er.message); sel.disabled = false; }
     });
     list.addEventListener('click', async e => {
-      const b = e.target.closest('[data-st],[data-com],[data-vt]'); if (!b) return;
+      const b = e.target.closest('[data-st],[data-com],[data-vt],[data-alt],[data-elink]'); if (!b) return;
+      if (b.dataset.elink) {   // morador perdeu o link: gera outro (o antigo para de funcionar) e mostra para copiar
+        if (!confirm('Gerar um novo link de edição para esta inscrição? O link antigo para de funcionar.')) return;
+        b.disabled = true;
+        try {
+          const j = await api('/admin/link', { id: +b.dataset.elink }, H());
+          try { await navigator.clipboard.writeText(j.editar); } catch (x) {}
+          prompt('Link de edição (já copiado). Mande para o morador:', j.editar);
+        } catch (er) { alert(er.message); }
+        b.disabled = false; return;
+      }
       b.disabled = true;
       try {
-        if (b.dataset.vt) await api('/admin/votos', { inscricao_id: +b.dataset.vt, rede: b.dataset.rede, dia: b.dataset.dia, anulado: b.dataset.an === '1' }, H());
+        if (b.dataset.alt) await api('/admin/alteracao', { id: +b.dataset.alt, acao: b.dataset.acao }, H());
+        else if (b.dataset.vt) await api('/admin/votos', { inscricao_id: +b.dataset.vt, rede: b.dataset.rede, dia: b.dataset.dia, anulado: b.dataset.an === '1' }, H());
         else if (b.dataset.st) await api('/admin/inscricao', { id: +b.dataset.id, status: b.dataset.st }, H());
         else await api('/admin/comentario', { id: +b.dataset.com, oculto: b.dataset.oc === '1' }, H());
         await carregar();

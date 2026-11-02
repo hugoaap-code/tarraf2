@@ -352,3 +352,16 @@ body:has(.nt-hero) main .band{margin:32px 12px 56px!important}
    senão aparecia a borda reta de um "cartão" embaixo da onda e uma mancha cinza (2ª camada semitransparente). */
 .nt-hero{border-radius:0}
 .nt-snowcap{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 64' preserveAspectRatio='none'%3E%3Cpath fill='%23fbf6ec' d='M0 40 C40 18 80 22 120 34 S200 56 250 36 S330 8 380 26 S460 54 510 34 S570 14 600 30 V64 H0Z'/%3E%3C/svg%3E")}
+
+/* Link de edição da inscrição (02/11/2026): tela pós-inscrição, modo edição e painel */
+.pix-step .nt-edit-box{display:grid;gap:10px;padding:18px;border-radius:20px;background:var(--cream)}
+.pix-step .nt-edit-box[hidden]{display:none}
+.nt-edit-box>p{margin:0}
+.nt-edit-box .btn-wa{justify-self:start}
+.nt-edit-box .pix-note a{font-weight:700;text-decoration:underline}
+.pix-step [data-nt-edit-again]{justify-self:start}
+.nt-edit-cat{margin:0;padding:12px 16px;border-radius:14px;background:var(--cream);font-size:15px}
+.nt-d-edit{display:inline-flex;gap:6px;align-items:center;margin-top:10px;font-weight:700;font-size:14px;color:var(--forest);text-decoration:underline}
+.nt-d-edit[hidden]{display:none}
+.nt-arow dd s{color:var(--muted)}
+.nt-athumbs.nt-old{opacity:.6}
