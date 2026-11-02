@@ -314,5 +314,6 @@ body:has(.nt-hero) footer::before{content:"";position:absolute;left:0;right:0;to
 .nt-como .nt-cal b{font-size:23px;padding-right:30px}
 
 /* fim da página: respiro entre o regulamento, a faixa vermelha e a faixa Empresas Amigas (02/11/2026) */
-body:has(.nt-hero) main .band{margin:32px 12px 56px}
-@media(min-width:900px){body:has(.nt-hero) main .band{margin:48px 12px 72px}}
+/* band() do site põe margin-top:80px inline; aqui precisa de !important */
+body:has(.nt-hero) main .band{margin:32px 12px 56px!important}
+@media(min-width:900px){body:has(.nt-hero) main .band{margin:48px 12px 72px!important}}
