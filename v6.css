@@ -352,3 +352,8 @@ select[data-cat-select]:disabled{opacity:.6;cursor:not-allowed}
 @media(max-width:700px){#photo-dialog.has-gallery .pd-nav{width:42px;height:42px;font-size:28px}.pd-prev{left:8px}.pd-next{right:8px}}
 @media(prefers-reduced-motion:reduce){.pd-in-r,.pd-in-l{animation:none}}
 #photo-dialog .dialog-close{position:absolute;top:12px;right:12px;left:auto;margin:0}
+
+/* Respiro entre a faixa de chamada (.band, cartão arredondado) e a faixa Empresas Amigas (02/11/2026).
+   Sem isso o cartão encostava na listra do topo da faixa (Sobre, Blog, Contato). */
+main .band:has(+ .partners-band){margin-bottom:48px}
+@media(min-width:900px){main .band:has(+ .partners-band){margin-bottom:72px}}
