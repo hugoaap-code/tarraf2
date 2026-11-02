@@ -313,11 +313,18 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
     }
     function desenhar() {
       const n = s => DATA.inscricoes.filter(x => x.status === s).length;
-      $('#nt-admin-stats').textContent = `${n('pendente')} pendentes · ${n('aprovado')} publicadas · ${n('oculto')} ocultas · ${DATA.votos_total} votos (${DATA.votos_hoje} hoje) · ${DATA.comentarios.length} comentários`;
+      const sus = DATA.suspeitos || [];
+      $('#nt-admin-stats').textContent = `${n('pendente')} pendentes · ${n('aprovado')} publicadas · ${n('oculto')} ocultas · ${DATA.votos_total} votos (${DATA.votos_hoje} hoje${DATA.votos_anulados ? ', ' + DATA.votos_anulados + ' anulados' : ''}) · ${DATA.comentarios.length} comentários`;
       $$('[data-nt-tab]').forEach(b => {
         const t = b.dataset.ntTab; b.setAttribute('aria-pressed', String(t === TAB));
-        b.textContent = { pendente: 'Pendentes', aprovado: 'Publicadas', oculto: 'Ocultas', comentarios: 'Comentários' }[t] + ` (${t === 'comentarios' ? DATA.comentarios.length : n(t)})`;
+        b.textContent = { pendente: 'Pendentes', aprovado: 'Publicadas', oculto: 'Ocultas', comentarios: 'Comentários', votos: 'Votos suspeitos' }[t] + ` (${t === 'comentarios' ? DATA.comentarios.length : t === 'votos' ? sus.length : n(t)})`;
       });
+      if (TAB === 'votos') {
+        // Muitos votos da mesma rede (IP) na mesma inscrição no mesmo dia. Condomínio/4G dividem IP: olhe o horário antes de anular.
+        list.innerHTML = '<p class="nt-crow"><small>Grupos com 4 ou mais votos da mesma rede, na mesma inscrição, no mesmo dia. Uma família ou um condomínio podem dividir a mesma rede: desconfie quando os votos vêm em poucos minutos. Anular não apaga nada e pode ser desfeito.</small></p>' +
+          (sus.map(s => `<div class="nt-crow${s.anulados >= s.votos ? ' oc' : ''}"><small>${esc(s.dia)} · em <b>${esc(s.de)}</b> (PP${String(s.inscricao_id).padStart(3, '0')}) · rede ${esc(s.rede_curta)}</small><div><b>${s.votos} votos</b> entre ${esc(quando(s.primeiro))} e ${esc(quando(s.ultimo))}${s.anulados ? ` · ${s.anulados} anulados` : ''}</div><div class="nt-abtns"><button type="button" class="btn btn-line" data-vt="${s.inscricao_id}" data-rede="${esc(s.rede)}" data-dia="${esc(s.dia)}" data-an="${s.anulados >= s.votos ? 0 : 1}">${s.anulados >= s.votos ? 'Restaurar estes votos' : 'Anular estes votos'}</button></div></div>`).join('') || '<p>Nenhum grupo suspeito.</p>');
+        return;
+      }
       if (TAB === 'comentarios') {
         list.innerHTML = DATA.comentarios.map(c => `<div class="nt-crow${c.oculto ? ' oc' : ''}"><small>#${c.id} · em <b>${esc(c.de)}</b> (PP${String(c.inscricao_id).padStart(3, '0')}) · ${esc(quando(c.criado))}${c.oculto ? ' · OCULTO' : ''}</small><div><b>${esc(c.nome)}</b>: ${esc(c.texto)}</div><div class="nt-abtns"><button type="button" class="btn btn-line" data-com="${c.id}" data-oc="${c.oculto ? 0 : 1}">${c.oculto ? 'Mostrar de novo' : 'Ocultar comentário'}</button></div></div>`).join('') || '<p>Nenhum comentário ainda.</p>';
         return;
@@ -347,10 +354,11 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
       catch (er) { alert(er.message); sel.disabled = false; }
     });
     list.addEventListener('click', async e => {
-      const b = e.target.closest('[data-st],[data-com]'); if (!b) return;
+      const b = e.target.closest('[data-st],[data-com],[data-vt]'); if (!b) return;
       b.disabled = true;
       try {
-        if (b.dataset.st) await api('/admin/inscricao', { id: +b.dataset.id, status: b.dataset.st }, H());
+        if (b.dataset.vt) await api('/admin/votos', { inscricao_id: +b.dataset.vt, rede: b.dataset.rede, dia: b.dataset.dia, anulado: b.dataset.an === '1' }, H());
+        else if (b.dataset.st) await api('/admin/inscricao', { id: +b.dataset.id, status: b.dataset.st }, H());
         else await api('/admin/comentario', { id: +b.dataset.com, oculto: b.dataset.oc === '1' }, H());
         await carregar();
       } catch (er) { alert(er.message); b.disabled = false; }
