@@ -62,30 +62,36 @@
       return r.sort(by);
     };
 
+    /* votos de hoje: S.meu = {categoria: [ids]}; até porCat() por categoria, em decorações diferentes */
+    const meusDe = cat => { const v = (S.meu || {})[cat]; return Array.isArray(v) ? v : (v ? [v] : []); };
+    const porCat = () => (S.fase && S.fase.votos_por_categoria) || 3;
+    const votoPal = n => n === 1 ? 'voto' : 'votos';
+    const restam = cat => Math.max(0, porCat() - meusDe(cat).length);
     function voteLabel(x, compacto) {   // compacto = botão do card (pouco espaço): só um × no canto
       const f = S.fase || {};
-      const meu = S.meu[x.categoria];
-      if (meu === x.id) {   // já votou aqui hoje: clicar de novo tira o voto (e libera votar em outra da categoria)
+      const meu = meusDe(x.categoria);
+      if (meu.includes(x.id)) {   // já votou aqui hoje: clicar de novo tira o voto (e devolve o voto para usar na categoria)
         if (!f.votacao_aberta) return { t: `${IC.check} Seu voto`, dis: true, cls: 'nt-voted' };
         return { t: compacto ? `${IC.check} Seu voto<span class="nt-undo-dot" aria-hidden="true">${IC.x}</span>` : `${IC.check} Seu voto<span class="nt-undo">${IC.x}tirar</span>`, dis: false, cls: 'nt-voted', undo: true,
                  tip: 'Seu voto. Toque para tirar o voto' };
       }
       if (f.encerrado) return { t: 'Votação encerrada', dis: true };
       if (!f.votacao_aberta) return { t: `Votação abre ${ddmm(f.votacao_de)}`, dis: true };
-      if (meu) return { t: 'Volte amanhã', dis: true };
+      if (meu.length >= porCat()) return { t: 'Volte amanhã', dis: true };
       return { t: `${IC.heart} Votar`, dis: false };
     }
 
     function setInfo() {
       const f = S.fase || {};
-      const nv = Object.keys(S.meu || {}).length, tot = Object.keys(CATS).length || 5;
-      if (f.votacao_aberta && nv) info.innerHTML = nv >= tot ? 'Você já votou hoje nas <b>' + tot + ' categorias</b>. Amanhã tem mais!'
-        : `Hoje você já votou em <b>${nv} de ${tot}</b> categorias. Ainda dá para votar nas outras!`;
-      else if (f.votacao_aberta) info.textContent = `Votação aberta até ${ddmm(f.votacao_ate)}: um voto por dia em cada categoria, por pessoa.`;
+      const cats = Object.keys(CATS), tot = (cats.length || 5) * porCat();
+      const nv = cats.reduce((s, k) => s + meusDe(k).length, 0);
+      if (f.votacao_aberta && nv) info.innerHTML = nv >= tot ? `Você já usou seus <b>${tot} votos</b> de hoje. Amanhã tem mais!`
+        : `Hoje você já usou <b>${nv} de ${tot}</b> votos (${porCat()} por categoria, em decorações diferentes).`;
+      else if (f.votacao_aberta) info.textContent = `Votação aberta até ${ddmm(f.votacao_ate)}: ${porCat()} votos por dia em cada categoria, em decorações diferentes.`;
       else if (f.encerrado) info.textContent = `Votação encerrada. Resultado em ${ddmm(f.resultado)}.`;
       else if (f.votacao_de) info.textContent = `A votação abre em ${ddmm(f.votacao_de)}. Enquanto isso, veja as decorações e comente!`;
       if (status && f.votacao_de) {
-        status.textContent = f.votacao_aberta ? `Votação aberta até ${ddmm(f.votacao_ate)} · um voto por dia`
+        status.textContent = f.votacao_aberta ? `Votação aberta até ${ddmm(f.votacao_ate)} · ${porCat()} votos por dia em cada categoria`
           : f.encerrado ? `Votação encerrada · resultado em ${ddmm(f.resultado)}`
           : f.inscricoes_abertas ? `Inscrições até ${ddmm(f.inscricoes_ate)} · votação de ${ddmm(f.votacao_de)} a ${ddmm(f.votacao_ate)}`
           : `Inscrições encerradas · votação de ${ddmm(f.votacao_de)} a ${ddmm(f.votacao_ate)}`;
@@ -125,7 +131,7 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
 
     async function votar(id, btn) {
       const alvo = S.itens.find(y => y.id === id);
-      if (alvo && S.meu[alvo.categoria] === id) return desvotar(id, btn);
+      if (alvo && meusDe(alvo.categoria).includes(id)) return desvotar(id, btn);
       if (btn) { btn.disabled = true; }
       try {
         const j = await api('/votar', { id, visitante: VIS });
@@ -133,15 +139,17 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
         const x = S.itens.find(y => y.id === id); if (x) x.votos = j.votos;
         render(); if (S.aberto === id) preencher(x);
         const b = $(`.nt-card[data-id="${id}"] [data-v]`); if (b) b.parentElement.classList.add('nt-pop');
-        msg(S.aberto ? `Voto registrado em ${catNome(x.categoria)}! Mudou de ideia? Toque em “Seu voto” para tirar.` : '');
-        if (!S.aberto) info.innerHTML = `Voto registrado em <b>${esc(nomeDe(x))}</b> (${esc(catNome(x.categoria))})! Mudou de ideia? Toque em “Seu voto” para tirar.`;
+        const r = restam(x.categoria), cn = catNome(x.categoria);
+        const resto = r ? `Você ainda tem ${r} ${votoPal(r)} hoje em ${cn}.` : `Você usou seus ${porCat()} votos de hoje em ${cn}.`;
+        msg(S.aberto ? `Voto registrado! ${resto} Mudou de ideia? Toque em “Seu voto” para tirar.` : '');
+        if (!S.aberto) info.innerHTML = `Voto registrado em <b>${esc(nomeDe(x))}</b>! ${esc(resto)} Mudou de ideia? Toque em “Seu voto” para tirar.`;
       } catch (e) {
         if (e.data && e.data.meus_votos_hoje) { S.meu = e.data.meus_votos_hoje; render(); if (S.aberto) preencher(S.itens.find(y => y.id === S.aberto)); }
         if (S.aberto) msg(e.message, true); else { info.textContent = e.message; if (btn) btn.disabled = false; }
       }
     }
 
-    /* clicou de novo em "Seu voto": tira o voto de hoje e libera votar de novo na categoria */
+    /* clicou de novo em "Seu voto": tira o voto de hoje e devolve o voto para usar na categoria */
     async function desvotar(id, btn) {
       if (btn) { btn.disabled = true; }
       try {
@@ -149,8 +157,8 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
         S.meu = j.meus_votos_hoje || {};
         const x = S.itens.find(y => y.id === id); if (x) x.votos = j.votos;
         render(); if (S.aberto === id) preencher(x);
-        const t = `Voto retirado de ${nomeDe(x)}. Você pode votar de novo hoje em ${catNome(x.categoria)}.`;
-        if (S.aberto) msg(t); else info.innerHTML = `Voto retirado de <b>${esc(nomeDe(x))}</b>. Você pode votar de novo hoje em ${esc(catNome(x.categoria))}.`;
+        const r = restam(x.categoria), resto = `Você tem ${r} ${votoPal(r)} para usar hoje em ${catNome(x.categoria)}.`;
+        if (S.aberto) msg(`Voto retirado. ${resto}`); else info.innerHTML = `Voto retirado de <b>${esc(nomeDe(x))}</b>. ${esc(resto)}`;
       } catch (e) {
         if (e.data && e.data.meus_votos_hoje) { S.meu = e.data.meus_votos_hoje; render(); if (S.aberto) preencher(S.itens.find(y => y.id === S.aberto)); }
         if (S.aberto) msg(e.message, true); else { info.textContent = e.message; if (btn) btn.disabled = false; }
