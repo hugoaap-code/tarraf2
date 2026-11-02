@@ -312,3 +312,7 @@ body:has(.nt-hero) footer::before{content:"";position:absolute;left:0;right:0;to
 .nt-como .nt-cal li:nth-child(4)::after{content:"🎁";position:absolute;right:16px;top:14px;font-size:26px}
 .nt-como .nt-cal li:nth-child(4) .nt-when{color:var(--xmas)}
 .nt-como .nt-cal b{font-size:23px;padding-right:30px}
+
+/* fim da página: respiro entre o regulamento, a faixa vermelha e a faixa Empresas Amigas (02/11/2026) */
+body:has(.nt-hero) main .band{margin:32px 12px 56px}
+@media(min-width:900px){body:has(.nt-hero) main .band{margin:48px 12px 72px}}
