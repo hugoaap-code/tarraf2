@@ -37,7 +37,9 @@
 @media(max-width:600px){.nt-toolbar .seg{width:100%}.nt-toolbar .seg button{flex:1;padding:8px 8px;font-size:13px}.nt-toolbar .seg .ico{display:none}}
 .nt-vote-info{min-height:22px;margin:16px 0 22px;font-weight:600;color:var(--forest-2)}
 .nt-vote-info b{color:var(--xmas)}
-.nt-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.nt-grid{display:grid;gap:18px;grid-template-columns:1fr}   /* celular: 1 por linha; tablet: 2; computador: 3 (Hugo, 02/11/2026) */
+@media(min-width:640px){.nt-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:960px){.nt-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}}
 .nt-card{display:flex;flex-direction:column;background:#fff;border-radius:26px;overflow:hidden;box-shadow:var(--shadow);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
 .nt-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 .nt-card.is-top{box-shadow:0 0 0 3px var(--sun),var(--shadow-lg)}
