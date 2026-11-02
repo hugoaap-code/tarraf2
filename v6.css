@@ -363,3 +363,8 @@ footer .fine{margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,
 
 /* 02/11/2026: blog com o mesmo hero das demais páginas; sem linha divisória sobre os filtros */
 main .blog-tools{border-top:0;padding-top:0}
+
+/* 02/11/2026: rodapé — logo/nome dentro da 1ª coluna; Participe e Fale com a gente começam na mesma altura */
+footer .grid.foot-cols{margin-top:34px}
+footer .foot-about .footer-brand{margin:0}
+@media (min-width:920px){footer .foot-cols>div:not(.foot-about){padding-top:12px}}
