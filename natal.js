@@ -142,6 +142,11 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
     $$('[data-nt-sort]').forEach(b => b.addEventListener('click', () => {
       S.sort = b.dataset.ntSort; $$('[data-nt-sort]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render();
     }));
+    /* "Inscreva-se" de cada categoria: já marca a categoria no formulário */
+    $$('[data-nt-pick]').forEach(a => a.addEventListener('click', () => {
+      const r = document.querySelector(`[data-nt-form] input[name=categoria][value="${a.dataset.ntPick}"]`);
+      if (r) { r.checked = true; setTimeout(() => r.focus({ preventScroll: true }), 700); }
+    }));
     $$('[data-nt-cat]').forEach(b => b.addEventListener('click', () => {
       S.cat = b.dataset.ntCat; $$('[data-nt-cat]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render();
     }));
@@ -273,7 +278,7 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
         const fotos = []; for (const f of files) fotos.push(await shrink(f));
         st.textContent = 'Enviando…';
         const fd = new FormData(form);
-        const j = await api('/inscrever', { categoria: fd.get('categoria'), nome: fd.get('nome'), rua: fd.get('rua'), numero: fd.get('numero'), celular: fd.get('celular'), titulo: fd.get('titulo'),
+        const j = await api('/inscrever', { categoria: fd.get('categoria'), nome: fd.get('nome'), rua: fd.get('rua'), titulo: fd.get('titulo'),
           descricao: fd.get('descricao'), aceite: fd.get('aceite') === 'sim', website: fd.get('website'), visitante: VIS, fotos });
         $('[data-nt-proto]', ok).textContent = j.protocolo;
         form.hidden = true; ok.hidden = false; ok.scrollIntoView({ behavior: 'smooth', block: 'start' }); ok.focus({ preventScroll: true });
