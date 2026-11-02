@@ -1,4 +1,4 @@
-/* É Natal no Tarraf II: galeria, ranking por categoria, votos (1 por dia em cada categoria), comentários, inscrição e painel.
+/* É Natal no Tarraf II: galeria, ranking por categoria, votos (3 por dia em cada categoria, em decorações diferentes), comentários, inscrição e painel.
    Fala com a API /api/natal (container amjt2-natal). Sem cadastro: o visitante é um ID aleatório no navegador. */
 (() => {
   const SITE = 'https://site.amjt2.com.br/';
@@ -49,10 +49,17 @@
     const S = { itens: [], fase: null, meu: {}, sort: 'votos', cat: 'all', q: '', aberto: null, foto: 0 };
     const info = $('#nt-vote-info'), empty = $('#nt-empty'), status = $('[data-nt-status]');
 
-    const rankOf = () => {   // posição dentro da própria categoria
-      const r = [...S.itens].sort((a, b) => b.votos - a.votos || b.comentarios - a.comentarios || a.id - b.id);
-      const m = {}, n = {}; r.forEach(x => { n[x.categoria] = (n[x.categoria] || 0) + 1; m[x.id] = n[x.categoria]; }); return m;
+    /* posição dentro da própria categoria, só pelos votos. Mesmo número de votos = mesma posição (empate);
+       a posição seguinte pula os empatados (1º, 1º, 3º). Sem votos = sem posição. */
+    const rankOf = () => {
+      const m = {};
+      S.itens.forEach(x => {
+        const mesma = S.itens.filter(y => y.categoria === x.categoria);
+        m[x.id] = { pos: 1 + mesma.filter(y => y.votos > x.votos).length, empate: mesma.filter(y => y.votos === x.votos).length > 1 };
+      });
+      return m;
     };
+    const lugar = rk => `${MEDAL[rk.pos] || ''}${rk.empate ? 'Empatado em ' : ''}${rk.pos}º lugar`;
     const sorted = () => {
       const q = S.q.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       let r = S.itens.filter(x => (S.cat === 'all' || x.categoria === S.cat) && (!q || (x.nome + ' ' + x.rua + ' ' + x.titulo).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(q)));
@@ -101,10 +108,11 @@
     function card(x, rank) {
       const v = voteLabel(x, true), f = x.fotos[0];
       const showRank = S.sort === 'votos' && x.votos > 0;
-      const medal = rank <= 3 && x.votos > 0 ? ` r${rank}` : '';
-      return `<article class="nt-card${rank === 1 && x.votos > 0 && S.sort === 'votos' ? ' is-top' : ''}" data-id="${x.id}">
+      const medal = rank.pos <= 3 && x.votos > 0 ? ` r${rank.pos}` : '';
+      const naTodas = S.cat === 'all' ? ` · ${esc((CATS[x.categoria] || {}).curto || catNome(x.categoria))}` : '';   // em "Todas", diz de qual categoria é a posição
+      return `<article class="nt-card${rank.pos === 1 && x.votos > 0 && S.sort === 'votos' ? ' is-top' : ''}" data-id="${x.id}">
 <button type="button" class="nt-photo" data-open="${x.id}" aria-label="Ver a decoração de ${esc(x.nome)}"><img src="${esc(src(f.thumb))}" alt="${esc(nomeDe(x))}, ${esc(x.rua)}" loading="lazy" decoding="async" width="720" height="540">
-${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar</span>` : ''}${x.fotos.length > 1 ? `<span class="nt-nphotos">${IC.camera}${x.fotos.length}</span>` : ''}</button>
+${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : ''}${x.fotos.length > 1 ? `<span class="nt-nphotos">${IC.camera}${x.fotos.length}</span>` : ''}</button>
 <div class="nt-body"><span class="nt-tag">${esc(catTag(x.categoria))}</span><h3>${esc(nomeDe(x))}</h3><p class="nt-who">${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span></p>
 <div class="nt-stats"><span>${IC.heart}<b data-v>${x.votos}</b> ${x.votos === 1 ? 'voto' : 'votos'}</span><span>${IC.chat}<b>${x.comentarios}</b></span></div>
 <div class="nt-actions"><button type="button" class="btn btn-sun ${v.cls || ''}" data-vote="${x.id}"${v.dis ? ' disabled' : ''}${v.tip ? ` title="${v.tip}" aria-label="${v.tip}"` : ''}>${v.t}</button><button type="button" class="btn btn-line" data-open="${x.id}">${IC.chat} Comentar</button></div></div></article>`;
@@ -197,7 +205,7 @@ ${showRank ? `<span class="nt-rank${medal}">${MEDAL[rank] || ''}${rank}º lugar<
     function preencher(x) {
       const rk = rankOf()[x.id];
       $('#nt-d-cat').textContent = catTag(x.categoria);
-      $('#nt-d-rank').textContent = x.votos > 0 ? `${MEDAL[rk] || ''}${rk}º lugar em ${catNome(x.categoria)}` : '';
+      $('#nt-d-rank').textContent = x.votos > 0 ? `${lugar(rk)} em ${catNome(x.categoria)}` : '';
       $('#nt-d-title').textContent = nomeDe(x);
       $('#nt-d-who').innerHTML = `${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span>`;
       $('#nt-d-desc').textContent = x.descricao || '';
