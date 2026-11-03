@@ -348,6 +348,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
           as.href = `https://wa.me/${as.dataset.num}?text=` + encodeURIComponent(`Olá! Quero alterar minha inscrição ${j.protocolo} no É Natal no Tarraf II.`);
         }
         form.hidden = true; ok.hidden = false; ok.scrollIntoView({ behavior: 'smooth', block: 'start' }); ok.focus({ preventScroll: true });
+        load();   // já publicada: atualiza a lista de participantes
         files.forEach(f => URL.revokeObjectURL(f.url)); files = []; drawPrevs(); form.reset(); form.classList.remove('was-validated');
         st.textContent = ''; st.className = 'form-status';
       } catch (er) { st.className = 'form-status err'; st.textContent = er.message; }
@@ -398,7 +399,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
   if (app) {
     const AK = 'amjt2_natal_admin';
     const keyForm = $('#nt-keyform'), list = $('#nt-admin-list');
-    let KEY = '', DATA = null, TAB = 'pendente';
+    let KEY = '', DATA = null, TAB = 'aprovado';   // inscrições entram publicadas (sem aprovação)
     const m = location.hash.match(/k=([^&]+)/);
     if (m) { KEY = decodeURIComponent(m[1]); try { localStorage.setItem(AK, KEY); } catch (e) {} history.replaceState(null, '', location.pathname); }
     if (!KEY) { try { KEY = localStorage.getItem(AK) || ''; } catch (e) {} }
