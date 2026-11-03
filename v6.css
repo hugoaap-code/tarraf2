@@ -368,3 +368,12 @@ main .blog-tools{border-top:0;padding-top:0}
 footer .grid.foot-cols{margin-top:34px}
 footer .foot-about .footer-brand{margin:0}
 @media (min-width:920px){footer .foot-cols>div:not(.foot-about){padding-top:12px}}
+
+/* 03/11/2026: botão "Anunciar grátis" acima do grid dos Classificados, na linha do contador */
+main .cl-listbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0 28px}
+main .cl-listbar .filter-count{margin:0}
+main .cl-listbar .cl-new{min-height:46px;padding:0 20px;font-size:15px;flex:none}
+main .cl-listbar .cl-new .ico{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+main .cl-listbar .cl-new:hover{transform:translateY(-2px)}
+@media(max-width:520px){main .cl-listbar{gap:10px;margin-top:16px}main .cl-listbar .cl-new{min-height:42px;padding:0 16px;font-size:14px;gap:8px}main .cl-listbar .cl-new .ico{width:16px;height:16px}}
+@media(max-width:379px){main .cl-listbar{flex-direction:column-reverse;align-items:stretch;gap:12px}main .cl-listbar .cl-new{width:100%;min-height:46px}}

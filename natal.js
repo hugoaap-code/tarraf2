@@ -330,7 +330,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
         if (EDIT) {
           const j = await api('/editar', { t: EDIT.t, nome: fd.get('nome'), rua: fd.get('rua'), titulo: fd.get('titulo'),
             descricao: fd.get('descricao'), website: fd.get('website'), fotos });
-          $('[data-nt-edited-msg]', edited).textContent = j.aplicada ? 'Pronto! Sua inscrição foi atualizada. Em breve ela aparece aqui.'
+          $('[data-nt-edited-msg]', edited).textContent = j.aplicada ? 'Pronto! Sua inscrição já foi atualizada no site. Votos e comentários continuam.'
             : 'Pronto! Em breve a alteração aparece no site. Votos e comentários continuam.';
           form.hidden = true; edited.hidden = false; edited.scrollIntoView({ behavior: 'smooth', block: 'start' }); edited.focus({ preventScroll: true });
           st.textContent = ''; st.className = 'form-status'; btn.disabled = false;
