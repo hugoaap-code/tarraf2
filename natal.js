@@ -194,6 +194,10 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
     $$('[data-nt-cat]').forEach(b => b.addEventListener('click', () => {
       S.cat = b.dataset.ntCat; $$('[data-nt-cat]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render();
     }));
+    /* "Ver e votar" de cada categoria (fase de votação): já filtra aquela categoria nos participantes */
+    $$('[data-nt-filter]').forEach(a => a.addEventListener('click', () => {
+      const b = document.querySelector(`button[data-nt-cat="${a.dataset.ntFilter}"]`); if (b) b.click();
+    }));
     const search = $('#nt-search'); if (search) search.addEventListener('input', () => { S.q = search.value; render(); });
 
     /* ---------- detalhe ---------- */
