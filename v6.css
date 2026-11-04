@@ -384,3 +384,42 @@ main .cl-listbar .cl-new:hover{transform:translateY(-2px)}
 .nt-prog b{font-family:var(--display);font-weight:800;color:var(--sun);letter-spacing:-.02em}
 .nt-prog span{color:rgba(250,246,238,.86)}
 @media(max-width:520px){.nt-prog li{grid-template-columns:96px 1fr;gap:10px;padding:10px 14px;font-size:15px}}
+
+/* v6.8 (04/11/2026): concurso de Natal como 1º item da Programação + seção do concurso no fim de todas as páginas */
+@media(min-width:1000px){.schedule-grid.has3{grid-template-columns:repeat(3,1fr)}}
+.slot.slot-natal{border-color:rgba(200,50,43,.28);box-shadow:0 0 0 3px rgba(255,179,44,.22),var(--shadow);display:flex;flex-direction:column}
+.slot.slot-natal .real-photo img{object-position:50% 30%}
+.slot.slot-natal .slot-body{display:flex;flex-direction:column;flex:1}
+.slot.slot-natal .slot-when{background:#c8322b}
+.slot.slot-natal .slot-when span{color:#ffe3a3}
+.slot.slot-natal .slot-cta{align-self:flex-start;margin-top:18px}
+.ntb{position:relative;overflow:hidden;background:radial-gradient(110% 90% at 0% 0%,#16402a 0%,#0e2a1c 55%,#0b2216 100%);color:var(--cream,#faf6ee);padding:96px 0 72px}
+.ntb-lights{position:absolute;left:0;right:0;top:18px;height:40px;display:flex;justify-content:space-between;padding:0 10px;pointer-events:none}
+.ntb-lights::before{content:"";position:absolute;left:-2%;right:-2%;top:-16px;height:36px;border-bottom:2px solid rgba(250,246,238,.22);border-radius:0 0 50% 50%/0 0 100% 100%}
+.ntb-lights i{position:relative;width:10px;height:16px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;margin-top:calc(12px + (var(--i) * 7 % 11) * 1px);background:#ffb32c;box-shadow:0 0 14px 3px rgba(255,179,44,.55);animation:ntb-twinkle 2.4s ease-in-out infinite;animation-delay:calc(var(--i) * -.37s)}
+.ntb-lights i::before{content:"";position:absolute;left:3px;top:-5px;width:4px;height:6px;border-radius:2px;background:#30483a}
+.ntb-lights i:nth-child(3n+1){background:#c8322b;box-shadow:0 0 14px 3px rgba(200,50,43,.55)}
+.ntb-lights i:nth-child(3n+2){background:#7fd39a;box-shadow:0 0 14px 3px rgba(127,211,154,.5)}
+.ntb-lights i:nth-child(n+13){display:none}
+@media(min-width:700px){.ntb-lights i:nth-child(n+13){display:block}}
+@keyframes ntb-twinkle{0%,100%{opacity:1;filter:brightness(1.15)}50%{opacity:.35;filter:brightness(.7)}}
+@media(prefers-reduced-motion:reduce){.ntb-lights i{animation:none}}
+.ntb-grid{display:grid;gap:36px;align-items:center}
+@media(min-width:900px){.ntb-grid{grid-template-columns:1.25fr .75fr;gap:64px}}
+.ntb-kicker{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#ffd27a;font:700 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;padding:9px 14px}
+.ntb h2{font-family:var(--display);font-weight:800;letter-spacing:-.035em;line-height:1.02;font-size:clamp(40px,6vw,68px);color:var(--cream,#faf6ee);margin:18px 0 14px}
+.ntb h2 .s{color:#ffb32c}
+.ntb-txt>p{color:rgba(250,246,238,.84);font-size:18px;line-height:1.55;max-width:560px}
+.ntb-dates{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 0;padding:0}
+.ntb-dates li{display:flex;flex-direction:column;gap:4px;padding:12px 18px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.ntb-dates b{font:800 22px/1 var(--display);color:#ffb32c;letter-spacing:-.02em}
+.ntb-dates span{font-size:14px;color:rgba(250,246,238,.75)}
+.ntb-ctas{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:28px}
+.ntb .link{color:#ffb32c}
+.ntb-photo{display:block;border-radius:28px;overflow:hidden;aspect-ratio:4/5;max-height:440px;box-shadow:0 30px 70px -30px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12)}
+.ntb-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+@media(max-width:899px){.ntb{padding:84px 0 56px}.ntb-photo{aspect-ratio:16/10;max-height:none}}
+@media(max-width:520px){.ntb-dates li{padding:10px 14px}.ntb-dates b{font-size:19px}.ntb-txt>p{font-size:16px}}
+/* respiro: cartão amarelo (.band) logo antes da seção do Natal, e a seção antes das Empresas Amigas */
+main .band:has(+ .ntb){margin-bottom:48px}
+@media(min-width:900px){main .band:has(+ .ntb){margin-bottom:72px}}
