@@ -377,3 +377,10 @@ main .cl-listbar .cl-new .ico{width:18px;height:18px;stroke:currentColor;fill:no
 main .cl-listbar .cl-new:hover{transform:translateY(-2px)}
 @media(max-width:520px){main .cl-listbar{gap:10px;margin-top:16px}main .cl-listbar .cl-new{min-height:42px;padding:0 16px;font-size:14px;gap:8px}main .cl-listbar .cl-new .ico{width:16px;height:16px}}
 @media(max-width:379px){main .cl-listbar{flex-direction:column-reverse;align-items:stretch;gap:12px}main .cl-listbar .cl-new{width:100%;min-height:46px}}
+
+/* v6.7 (04/11/2026): bloco do É Natal no Tarraf II na Programação */
+.nt-prog{list-style:none;display:grid;gap:10px;margin:22px 0 0;padding:0}
+.nt-prog li{display:grid;grid-template-columns:118px 1fr;gap:14px;align-items:center;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.nt-prog b{font-family:var(--display);font-weight:800;color:var(--sun);letter-spacing:-.02em}
+.nt-prog span{color:rgba(250,246,238,.86)}
+@media(max-width:520px){.nt-prog li{grid-template-columns:96px 1fr;gap:10px;padding:10px 14px;font-size:15px}}
