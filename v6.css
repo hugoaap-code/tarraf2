@@ -423,3 +423,7 @@ main .cl-listbar .cl-new:hover{transform:translateY(-2px)}
 /* respiro: cartão amarelo (.band) logo antes da seção do Natal, e a seção antes das Empresas Amigas */
 main .band:has(+ .ntb){margin-bottom:48px}
 @media(min-width:900px){main .band:has(+ .ntb){margin-bottom:72px}}
+
+/* associar: link "Iniciar cadastro" no passo 1 leva ao formulário */
+.join-steps li span .step-go{display:inline-flex;margin-top:4px;font-size:15px;white-space:nowrap}
+#form-associado{scroll-margin-top:110px}
