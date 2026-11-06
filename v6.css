@@ -427,3 +427,13 @@ main .band:has(+ .ntb){margin-bottom:48px}
 /* associar: link "Iniciar cadastro" no passo 1 leva ao formulário */
 .join-steps li span .step-go{display:inline-flex;margin-top:4px;font-size:15px;white-space:nowrap}
 #form-associado{scroll-margin-top:110px}
+
+/* v6.9 (06/11/2026): ícone da categoria nos cards de Classificados e Indicações (src/cat_icons.py). */
+.cl-card .cl-head{display:flex;align-items:center;gap:12px}
+.cl-card .cl-head .cl-tags{flex:1;min-width:0}
+.cl-ico{flex:0 0 48px;width:48px;height:48px;display:grid;place-items:center;border-radius:16px;background:var(--mint);color:var(--forest-2)}
+.cl-ico.servico{background:#fde9c4;color:var(--sun-ink)}
+.cl-ico .ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8}
+.cl-card:hover .cl-ico{transform:rotate(-4deg) scale(1.04)}
+.cl-ico{transition:transform .25s var(--ease,ease)}
+@media(max-width:400px){.cl-ico{flex-basis:42px;width:42px;height:42px;border-radius:14px}.cl-ico .ico{width:21px;height:21px}}

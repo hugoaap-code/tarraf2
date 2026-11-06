@@ -126,7 +126,10 @@
   function card(a) {
     const wa = a.whatsapp ? `<a class="btn btn-wa" href="https://wa.me/${esc(a.whatsapp)}?text=${encodeURIComponent('Olá! Vi seu anúncio "' + a.titulo + '" nos Classificados do Tarraf II.')}" target="_blank" rel="noopener">${WA} WhatsApp</a>` : '';
     const ln = linkOf(a.link) ? `<a class="link" href="${esc(linkOf(a.link))}" target="_blank" rel="noopener nofollow">Ver perfil ↗</a>` : '';
-    return `<article class="cl-card"><div class="cl-tags"><span class="cl-tag ${esc(a.tipo)}">${a.tipo === 'servico' ? 'Serviço' : 'Produto'}</span><span class="cl-tag">${esc(CATS[a.categoria] || 'Outros')}</span></div><h3>${esc(a.titulo)}</h3><p>${esc(a.descricao)}</p>${a.preco ? `<p class="cl-price">${esc(a.preco)}</p>` : ''}<p class="cl-who">Anunciado por ${esc(a.nome)}</p><div class="cl-actions">${wa}${ln}</div></article>`;
+    // Ícone da categoria (06/11/2026): window.AMJT_CAT_ICONS vem do v6.py; categoria desconhecida usa o padrão do tipo.
+    const ICO = window.AMJT_CAT_ICONS || {}, svg = ICO[a.categoria] || ICO[a.tipo === 'servico' ? '_servico' : '_produto'] || '';
+    const ico = svg ? `<span class="cl-ico${a.tipo === 'servico' ? ' servico' : ''}" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24">${svg}</svg></span>` : '';
+    return `<article class="cl-card"><div class="cl-head">${ico}<div class="cl-tags"><span class="cl-tag ${esc(a.tipo)}">${a.tipo === 'servico' ? 'Serviço' : 'Produto'}</span><span class="cl-tag">${esc(CATS[a.categoria] || 'Outros')}</span></div></div><h3>${esc(a.titulo)}</h3><p>${esc(a.descricao)}</p>${a.preco ? `<p class="cl-price">${esc(a.preco)}</p>` : ''}<p class="cl-who">Anunciado por ${esc(a.nome)}</p><div class="cl-actions">${wa}${ln}</div></article>`;
   }
   // Monta o seletor de categorias: agrupado por Produtos/Serviços, com contagem; categorias com anúncio primeiro.
   function buildSelect() {
