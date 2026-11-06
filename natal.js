@@ -1,4 +1,5 @@
-/* É Natal no Tarraf II: galeria, ranking por categoria, votos (3 por dia em cada categoria, em decorações diferentes), comentários, inscrição e painel.
+/* É Natal no Tarraf II: galeria, ranking geral, votos (3 por dia, em decorações diferentes), comentários, inscrição e painel.
+   Categoria única desde 06/11/2026 (Hugo): sem filtro, sem escolha de categoria e sem troca no painel.
    Fala com a API /api/natal (container amjt2-natal). Sem cadastro: o visitante é um ID aleatório no navegador. */
 (() => {
   const SITE = 'https://site.amjt2.com.br/';
@@ -19,11 +20,8 @@
   };
   const ddmm = iso => { const [y, m, d] = String(iso).slice(0, 10).split('-'); return `${d}/${m}`; };
   const quando = iso => { try { const t = new Date(iso); return t.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + t.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
-  const CATS = window.NATAL_CATS || {};
   const MEDAL = { 1: '🥇 ', 2: '🥈 ', 3: '🥉 ' };
-  const catNome = k => (CATS[k] || {}).nome || '';
-  const catTag = k => CATS[k] ? `${CATS[k].emoji} ${CATS[k].nome}` : '';
-  const nomeDe = x => x.titulo || (x.categoria === 'fantasia' ? `Fantasia de ${x.nome}` : `Decoração de ${x.nome}`);
+  const nomeDe = x => x.titulo || `Decoração de ${x.nome}`;
 
   async function api(path, body, headers = {}) {
     const opt = body ? { method: 'POST', headers: { 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(body) } : { headers };
@@ -51,59 +49,57 @@
   /* ================= PÁGINA PÚBLICA ================= */
   const grid = $('#nt-grid');
   if (grid) {
-    const S = { itens: [], fase: null, meu: {}, sort: 'votos', cat: 'all', q: '', aberto: null, foto: 0 };
+    const S = { itens: [], fase: null, meu: {}, sort: 'votos', q: '', aberto: null, foto: 0 };
     const info = $('#nt-vote-info'), empty = $('#nt-empty'), status = $('[data-nt-status]');
 
-    /* posição dentro da própria categoria, só pelos votos. Mesmo número de votos = mesma posição (empate);
+    /* posição no ranking geral, só pelos votos. Mesmo número de votos = mesma posição (empate);
        a posição seguinte pula os empatados (1º, 1º, 3º). Sem votos = sem posição. */
     const rankOf = () => {
       const m = {};
       S.itens.forEach(x => {
-        const mesma = S.itens.filter(y => y.categoria === x.categoria);
-        m[x.id] = { pos: 1 + mesma.filter(y => y.votos > x.votos).length, empate: mesma.filter(y => y.votos === x.votos).length > 1 };
+        m[x.id] = { pos: 1 + S.itens.filter(y => y.votos > x.votos).length, empate: S.itens.filter(y => y.votos === x.votos).length > 1 };
       });
       return m;
     };
     const lugar = rk => `${MEDAL[rk.pos] || ''}${rk.empate ? 'Empatado em ' : ''}${rk.pos}º lugar`;
     const sorted = () => {
       const q = S.q.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      let r = S.itens.filter(x => (S.cat === 'all' || x.categoria === S.cat) && (!q || (x.nome + ' ' + x.rua + ' ' + x.titulo).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(q)));
+      let r = S.itens.filter(x => (!q || (x.nome + ' ' + x.rua + ' ' + x.titulo).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(q)));
       const by = { votos: (a, b) => b.votos - a.votos || b.comentarios - a.comentarios || a.id - b.id,
                    comentarios: (a, b) => b.comentarios - a.comentarios || b.votos - a.votos || a.id - b.id,
                    recentes: (a, b) => b.id - a.id }[S.sort];
       return r.sort(by);
     };
 
-    /* votos de hoje: S.meu = {categoria: [ids]}; até porCat() por categoria, em decorações diferentes */
-    const meusDe = cat => { const v = (S.meu || {})[cat]; return Array.isArray(v) ? v : (v ? [v] : []); };
-    const porCat = () => (S.fase && S.fase.votos_por_categoria) || 3;
+    /* votos de hoje: a API manda {categoria: [ids]} (categoria única); até porDia() por dia, em decorações diferentes */
+    const meus = () => Object.values(S.meu || {}).flatMap(v => Array.isArray(v) ? v : (v ? [v] : []));
+    const porDia = () => (S.fase && (S.fase.votos_por_dia || S.fase.votos_por_categoria)) || 3;
     const votoPal = n => n === 1 ? 'voto' : 'votos';
-    const restam = cat => Math.max(0, porCat() - meusDe(cat).length);
+    const restam = () => Math.max(0, porDia() - meus().length);
     function voteLabel(x, compacto) {   // compacto = botão do card (pouco espaço): só um × no canto
       const f = S.fase || {};
-      const meu = meusDe(x.categoria);
-      if (meu.includes(x.id)) {   // já votou aqui hoje: clicar de novo tira o voto (e devolve o voto para usar na categoria)
+      const meu = meus();
+      if (meu.includes(x.id)) {   // já votou aqui hoje: clicar de novo tira o voto (e devolve o voto para usar hoje)
         if (!f.votacao_aberta) return { t: `${IC.check} Seu voto`, dis: true, cls: 'nt-voted' };
         return { t: compacto ? `${IC.check} Seu voto<span class="nt-undo-dot" aria-hidden="true">${IC.x}</span>` : `${IC.check} Seu voto<span class="nt-undo">${IC.x}tirar</span>`, dis: false, cls: 'nt-voted', undo: true,
                  tip: 'Seu voto. Toque para tirar o voto' };
       }
       if (f.encerrado) return { t: 'Votação encerrada', dis: true };
       if (!f.votacao_aberta) return { t: `Votação abre ${ddmm(f.votacao_de)}`, dis: true };
-      if (meu.length >= porCat()) return { t: 'Volte amanhã', dis: true };
+      if (meu.length >= porDia()) return { t: 'Volte amanhã', dis: true };
       return { t: `${IC.heart} Votar`, dis: false };
     }
 
     function setInfo() {
       const f = S.fase || {};
-      const cats = Object.keys(CATS), tot = (cats.length || 5) * porCat();
-      const nv = cats.reduce((s, k) => s + meusDe(k).length, 0);
+      const tot = porDia(), nv = meus().length;
       if (f.votacao_aberta && nv) info.innerHTML = nv >= tot ? `Você já usou seus <b>${tot} votos</b> de hoje. Amanhã tem mais!`
-        : `Hoje você já usou <b>${nv} de ${tot}</b> votos (${porCat()} por categoria, em decorações diferentes).`;
-      else if (f.votacao_aberta) info.textContent = `Votação aberta até ${ddmm(f.votacao_ate)}: ${porCat()} votos por dia em cada categoria, em decorações diferentes.`;
+        : `Hoje você já usou <b>${nv} de ${tot}</b> votos (em decorações diferentes).`;
+      else if (f.votacao_aberta) info.textContent = `Votação aberta até ${ddmm(f.votacao_ate)}: ${tot} votos por dia, em decorações diferentes.`;
       else if (f.encerrado) info.textContent = `Votação encerrada. Resultado em ${ddmm(f.resultado)}.`;
       else if (f.votacao_de) info.textContent = `A votação abre em ${ddmm(f.votacao_de)}. Enquanto isso, veja as decorações e comente!`;
       if (status && f.votacao_de) {
-        status.textContent = f.votacao_aberta ? `Votação aberta até ${ddmm(f.votacao_ate)} · ${porCat()} votos por dia em cada categoria`
+        status.textContent = f.votacao_aberta ? `Votação aberta até ${ddmm(f.votacao_ate)} · ${porDia()} votos por dia`
           : f.encerrado ? `Votação encerrada · resultado em ${ddmm(f.resultado)}`
           : f.inscricoes_abertas ? `Inscrições até ${ddmm(f.inscricoes_ate)} · votação de ${ddmm(f.votacao_de)} a ${ddmm(f.votacao_ate)}`
           : `Inscrições encerradas · votação de ${ddmm(f.votacao_de)} a ${ddmm(f.votacao_ate)}`;
@@ -114,11 +110,10 @@
       const v = voteLabel(x, true), f = x.fotos[0];
       const showRank = S.sort === 'votos' && x.votos > 0;
       const medal = rank.pos <= 3 && x.votos > 0 ? ` r${rank.pos}` : '';
-      const naTodas = S.cat === 'all' ? ` · ${esc((CATS[x.categoria] || {}).curto || catNome(x.categoria))}` : '';   // em "Todas", diz de qual categoria é a posição
       return `<article class="nt-card${rank.pos === 1 && x.votos > 0 && S.sort === 'votos' ? ' is-top' : ''}" data-id="${x.id}">
 <button type="button" class="nt-photo" data-open="${x.id}" aria-label="Ver a decoração de ${esc(x.nome)}"><img src="${esc(src(f.thumb))}" alt="${esc(nomeDe(x))}, ${esc(x.rua)}" loading="lazy" decoding="async" width="720" height="540">
-${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : ''}${x.fotos.length > 1 ? `<span class="nt-nphotos">${IC.camera}${x.fotos.length}</span>` : ''}</button>
-<div class="nt-body"><span class="nt-tag">${esc(catTag(x.categoria))}</span><h3>${esc(nomeDe(x))}</h3><p class="nt-who">${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span></p>
+${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${x.fotos.length > 1 ? `<span class="nt-nphotos">${IC.camera}${x.fotos.length}</span>` : ''}</button>
+<div class="nt-body"><h3>${esc(nomeDe(x))}</h3><p class="nt-who">${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span></p>
 <div class="nt-stats"><span>${IC.heart}<b data-v>${x.votos}</b> ${x.votos === 1 ? 'voto' : 'votos'}</span><span>${IC.chat}<b>${x.comentarios}</b></span></div>
 <div class="nt-actions"><button type="button" class="btn btn-sun ${v.cls || ''}" data-vote="${x.id}"${v.dis ? ' disabled' : ''}${v.tip ? ` title="${v.tip}" aria-label="${v.tip}"` : ''}>${v.t}</button><button type="button" class="btn btn-line" data-open="${x.id}">${IC.chat} Comentar</button></div></div></article>`;
     }
@@ -126,7 +121,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
     function render() {
       const r = sorted(), rk = rankOf();
       empty.hidden = S.itens.length > 0;
-      grid.innerHTML = S.itens.length && !r.length ? `<p class="filter-count">${S.q ? 'Nada encontrado nessa busca.' : 'Ainda não há inscrições publicadas nesta categoria.'}</p>` : r.map(x => card(x, rk[x.id])).join('');
+      grid.innerHTML = S.itens.length && !r.length ? `<p class="filter-count">${S.q ? 'Nada encontrado nessa busca.' : 'Ainda não há inscrições publicadas.'}</p>` : r.map(x => card(x, rk[x.id])).join('');
       setInfo();
     }
 
@@ -144,7 +139,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
 
     async function votar(id, btn) {
       const alvo = S.itens.find(y => y.id === id);
-      if (alvo && meusDe(alvo.categoria).includes(id)) return desvotar(id, btn);
+      if (alvo && meus().includes(id)) return desvotar(id, btn);
       if (btn) { btn.disabled = true; }
       try {
         const j = await api('/votar', { id, visitante: VIS });
@@ -152,8 +147,8 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
         const x = S.itens.find(y => y.id === id); if (x) x.votos = j.votos;
         render(); if (S.aberto === id) preencher(x);
         const b = $(`.nt-card[data-id="${id}"] [data-v]`); if (b) b.parentElement.classList.add('nt-pop');
-        const r = restam(x.categoria), cn = catNome(x.categoria);
-        const resto = r ? `Você ainda tem ${r} ${votoPal(r)} hoje em ${cn}.` : `Você usou seus ${porCat()} votos de hoje em ${cn}.`;
+        const r = restam();
+        const resto = r ? `Você ainda tem ${r} ${votoPal(r)} hoje.` : `Você usou seus ${porDia()} votos de hoje.`;
         msg(S.aberto ? `Voto registrado! ${resto} Mudou de ideia? Toque em “Seu voto” para tirar.` : '');
         if (!S.aberto) info.innerHTML = `Voto registrado em <b>${esc(nomeDe(x))}</b>! ${esc(resto)} Mudou de ideia? Toque em “Seu voto” para tirar.`;
       } catch (e) {
@@ -162,7 +157,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
       }
     }
 
-    /* clicou de novo em "Seu voto": tira o voto de hoje e devolve o voto para usar na categoria */
+    /* clicou de novo em "Seu voto": tira o voto de hoje e devolve o voto para usar hoje */
     async function desvotar(id, btn) {
       if (btn) { btn.disabled = true; }
       try {
@@ -170,7 +165,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
         S.meu = j.meus_votos_hoje || {};
         const x = S.itens.find(y => y.id === id); if (x) x.votos = j.votos;
         render(); if (S.aberto === id) preencher(x);
-        const r = restam(x.categoria), resto = `Você tem ${r} ${votoPal(r)} para usar hoje em ${catNome(x.categoria)}.`;
+        const r = restam(), resto = `Você tem ${r} ${votoPal(r)} para usar hoje.`;
         if (S.aberto) msg(`Voto retirado. ${resto}`); else info.innerHTML = `Voto retirado de <b>${esc(nomeDe(x))}</b>. ${esc(resto)}`;
       } catch (e) {
         if (e.data && e.data.meus_votos_hoje) { S.meu = e.data.meus_votos_hoje; render(); if (S.aberto) preencher(S.itens.find(y => y.id === S.aberto)); }
@@ -185,18 +180,6 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
     });
     $$('[data-nt-sort]').forEach(b => b.addEventListener('click', () => {
       S.sort = b.dataset.ntSort; $$('[data-nt-sort]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render();
-    }));
-    /* "Inscreva-se" de cada categoria: já marca a categoria no formulário */
-    $$('[data-nt-pick]').forEach(a => a.addEventListener('click', () => {
-      const r = document.querySelector(`[data-nt-form] input[name=categoria][value="${a.dataset.ntPick}"]`);
-      if (r) { r.checked = true; setTimeout(() => r.focus({ preventScroll: true }), 700); }
-    }));
-    $$('[data-nt-cat]').forEach(b => b.addEventListener('click', () => {
-      S.cat = b.dataset.ntCat; $$('[data-nt-cat]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render();
-    }));
-    /* "Ver e votar" de cada categoria (fase de votação): já filtra aquela categoria nos participantes */
-    $$('[data-nt-filter]').forEach(a => a.addEventListener('click', () => {
-      const b = document.querySelector(`button[data-nt-cat="${a.dataset.ntFilter}"]`); if (b) b.click();
     }));
     const search = $('#nt-search'); if (search) search.addEventListener('input', () => { S.q = search.value; render(); });
 
@@ -213,8 +196,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
     }
     function preencher(x) {
       const rk = rankOf()[x.id];
-      $('#nt-d-cat').textContent = catTag(x.categoria);
-      $('#nt-d-rank').textContent = x.votos > 0 ? `${lugar(rk)} em ${catNome(x.categoria)}` : '';
+      $('#nt-d-rank').textContent = x.votos > 0 ? lugar(rk) : '';
       $('#nt-d-title').textContent = nomeDe(x);
       $('#nt-d-who').innerHTML = `${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span>`;
       $('#nt-d-desc').textContent = x.descricao || '';
@@ -226,7 +208,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
       const ed = $('[data-nt-dedit]', dlg), lk = meusLinks()[x.id];
       ed.hidden = !lk; if (lk) ed.href = lk;
       const url = SITE + 'natal/' + x.id;
-      $('[data-nt-wa]', dlg).href = 'https://wa.me/?text=' + encodeURIComponent(`Vota na ${nomeDe(x)} (${x.rua}), categoria ${catNome(x.categoria)}, no É Natal no Tarraf II! 🎄✨ Dá para votar todo dia: ${url}`);
+      $('[data-nt-wa]', dlg).href = 'https://wa.me/?text=' + encodeURIComponent(`Vota na ${nomeDe(x)} (${x.rua}) no É Natal no Tarraf II, o concurso de decoração natalina do bairro! 🎄✨ Dá para votar todo dia: ${url}`);
     }
     function comentarios(lista) {
       const ol = $('#nt-comments');
@@ -340,7 +322,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
           st.textContent = ''; st.className = 'form-status'; btn.disabled = false;
           return;
         }
-        const j = await api('/inscrever', { categoria: fd.get('categoria'), nome: fd.get('nome'), rua: fd.get('rua'), titulo: fd.get('titulo'),
+        const j = await api('/inscrever', { nome: fd.get('nome'), rua: fd.get('rua'), titulo: fd.get('titulo'),
           descricao: fd.get('descricao'), aceite: fd.get('aceite') === 'sim', website: fd.get('website'), visitante: VIS, fotos });
         $('[data-nt-proto]', ok).textContent = j.protocolo;
         const box = $('[data-nt-ebox]', ok); box.hidden = !j.editar;
@@ -358,7 +340,6 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
       } catch (er) { st.className = 'form-status err'; st.textContent = er.message; }
       btn.disabled = false;
     });
-    $('[data-nt-again]').addEventListener('click', () => { ok.hidden = true; form.hidden = false; form.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
     $('[data-nt-ecopy]', ok).addEventListener('click', async e => {
       const b = e.currentTarget, code = $('[data-nt-elink]', ok), lbl = $('span', b);
       try { await navigator.clipboard.writeText(code.textContent); lbl.textContent = 'Copiado!'; }
@@ -376,9 +357,6 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}${naTodas}</span>` : '
         $('h2', head).textContent = `Editar ${x.protocolo}`;
         $('p', head).textContent = j.alteracao_pendente ? 'Sua última alteração ainda vai aparecer no site. Se salvar de novo, vale esta versão.'
           : 'Mude o que quiser e salve. Votos e comentários continuam.';
-        const cf = $('.nt-cat-field', form); cf.hidden = true; $$('input[name=categoria]', form).forEach(r => { r.disabled = true; });
-        if (!$('.nt-edit-cat', form)) cf.insertAdjacentHTML('afterend', '<p class="full nt-edit-cat"></p>');
-        $('.nt-edit-cat', form).innerHTML = `Categoria: <b>${esc(catTag(x.categoria))}</b>. Para trocar, fale com a associação.`;
         const ac = form.querySelector('input[name=aceite]'); if (ac) { ac.disabled = true; ac.closest('label').hidden = true; }
         ['nome', 'rua', 'titulo', 'descricao'].forEach(k => { form.elements[k].value = x[k] || ''; });
         files.forEach(f => { if (!f.keep) URL.revokeObjectURL(f.url); });
@@ -459,7 +437,6 @@ ${fm ? `<p><small>Fotos novas (${a.depois.fotos.length})</small></p><div class="
                        oculto: [['aprovado', 'Publicar', 'btn-sun'], ['pendente', 'Voltar para pendente', 'btn-line']] }[x.status];
         return `<div class="nt-arow"><div><span class="nt-badge ${x.status}">${x.status}</span> <small>PP${String(x.id).padStart(3, '0')} · ${esc(quando(x.criado))}</small></div>
 <h3>${esc(nomeDe(x))}</h3>
-<label class="nt-acat">Categoria <select data-cat-id="${x.id}">${Object.keys(CATS).map(k => `<option value="${k}"${k === x.categoria ? ' selected' : ''}>${esc(catTag(k))}</option>`).join('')}</select></label>
 <div class="nt-athumbs">${x.fotos.map(f => `<a href="${esc(src(f.full))}" target="_blank" rel="noopener"><img src="${esc(src(f.thumb))}" alt="foto"></a>`).join('')}</div>
 <dl><dt>Nome no site</dt><dd>${esc(x.nome)}</dd><dt>Rua</dt><dd>${esc(x.rua)}</dd><dt>Número</dt><dd>${esc(x.numero || '—')}</dd>
 <dt>Celular</dt><dd>${cel.length >= 10 ? `<a href="https://wa.me/55${cel}" target="_blank" rel="noopener">${esc(x.celular)}</a>` : esc(x.celular || '—')}</dd>
@@ -469,12 +446,6 @@ ${fm ? `<p><small>Fotos novas (${a.depois.fotos.length})</small></p><div class="
     }
     keyForm.addEventListener('submit', e => { e.preventDefault(); KEY = $('#nt-key').value.trim(); try { localStorage.setItem(AK, KEY); } catch (x) {} carregar(); });
     $$('[data-nt-tab]').forEach(b => b.addEventListener('click', () => { TAB = b.dataset.ntTab; desenhar(); }));
-    list.addEventListener('change', async e => {
-      const sel = e.target.closest('[data-cat-id]'); if (!sel) return;
-      sel.disabled = true;
-      try { await api('/admin/inscricao', { id: +sel.dataset.catId, categoria: sel.value }, H()); await carregar(); }
-      catch (er) { alert(er.message); sel.disabled = false; }
-    });
     list.addEventListener('click', async e => {
       const b = e.target.closest('[data-st],[data-com],[data-vt],[data-alt],[data-elink]'); if (!b) return;
       if (b.dataset.elink) {   // morador perdeu o link: gera outro (o antigo para de funcionar) e mostra para copiar
