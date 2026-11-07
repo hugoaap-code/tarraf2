@@ -437,3 +437,24 @@ main .band:has(+ .ntb){margin-bottom:48px}
 .cl-card:hover .cl-ico{transform:rotate(-4deg) scale(1.04)}
 .cl-ico{transition:transform .25s var(--ease,ease)}
 @media(max-width:400px){.cl-ico{flex-basis:42px;width:42px;height:42px;border-radius:14px}.cl-ico .ico{width:21px;height:21px}}
+
+/* v6.10 (06/11/2026): anúncio rápido nos Classificados. O botão leva direto ao formulário (sem explicação antes),
+   3 campos em coluna única, letra e áreas de toque maiores; "Mais detalhes" opcional fechado. */
+#anunciar{scroll-margin-top:72px}
+.cl-quick-sec{padding-top:28px}
+.hero-cta{margin-top:26px}
+.hero-cta .btn{font-size:18px;padding:16px 26px}
+.cl-quick-sec .form-col{max-width:620px;margin:0 auto}
+.cl-quick .fields{grid-template-columns:1fr;gap:18px}
+.cl-quick .form-head p{font-size:17px}
+.cl-quick .field>span{font-size:17px}
+.cl-quick .field input,.cl-quick .field textarea,.cl-quick .field select{font-size:18px;padding:16px;border-color:#d9d2c3}
+.cl-quick .field textarea{min-height:110px}
+.cl-quick .btn[type=submit]{font-size:19px;padding:18px 22px;margin-top:6px}
+.cl-quick .form-legal{font-size:14px;line-height:1.5}
+.cl-quick .more{border-radius:16px;background:var(--cream);padding:0 16px}
+.cl-quick .more summary{min-height:56px;padding:10px 0;font:600 17px/1.3 var(--body);color:var(--ink)}
+.cl-quick .more summary::after{background:#fff}
+.cl-quick .more summary small{font-weight:500;color:var(--muted);margin-left:4px}
+.cl-quick .more>.fields{margin:0 0 16px}
+.cl-quick .more .field input,.cl-quick .more .field select{background:#fff}

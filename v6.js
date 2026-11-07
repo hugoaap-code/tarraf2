@@ -129,7 +129,7 @@
     // Ícone da categoria (06/11/2026): window.AMJT_CAT_ICONS vem do v6.py; categoria desconhecida usa o padrão do tipo.
     const ICO = window.AMJT_CAT_ICONS || {}, svg = ICO[a.categoria] || ICO[a.tipo === 'servico' ? '_servico' : '_produto'] || '';
     const ico = svg ? `<span class="cl-ico${a.tipo === 'servico' ? ' servico' : ''}" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24">${svg}</svg></span>` : '';
-    return `<article class="cl-card"><div class="cl-head">${ico}<div class="cl-tags"><span class="cl-tag ${esc(a.tipo)}">${a.tipo === 'servico' ? 'Serviço' : 'Produto'}</span><span class="cl-tag">${esc(CATS[a.categoria] || 'Outros')}</span></div></div><h3>${esc(a.titulo)}</h3><p>${esc(a.descricao)}</p>${a.preco ? `<p class="cl-price">${esc(a.preco)}</p>` : ''}<p class="cl-who">Anunciado por ${esc(a.nome)}</p><div class="cl-actions">${wa}${ln}</div></article>`;
+    return `<article class="cl-card"><div class="cl-head">${ico}<div class="cl-tags">${a.tipo ? `<span class="cl-tag ${esc(a.tipo)}">${a.tipo === 'servico' ? 'Serviço' : 'Produto'}</span>` : ''}<span class="cl-tag">${esc(CATS[a.categoria] || 'Outros')}</span></div></div><h3>${esc(a.titulo)}</h3><p>${esc(a.descricao)}</p>${a.preco ? `<p class="cl-price">${esc(a.preco)}</p>` : ''}${a.nome && !norm(a.titulo).startsWith(norm(a.nome)) ? `<p class="cl-who">Anunciado por ${esc(a.nome)}</p>` : ''}<div class="cl-actions">${wa}${ln}</div></article>`;
   }
   // Monta o seletor de categorias: agrupado por Produtos/Serviços, com contagem; categorias com anúncio primeiro.
   function buildSelect() {
@@ -195,7 +195,7 @@
   if (!m) return;
   const seen = new Set();
   const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)); m.classList.toggle('mcta-off', seen.size > 0); }, { threshold: 0.05 });
-  document.querySelectorAll('.partners-band, footer').forEach(el => io.observe(el));
+  document.querySelectorAll('.partners-band, footer, .cl-quick-sec').forEach(el => io.observe(el));   // + formulário de anúncio (06/11/2026)
 })();
 
 /* v6.4: carrossel do topo dos posts (deslizar, setas, teclado, miniaturas). */
