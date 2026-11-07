@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=8ba10144"><link rel="stylesheet" href="journey.css?v=de66128b"><link rel="stylesheet" href="portal.css?v=290b38ca"><link rel="stylesheet" href="v6.css?v=df58ce4f">
+<link rel="stylesheet" href="style.css?v=8ba10144"><link rel="stylesheet" href="journey.css?v=de66128b"><link rel="stylesheet" href="portal.css?v=290b38ca"><link rel="stylesheet" href="v6.css?v=04ae395d">
 </head>
 <body>
 <header class="top">
@@ -58,51 +58,34 @@
   </nav>
 </header>
 <main>
-<section class="dark phero">
-  <div class="dots"></div>
-  <div class="wrap">
-    <span class="pill rv">Associe-se</span>
-    <h1 class="rv" style="--d:.05s">Seu bairro melhor <span class="s">começa com você.</span></h1>
-    <p class="lead rv" style="--d:.1s">Uma contribuição de R$ 30 por mês para manter os espaços, a estrutura e os encontros que fazem parte da nossa vida no Tarraf II.</p>
-  </div>
-</section>
-<section class="sec" id="associe-se"><div class="wrap membership-layout join-layout">
-<div class="join-intro"><div class="membership-mark"><img src="assets/logo-instagram.jpg" width="150" height="150" alt="Logo oficial da AMJT II"><span>Associação dos Moradores<br>do Jardim Tarraf II</span></div>
-<div class="head rv ">
-      <span class="pill">Como funciona</span>
-      <h2>Três passos.<br><span class="s">Um bairro mais forte.</span></h2>
-      
-    </div>
-<ol class="steps join-steps"><li><b>Preencha o cadastro</b><span>Seus dados e se quer entrar no grupo de WhatsApp. <a class="link step-go" href="#form-associado">Iniciar cadastro <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></span></li><li><b>Faça o Pix de R$ 30</b><span>Logo depois do envio, aparecem a chave e o QR Code.</span></li><li><b>Pronto, você faz parte</b><span>A associação confirma e entra em contato pelo WhatsApp.</span></li></ol>
-<p class="membership-price"><span>R$</span> 30<small>/mês</small></p>
-</div>
-<div class="form-col"><form class="form-card rv" data-form="associado" novalidate id="form-associado">
-<div class="form-head"><span class="pill">Etapa 1 de 2 · Cadastro</span><h2>Cadastro de associado</h2><p>Leva cerca de dois minutos. Campos com <em>*</em> são obrigatórios.</p></div>
+<section class="sec warm cl-quick-sec join-quick" id="associe-se"><div class="wrap"><div class="form-col"><form class="form-card cl-quick" data-form="associado" novalidate id="form-associado">
+<div class="form-head"><span class="pill">Etapa 1 de 2 · Cadastro</span><h1>Associe-se em 1 minuto</h1><p>R$ 30 por mês, via Pix. São só 3 campos.</p></div>
 <input type="hidden" name="tipo" value="associado"><label class="hp" aria-hidden="true">Não preencha<input name="website" tabindex="-1" autocomplete="off"></label>
 <div class="fields">
-<label class="field full"><span>Nome completo <em>*</em></span><input name="nome" type="text" required autocomplete="name"></label>
-<label class="field"><span>CPF <em>*</em></span><input name="cpf" type="text" required autocomplete="off" placeholder="000.000.000-00" inputmode="numeric" data-mask="cpf"></label>
+<label class="field full"><span>Seu nome completo <em>*</em></span><input name="nome" type="text" required autocomplete="name" placeholder="Ex.: Maria da Silva"></label>
+<label class="field full"><span>Seu WhatsApp <em>*</em></span><input name="celular" type="tel" required autocomplete="tel" placeholder="(17) 90000-0000" inputmode="tel" data-mask="tel"></label>
+<label class="field full"><span>Rua e número no bairro <em>*</em></span><input name="endereco" type="text" required autocomplete="address-line1" placeholder="Ex.: Rua das Flores, 120"></label>
+<label class="check full"><input type="checkbox" name="grupo_whatsapp" value="sim" checked><span>Quero entrar no grupo de WhatsApp dos moradores</span></label><input type="hidden" name="grupo_whatsapp" value="não">
+<label class="check full"><input type="checkbox" name="aceite" value="sim" required><span>Quero me associar à AMJT II, com contribuição de R$ 30 por mês, e autorizo o uso destes dados só para o cadastro e o contato da associação.</span></label>
+<details class="more full"><summary><span>Mais detalhes <small>(opcional)</small></span></summary><div class="fields">
+<label class="field full"><span>E-mail para receber o comprovante <small>(opcional)</small></span><input name="email" type="email" autocomplete="email"></label>
+<label class="field"><span>Complemento <small>(opcional)</small></span><input name="complemento" type="text" placeholder="Casa, torre, apto"></label>
+<label class="field"><span>CEP <small>(opcional)</small></span><input name="cep" type="text" placeholder="15092-490" inputmode="numeric" data-mask="cep"></label>
+<label class="field"><span>CPF <small>(opcional)</small></span><input name="cpf" type="text" autocomplete="off" placeholder="000.000.000-00" inputmode="numeric" data-mask="cpf"></label>
 <label class="field"><span>RG <small>(opcional)</small></span><input name="rg" type="text" autocomplete="off" inputmode="numeric"></label>
 <label class="field"><span>Profissão <small>(opcional)</small></span><input name="profissao" type="text" autocomplete="organization-title"></label>
 <label class="field"><span>Nacionalidade <small>(opcional)</small></span><input name="nacionalidade" type="text" placeholder="Brasileira"></label>
-<label class="field full"><span>Endereço (rua) <em>*</em></span><input name="endereco" type="text" required autocomplete="address-line1"></label>
-<label class="field"><span>Número <em>*</em></span><input name="numero" type="text" required inputmode="numeric"></label>
-<label class="field"><span>Complemento <small>(opcional)</small></span><input name="complemento" type="text" placeholder="Casa, torre, apto"></label>
-<label class="field"><span>CEP <small>(opcional)</small></span><input name="cep" type="text" placeholder="15092-490" inputmode="numeric" data-mask="cep"></label>
-<label class="field"><span>Celular / WhatsApp <em>*</em></span><input name="celular" type="tel" required autocomplete="tel" placeholder="(17) 90000-0000" data-mask="tel"></label>
-<label class="field full"><span>E-mail <em>*</em></span><input name="email" type="email" required autocomplete="email"></label>
-<fieldset class="field full choice"><legend>Quer participar do grupo de WhatsApp da associação? <em>*</em></legend><label><input type="radio" name="grupo_whatsapp" value="sim" required> Sim</label><label><input type="radio" name="grupo_whatsapp" value="não"> Não</label></fieldset>
 <label class="field full"><span>Observação <small>(opcional)</small></span><textarea name="observacao" rows="3"></textarea></label>
-<label class="check full"><input type="checkbox" name="aceite" value="sim" required><span>Declaro que as informações são verdadeiras e que desejo me associar à AMJT II, com contribuição mensal de R$ 30,00. Autorizo o uso destes dados pela associação apenas para cadastro, comunicação com associados e controle das contribuições.</span></label>
+</div></details>
 </div>
-<p class="form-legal">Registramos a data, a hora e o endereço IP do envio como comprovante da sua adesão. Seus dados ficam com a associação e não são publicados.</p>
 <p class="form-status" role="status" aria-live="polite"></p>
-<button class="btn btn-sun" type="submit">Enviar cadastro e ir para o Pix <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+<button class="btn btn-sun" type="submit">Enviar e ir para o Pix <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+<p class="form-legal">Registramos a data, a hora e o endereço IP do envio como comprovante da sua adesão. Seus dados ficam com a associação e não são publicados.</p>
 </form>
 <div class="pix-step" data-success hidden tabindex="-1">
 <span class="pill">Etapa 2 de 2 · Pix</span>
 <h3>Cadastro recebido! <span class="s">Agora é só o Pix.</span></h3>
-<p class="proto">Protocolo <b data-protocolo>—</b> · enviamos uma cópia para o seu e-mail.</p>
+<p class="proto">Protocolo <b data-protocolo>—</b> · se você informou o e-mail, enviamos uma cópia.</p>
 <div class="pix-box"><img src="assets/pix-associado.svg" alt="QR Code Pix da associação no valor de R$ 30,00" width="220" height="220" data-pix-qr><div>
 <p class="pix-value"><span>R$</span> <b data-pix-valor>30</b><small>/mês</small></p>
 <p>Chave Pix (e-mail)</p><div class="pix"><code>associacaot2@gmail.com</code><button class="copy" type="button" data-copy="associacaot2@gmail.com"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copiar chave</span></button></div>
@@ -110,7 +93,17 @@
 </div></div>
 <p class="pix-note">Na mensagem do Pix, informe o protocolo. Confira o nome do recebedor no aplicativo do banco antes de confirmar.</p>
 <p class="next-step"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg> Depois da confirmação do cadastro e do Pix, a associação entra em contato pelo WhatsApp com mais detalhes. Bem-vindo(a)!</p>
-</div></div>
+</div></div></div></section>
+<section class="sec"><div class="wrap membership-layout join-layout join-after">
+<div class="join-intro"><div class="membership-mark"><img src="assets/logo-instagram.jpg" width="150" height="150" alt="Logo oficial da AMJT II"><span>Associação dos Moradores<br>do Jardim Tarraf II</span></div>
+<div class="head rv ">
+      <span class="pill">Como funciona</span>
+      <h2>Três passos.<br><span class="s">Um bairro mais forte.</span></h2>
+      
+    </div>
+<ol class="steps join-steps"><li><b>Preencha o cadastro</b><span>Nome, WhatsApp e endereço. <a class="link step-go" href="#form-associado">Ir para o cadastro <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></span></li><li><b>Faça o Pix de R$ 30</b><span>Logo depois do envio, aparecem a chave e o QR Code.</span></li><li><b>Pronto, você faz parte</b><span>A associação confirma e entra em contato pelo WhatsApp.</span></li></ol>
+<p class="membership-price"><span>R$</span> 30<small>/mês</small></p>
+</div>
 <div class="join-contrib"><div class="head rv ">
       <span class="pill">Para onde vai sua contribuição</span>
       <h2>Pequeno para cada um.<br><span class="s">Importante para todos.</span></h2>
@@ -125,7 +118,7 @@
       
     </div><div class="faq"><details class="rv"><summary>Qual é o valor?</summary><p>A contribuição do associado é de R$ 30 por mês, paga por Pix para a chave associacaot2@gmail.com.</p></details>
 <details class="rv"><summary>Quem pode se associar?</summary><p>Moradores do Jardim Tarraf II, de casas e apartamentos.</p></details>
-<details class="rv"><summary>O que acontece depois do cadastro?</summary><p>Você recebe uma cópia por e-mail com o protocolo. Depois da confirmação do cadastro e do Pix, a associação entra em contato pelo WhatsApp com mais detalhes.</p></details>
+<details class="rv"><summary>O que acontece depois do cadastro?</summary><p>Aparecem a chave e o QR Code do Pix. Se você informar o e-mail, recebe uma cópia com o protocolo. Depois da confirmação do cadastro e do Pix, a associação entra em contato pelo WhatsApp com mais detalhes.</p></details>
 <details class="rv"><summary>Meus dados ficam públicos?</summary><p>Não. O cadastro fica com a associação e é usado só para registro dos associados, comunicação e controle das contribuições.</p></details>
 <details class="rv"><summary>Tenho uma dúvida antes de me associar.</summary><p>Fale com a associação pela página de contato. Teremos prazer em ajudar.</p></details></div><div class="section-link"><a class="link" href="contato">Ir para o contato <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></div></div></section>
 <section class="ntb" aria-labelledby="ntb-title"><div class="ntb-lights" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i><i style="--i:15"></i><i style="--i:16"></i><i style="--i:17"></i><i style="--i:18"></i><i style="--i:19"></i><i style="--i:20"></i><i style="--i:21"></i><i style="--i:22"></i><i style="--i:23"></i></div><div class="wrap ntb-grid">
