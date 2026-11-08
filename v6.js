@@ -65,7 +65,7 @@
           const code = (window.AMJT_PIX || {})[plano];
           panel.querySelector('[data-pix-valor]').textContent = PIX[plano];
           const qr = panel.querySelector('[data-pix-qr]');
-          qr.src = `assets/pix-${plano}.svg`; qr.alt = `QR Code Pix da associação no valor de R$ ${PIX[plano]},00`;
+          qr.src = (window.AMJT_PIXQR || {})[plano] || `assets/pix-${plano}.svg`; qr.alt = `QR Code Pix da associação no valor de R$ ${PIX[plano]},00`;
           if (code) { panel.querySelector('[data-pix-code]').textContent = code; panel.querySelector('[data-pix-copy]').dataset.copy = code; }
         }
         form.hidden = true; panel.hidden = false;

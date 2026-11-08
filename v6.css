@@ -468,3 +468,7 @@ main .band:has(+ .ntb){margin-bottom:48px}
 .cl-quick .check{font-size:17px;align-items:flex-start;gap:12px;min-height:44px}
 .cl-quick .check input{width:24px;height:24px;flex:0 0 24px;margin-top:1px}
 @media(min-width:920px){.join-after{grid-template-areas:"intro contrib"}.join-after .join-contrib{grid-area:contrib}}
+
+/* v6.12 (08/11/2026): chave Pix = CNPJ; mantém o número numa linha só (o botão desce quando falta espaço) */
+.pix-step .pix:has(.pix-key){flex-wrap:wrap}
+.pix-step .pix code.pix-key{flex:1 0 150px;white-space:nowrap;word-break:normal;font-size:15px}
