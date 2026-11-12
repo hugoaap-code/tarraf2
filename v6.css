@@ -198,6 +198,11 @@ p.pix-value,.pix-box>div>p.pix-value{font:800 54px/1 var(--display);color:var(--
 .field select:focus{outline:none;border-color:var(--leaf);background:#fff}
 .was-validated .field select:invalid{border-color:#d0613a;background:#fff6f2}
 .pix-step [data-form-again]{justify-self:start}
+.post-links{margin:28px 0 0;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.post-links h2{font:700 18px/1.3 var(--display);margin:0 0 10px}
+.post-links ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.post-links a{font-weight:700;color:var(--leaf);text-decoration:underline;text-underline-offset:3px}
+.post-links li span{display:block;font-size:14px;color:var(--muted);margin-top:2px}
 .story-credit{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 .article-content>p:first-child::first-letter{font:800 3.2em/0.9 var(--display);float:left;margin:6px 10px 0 0;color:var(--leaf)}
 .choice input[type=radio],.check input[type=checkbox]{width:20px;height:20px;padding:0;flex:none;margin:0;accent-color:var(--leaf)}
