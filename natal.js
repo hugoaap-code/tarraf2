@@ -107,12 +107,18 @@
     }
 
     function card(x, rank) {
-      const v = voteLabel(x, true), f = x.fotos[0];
+      const v = voteLabel(x, true);
       const showRank = S.sort === 'votos' && x.votos > 0;
       const medal = rank.pos <= 3 && x.votos > 0 ? ` r${rank.pos}` : '';
+      // Carrossel no card (Hugo, 13/11/2026): passa as fotos sem abrir o item (arrastar no celular, setas/bolinhas no
+      // computador). Tocar na foto continua abrindo o detalhe, já na foto que estava à vista.
+      const n = x.fotos.length;
+      const slides = x.fotos.map((p, k) => `<button type="button" class="nt-slide" data-open="${x.id}" data-foto-i="${k}"${k ? ' tabindex="-1"' : ''} aria-label="Ver a decoração de ${esc(x.nome)}${n > 1 ? ` (foto ${k + 1} de ${n})` : ''}"><img src="${esc(src(p.thumb))}" alt="${esc(nomeDe(x))}, ${esc(x.rua)}${n > 1 ? `: foto ${k + 1}` : ''}" loading="lazy" decoding="async" width="720" height="540" draggable="false"></button>`).join('');
+      const nav = n > 1 ? `<button type="button" class="nt-cnav prev" data-slide="-1" aria-label="Foto anterior">‹</button><button type="button" class="nt-cnav next" data-slide="1" aria-label="Próxima foto">›</button>
+<span class="nt-dots" aria-hidden="true">${x.fotos.map((p, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</span><span class="nt-nphotos">${IC.camera}<span><span data-cur>1</span>/${n}</span></span>` : '';
       return `<article class="nt-card${rank.pos === 1 && x.votos > 0 && S.sort === 'votos' ? ' is-top' : ''}" data-id="${x.id}">
-<button type="button" class="nt-photo" data-open="${x.id}" aria-label="Ver a decoração de ${esc(x.nome)}"><img src="${esc(src(f.thumb))}" alt="${esc(nomeDe(x))}, ${esc(x.rua)}" loading="lazy" decoding="async" width="720" height="540">
-${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${x.fotos.length > 1 ? `<span class="nt-nphotos">${IC.camera}${x.fotos.length}</span>` : ''}</button>
+<div class="nt-photo${n > 1 ? ' is-multi' : ''}"><div class="nt-track">${slides}</div>
+${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</div>
 <div class="nt-body"><h3>${esc(nomeDe(x))}</h3><p class="nt-who">${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span></p>
 <div class="nt-stats"><span>${IC.heart}<b data-v>${x.votos}</b> ${x.votos === 1 ? 'voto' : 'votos'}</span><span>${IC.chat}<b>${x.comentarios}</b></span></div>
 <div class="nt-actions"><button type="button" class="btn btn-sun ${v.cls || ''}" data-vote="${x.id}"${v.dis ? ' disabled' : ''}${v.tip ? ` title="${v.tip}" aria-label="${v.tip}"` : ''}>${v.t}</button><button type="button" class="btn btn-line" data-open="${x.id}">${IC.chat} Comentar</button></div></div></article>`;
@@ -120,10 +126,37 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${x.foto
 
     function render() {
       const r = sorted(), rk = rankOf();
+      const pos = {}; $$('.nt-card', grid).forEach(c => { const t = $('.nt-track', c); if (t) pos[c.dataset.id] = slideAt(t); });
       empty.hidden = S.itens.length > 0;
       grid.innerHTML = S.itens.length && !r.length ? `<p class="filter-count">${S.q ? 'Nada encontrado nessa busca.' : 'Ainda não há inscrições publicadas.'}</p>` : r.map(x => card(x, rk[x.id])).join('');
+      // voto/ordem redesenham os cards: cada carrossel volta para a foto em que estava
+      $$('.nt-card', grid).forEach(c => { const i = pos[c.dataset.id], t = $('.nt-track', c); if (i && t) { t.scrollLeft = i * t.clientWidth; marca(t); } });
       setInfo();
     }
+
+    /* ---------- carrossel dos cards ---------- */
+    const slideAt = t => Math.round(t.scrollLeft / (t.clientWidth || 1));
+    function marca(t) {
+      const box = t.parentElement, i = slideAt(t), cur = $('[data-cur]', box);
+      if (cur) cur.textContent = i + 1;
+      $$('.nt-dots i', box).forEach((d, k) => d.classList.toggle('on', k === i));
+      $$('.nt-slide', t).forEach((s, k) => s.tabIndex = k === i ? 0 : -1);
+    }
+    function passa(t, dir) {
+      const n = t.children.length, i = (slideAt(t) + dir + n) % n;   // no fim volta para a 1ª
+      const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      t.scrollTo({ left: i * t.clientWidth, behavior: reduz ? 'auto' : 'smooth' });
+    }
+    let rolando;
+    document.addEventListener('scroll', e => {
+      const t = e.target; if (!(t instanceof Element) || !t.classList.contains('nt-track')) return;
+      cancelAnimationFrame(rolando); rolando = requestAnimationFrame(() => marca(t));
+    }, true);
+    document.addEventListener('keydown', e => {   // setas do teclado quando a foto do card está com foco
+      const s = e.target.closest && e.target.closest('.nt-slide'); if (!s || !/^Arrow(Left|Right)$/.test(e.key)) return;
+      e.preventDefault(); const t = s.parentElement; passa(t, e.key === 'ArrowRight' ? 1 : -1);
+      setTimeout(() => { const a = t.children[slideAt(t)]; if (a) a.focus({ preventScroll: true }); }, 350);
+    });
 
     async function load() {
       try {
@@ -174,7 +207,8 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${x.foto
     }
 
     document.addEventListener('click', e => {
-      const o = e.target.closest('[data-open]'); if (o) { abrir(+o.dataset.open); return; }
+      const sl = e.target.closest('[data-slide]'); if (sl) { passa($('.nt-track', sl.parentElement), +sl.dataset.slide); return; }
+      const o = e.target.closest('[data-open]'); if (o) { abrir(+o.dataset.open, true, +(o.dataset.fotoI || 0)); return; }
       const v = e.target.closest('[data-vote]'); if (v) { votar(+v.dataset.vote, v); return; }
       if (e.target.closest('[data-retry]')) load();
     });
@@ -215,11 +249,11 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${x.foto
       ol.innerHTML = lista.length ? lista.map(c => `<li><div class="nt-cmeta"><b>${esc(c.nome || 'Vizinho(a)')}</b><time>${esc(quando(c.criado))}</time></div><p>${esc(c.texto)}</p></li>`).join('')
         : '<li class="nt-none">Ninguém comentou ainda. Seja o primeiro!</li>';
     }
-    async function abrir(id, push = true) {
+    async function abrir(id, push = true, inicio = 0) {
       const x = S.itens.find(y => y.id === id); if (!x) return;
       S.aberto = id; msg('');
       dThumbs.innerHTML = x.fotos.length > 1 ? x.fotos.map((f, k) => `<button type="button" data-foto="${k}" aria-label="Foto ${k + 1}"><img src="${esc(src(f.thumb))}" alt=""></button>`).join('') : '';
-      preencher(x); foto(0);
+      preencher(x); foto(inicio || 0);
       $('#nt-comments').innerHTML = '<li class="nt-none">Carregando comentários…</li>';
       const cf = $('[data-nt-comment]'); cf.reset(); $('.form-status', cf).textContent = '';
       try { cf.nome.value = localStorage.getItem('amjt2_natal_nome') || ''; } catch (e) {}
