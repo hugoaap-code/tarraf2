@@ -1,4 +1,4 @@
-/* É Natal no Tarraf II: galeria, ranking geral, votos (3 por dia, em decorações diferentes), comentários, inscrição e painel.
+/* É Natal no Tarraf II: galeria, ranking geral, votos (3 por dia, em decorações diferentes), curtidas livres (14/11/2026), comentários, inscrição e painel.
    Categoria única desde 06/11/2026 (Hugo): sem filtro, sem escolha de categoria e sem troca no painel.
    Fala com a API /api/natal (container amjt2-natal). Sem cadastro: o visitante é um ID aleatório no navegador. */
 (() => {
@@ -17,6 +17,7 @@
     pin: svg('<path d="M12 21s-6-5.4-6-11a6 6 0 0 1 12 0c0 5.6-6 11-6 11Z"/><circle cx="12" cy="10" r="2.2"/>'),
     check: svg('<path d="m5 12 4.5 4.5L19 7"/>'),
     x: svg('<path d="M6 6l12 12M18 6 6 18"/>'),
+    thumb: svg('<path d="M7 10v11"/><path d="M15 5.9 14 10h5.8a2 2 0 0 1 2 2.4l-1.4 7A2 2 0 0 1 18.4 21H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h2.8a2 2 0 0 0 1.8-1.1L12 2a3.1 3.1 0 0 1 3 3.9Z"/>'),
   };
   const ddmm = iso => { const [y, m, d] = String(iso).slice(0, 10).split('-'); return `${d}/${m}`; };
   const quando = iso => { try { const t = new Date(iso); return t.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' + t.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
@@ -49,7 +50,7 @@
   /* ================= PÁGINA PÚBLICA ================= */
   const grid = $('#nt-grid');
   if (grid) {
-    const S = { itens: [], fase: null, meu: {}, sort: 'votos', q: '', aberto: null, foto: 0 };
+    const S = { itens: [], fase: null, meu: {}, curti: new Set(), sort: 'votos', q: '', aberto: null, foto: 0 };
     const info = $('#nt-vote-info'), empty = $('#nt-empty'), status = $('[data-nt-status]');
 
     /* posição no ranking geral, só pelos votos. Mesmo número de votos = mesma posição (empate);
@@ -121,7 +122,32 @@
 ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</div>
 <div class="nt-body"><h3>${esc(nomeDe(x))}</h3><p class="nt-who">${IC.pin}<span>${esc(x.nome)} · ${esc(x.rua)}</span></p>
 <div class="nt-stats"><span>${IC.heart}<b data-v>${x.votos}</b> ${x.votos === 1 ? 'voto' : 'votos'}</span><span>${IC.chat}<b>${x.comentarios}</b></span></div>
-<div class="nt-actions"><button type="button" class="btn btn-sun ${v.cls || ''}" data-vote="${x.id}"${v.dis ? ' disabled' : ''}${v.tip ? ` title="${v.tip}" aria-label="${v.tip}"` : ''}>${v.t}</button><button type="button" class="btn btn-line" data-open="${x.id}">${IC.chat} Comentar</button></div></div></article>`;
+<div class="nt-actions"><button type="button" class="btn btn-sun ${v.cls || ''}" data-vote="${x.id}"${v.dis ? ' disabled' : ''}${v.tip ? ` title="${v.tip}" aria-label="${v.tip}"` : ''}>${v.t}</button>${likeBtn(x)}<button type="button" class="btn btn-line" data-open="${x.id}">${IC.chat} Comentar</button></div></div></article>`;
+    }
+
+    /* Curtida (Hugo, 14/11/2026): livre, separada do voto, 1 por visitante em cada decoração; tocar de novo desfaz.
+       Contador de todos à vista no botão, entre Votar e Comentar. Não entra no ranking. */
+    function likeBtn(x) {
+      const eu = S.curti.has(x.id), n = x.curtidas || 0;
+      const tip = eu ? `Você curtiu (${n}). Toque para desfazer` : `Curtir (${n} curtida${n === 1 ? '' : 's'})`;
+      return `<button type="button" class="btn btn-line nt-like" data-like="${x.id}" aria-pressed="${eu}" title="${tip}" aria-label="${tip}">${IC.thumb}<b>${n}</b></button>`;
+    }
+    const curtindo = new Set();
+    async function curtir(id) {
+      const x = S.itens.find(y => y.id === id); if (!x || curtindo.has(id)) return;
+      curtindo.add(id);
+      const antes = { n: x.curtidas || 0, eu: S.curti.has(id) }, quer = !antes.eu;
+      x.curtidas = Math.max(0, antes.n + (quer ? 1 : -1)); quer ? S.curti.add(id) : S.curti.delete(id);
+      render(); if (S.aberto === id) preencher(x);
+      try {
+        const j = await api('/curtir', { id, visitante: VIS, curtir: quer });
+        x.curtidas = j.curtidas; j.curti ? S.curti.add(id) : S.curti.delete(id);
+      } catch (e) {
+        x.curtidas = antes.n; antes.eu ? S.curti.add(id) : S.curti.delete(id);
+        if (S.aberto) msg(e.message, true); else info.textContent = e.message;
+      }
+      curtindo.delete(id);
+      render(); if (S.aberto === id) preencher(x);
     }
 
     function render() {
@@ -161,7 +187,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</
     async function load() {
       try {
         const j = await api('/inscricoes?v=' + encodeURIComponent(VIS));
-        S.itens = j.inscricoes; S.fase = j.fase; S.meu = j.meus_votos_hoje || {};
+        S.itens = j.inscricoes; S.fase = j.fase; S.meu = j.meus_votos_hoje || {}; S.curti = new Set(j.minhas_curtidas || []);
         render(); fecharInscricoes();
         const d = +new URLSearchParams(location.search).get('d');
         if (d && S.itens.some(x => x.id === d) && !S.aberto) abrir(d, false);
@@ -210,6 +236,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</
       const sl = e.target.closest('[data-slide]'); if (sl) { passa($('.nt-track', sl.parentElement), +sl.dataset.slide); return; }
       const o = e.target.closest('[data-open]'); if (o) { abrir(+o.dataset.open, true, +(o.dataset.fotoI || 0)); return; }
       const v = e.target.closest('[data-vote]'); if (v) { votar(+v.dataset.vote, v); return; }
+      const lk = e.target.closest('[data-like]'); if (lk) { curtir(+lk.dataset.like); return; }
       if (e.target.closest('[data-retry]')) load();
     });
     $$('[data-nt-sort]').forEach(b => b.addEventListener('click', () => {
@@ -239,6 +266,12 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</
       const v = voteLabel(x), b = $('[data-nt-dvote]', dlg);
       b.innerHTML = v.t; b.disabled = v.dis; b.classList.toggle('nt-voted', !!v.cls);
       if (v.tip) { b.title = v.tip; b.setAttribute('aria-label', v.tip); } else { b.removeAttribute('title'); b.removeAttribute('aria-label'); }
+      const lb = $('[data-nt-dlike]', dlg);
+      if (lb) {
+        const eu = S.curti.has(x.id), n = x.curtidas || 0;
+        lb.setAttribute('aria-pressed', String(eu)); $('b', lb).textContent = n; $('span', lb).textContent = eu ? 'Curtiu' : 'Curtir';
+        lb.title = eu ? 'Você curtiu. Toque para desfazer' : 'Curtir';
+      }
       const ed = $('[data-nt-dedit]', dlg), lk = meusLinks()[x.id];
       ed.hidden = !lk; if (lk) ed.href = lk;
       const url = SITE + 'natal/' + x.id;
@@ -262,6 +295,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</
       try {
         const j = await api(`/inscricoes/${id}?v=` + encodeURIComponent(VIS));
         Object.assign(x, j.inscricao); S.meu = j.meus_votos_hoje || {}; S.fase = j.fase;
+        if (j.minhas_curtidas) S.curti = new Set(j.minhas_curtidas);
         if (S.aberto === id) { preencher(x); comentarios(j.comentarios); }
       } catch (e) { $('#nt-comments').innerHTML = `<li class="nt-none">${esc(e.message)}</li>`; }
     }
@@ -276,6 +310,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</
     stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
     stage.addEventListener('touchend', e => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) foto(S.foto + (dx < 0 ? 1 : -1)); tx = null; });
     $('[data-nt-dvote]', dlg).addEventListener('click', e => votar(S.aberto, e.currentTarget));
+    const dlike = $('[data-nt-dlike]', dlg); if (dlike) dlike.addEventListener('click', () => curtir(S.aberto));
     $('[data-nt-share]', dlg).addEventListener('click', async () => {
       const x = S.itens.find(y => y.id === S.aberto); if (!x) return;
       const url = SITE + 'natal/' + x.id, text = `Vota na ${nomeDe(x)} no É Natal no Tarraf II! 🎄`;

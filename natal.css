@@ -380,3 +380,11 @@ body:has(.nt-hero) main .band{margin:32px 12px 56px!important}
 .nt-d-edit[hidden]{display:none}
 .nt-arow dd s{color:var(--muted)}
 .nt-athumbs.nt-old{opacity:.6}
+
+/* Curtir (Hugo, 14/11/2026): botão livre entre Votar e Comentar, com o contador de todos. Não é voto. */
+.nt-actions .btn.nt-like{flex:0 0 auto;padding:0 14px;gap:6px;font-variant-numeric:tabular-nums}
+.btn.nt-like b{font:800 16px/1 var(--display)}
+.btn.nt-like .ico{width:18px;height:18px}
+.btn.nt-like[aria-pressed="true"]{background:#fff3d6;border-color:var(--sun);color:var(--sun-ink);box-shadow:none}
+.btn.nt-like[aria-pressed="true"] .ico{fill:var(--sun);stroke:var(--sun-ink)}
+.btn.nt-like:active{transform:scale(.95)}
