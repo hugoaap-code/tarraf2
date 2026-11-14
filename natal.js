@@ -115,7 +115,7 @@
       const n = x.fotos.length;
       const slides = x.fotos.map((p, k) => `<button type="button" class="nt-slide" data-open="${x.id}" data-foto-i="${k}"${k ? ' tabindex="-1"' : ''} aria-label="Ver a decoração de ${esc(x.nome)}${n > 1 ? ` (foto ${k + 1} de ${n})` : ''}"><img src="${esc(src(p.thumb))}" alt="${esc(nomeDe(x))}, ${esc(x.rua)}${n > 1 ? `: foto ${k + 1}` : ''}" loading="lazy" decoding="async" width="720" height="540" draggable="false"></button>`).join('');
       const nav = n > 1 ? `<button type="button" class="nt-cnav prev" data-slide="-1" aria-label="Foto anterior">‹</button><button type="button" class="nt-cnav next" data-slide="1" aria-label="Próxima foto">›</button>
-<span class="nt-dots" aria-hidden="true">${x.fotos.map((p, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</span><span class="nt-nphotos">${IC.camera}<span><span data-cur>1</span>/${n}</span></span>` : '';
+<span class="nt-dots" aria-hidden="true">${x.fotos.map((p, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</span>` : '';
       return `<article class="nt-card${rank.pos === 1 && x.votos > 0 && S.sort === 'votos' ? ' is-top' : ''}" data-id="${x.id}">
 <div class="nt-photo${n > 1 ? ' is-multi' : ''}"><div class="nt-track">${slides}</div>
 ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</div>
