@@ -26,6 +26,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=8ba10144"><link rel="stylesheet" href="journey.css?v=de66128b"><link rel="stylesheet" href="portal.css?v=290b38ca"><link rel="stylesheet" href="v6.css?v=53ad3e5f">
+<link rel="stylesheet" href="mural.css?v=56285c77">
+<script src="mural.js?v=b60a748d" defer></script>
 </head>
 <body>
 <header class="top">
@@ -33,7 +35,7 @@
     <a class="brand" href="./" aria-label="AMJT II, início"><img class="brand-logo" src="assets/logo-instagram.jpg" alt="Logo oficial da AMJT II" width="150" height="150"><span class="brand-name"><b>Associação dos Moradores</b><b>do Jardim Tarraf II</b></span></a>
     <nav class="d" aria-label="Principal">
 <a href="sobre">Sobre</a>
-<div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-haspopup="true">Comunidade <svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="dd-menu"><a href="natal"><b>É Natal no Tarraf II</b><span>Concurso de decoração natalina</span></a><a href="aulas"><b>Aulas gratuitas</b><span>Aulas dos parceiros para os moradores</span></a><a href="empresa-amiga"><b>Empresa Amiga</b><span>Negócios que apoiam o bairro</span></a><a href="classificados"><b>Classificados</b><span>Produtos e serviços dos moradores</span></a><a href="indicacoes"><b>Indicações</b><span>Profissionais que os vizinhos indicam</span></a></div></div>
+<div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-haspopup="true">Comunidade <svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="dd-menu"><a href="natal"><b>É Natal no Tarraf II</b><span>Concurso de decoração natalina</span></a><a href="aulas"><b>Aulas gratuitas</b><span>Aulas dos parceiros para os moradores</span></a><a href="empresa-amiga"><b>Empresa Amiga</b><span>Negócios que apoiam o bairro</span></a><a href="classificados"><b>Classificados</b><span>Produtos e serviços dos moradores</span></a><a href="indicacoes"><b>Indicações</b><span>Profissionais que os vizinhos indicam</span></a><a href="achados"><b>Achados e perdidos</b><span>Pets e objetos perdidos ou encontrados</span></a></div></div>
 <a href="programacao">Programação</a>
 <a href="historias">Histórias</a>
 <a href="contato" aria-current="page">Contato</a>
@@ -52,6 +54,7 @@
 <a class="sub" href="empresa-amiga">Empresa Amiga</a>
 <a class="sub" href="classificados">Classificados</a>
 <a class="sub" href="indicacoes">Indicações</a>
+<a class="sub" href="achados">Achados e perdidos</a>
 <a href="programacao">Programação</a>
 <a href="historias">Histórias</a>
 <a href="contato" aria-current="page">Contato</a>
@@ -96,7 +99,7 @@
       </article>
       <article class="tile span2 rv">
         <span class="ib"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
-        <span class="kick">E-mail (também é a chave Pix)</span>
+        <span class="kick">E-mail</span>
         <a class="big-val" data-email href="#"></a>
       </article>
       <article class="tile span2 rv" style="--d:.06s">
@@ -108,7 +111,28 @@
       </article>
     </div>
   </div>
-</section><section class="band sec" style="padding:0;margin-top:80px">
+</section><section class="sec warm" id="denuncia"><div class="wrap form-layout">
+<div><div class="head rv ">
+      <span class="pill">Denúncia anônima</span>
+      <h2>Viu algo errado? <span class="s">Conte sem se identificar.</span></h2>
+      <p>A denúncia chega só à associação e não aparece no site.</p>
+    </div>
+<div class="mu-sos"><b><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg> Emergência ou crime acontecendo agora?</b><p>Ligue <a href="tel:190">190</a> (Polícia Militar) ou <a href="tel:153">153</a> (Guarda Civil Municipal). Para denunciar crimes à polícia, há também o <a href="tel:181">Disque Denúncia 181</a>, anônimo.</p></div></div>
+<div class="form-col"><form class="form-card mu-form" data-mu-form="denuncia" id="form-denuncia" novalidate>
+<div class="form-head"><span class="pill"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Anônima</span><h3>Fazer denúncia</h3><p>Não pedimos nome. Não guardamos IP nem dados do aparelho.</p></div>
+<label class="hp" aria-hidden="true">Não preencha<input name="website" tabindex="-1" autocomplete="off"></label>
+<div class="fields">
+<label class="field full"><span>Assunto <em>*</em></span><select name="assunto" required><option value="">Escolha</option><option value="seguranca">Atitude suspeita ou segurança</option><option value="barulho">Barulho ou perturbação</option><option value="lixo">Lixo, entulho ou descarte irregular</option><option value="animais">Maus-tratos a animais</option><option value="obra">Obra, terreno ou calçada irregular</option><option value="praca">Vandalismo na praça ou áreas comuns</option><option value="transito">Trânsito, estacionamento ou velocidade</option><option value="outro">Outro assunto</option></select></label>
+<label class="field full"><span>Onde? <small>(opcional)</small></span><input name="local" type="text" placeholder="Rua ou ponto de referência" maxlength="120"></label>
+<label class="field full"><span>Quando? <small>(opcional)</small></span><input name="quando" type="text" placeholder="Ex.: ontem à noite, toda sexta" maxlength="60"></label>
+<label class="field full"><span>O que aconteceu? <em>*</em></span><textarea name="texto" rows="5" required maxlength="3000" placeholder="Descreva o que viu. Evite nomes de pessoas."></textarea></label>
+<div class="mu-photos full"><span class="mu-lbl">Fotos <small>(opcional, até 3)</small></span><label class="mu-drop"><input type="file" accept="image/*" multiple data-mu-files data-max="3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>Escolher fotos</b><small>A localização e os dados do celular são removidos</small></label><div class="mu-previews" data-mu-previews></div></div>
+<label class="field full"><span>Quer retorno? Deixe um contato <small>(opcional)</small></span><input name="contato" type="text" placeholder="WhatsApp ou e-mail. Se deixar, não é mais anônima." maxlength="80"></label>
+</div>
+<p class="form-status" role="status" aria-live="polite"></p>
+<button class="btn btn-sun" type="submit">Enviar denúncia <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+</form>
+<div class="pix-step mu-ok" data-mu-ok hidden tabindex="-1"><span class="pill">Denúncia recebida</span><h3>Recebemos. <span class="s">Obrigado por cuidar do bairro.</span></h3><p class="proto">Protocolo <b data-mu-proto>—</b></p><p class="next-step">A associação avalia e, quando for o caso, leva a quem pode resolver.</p><button class="btn btn-line" type="button" data-mu-again>Fazer outra denúncia</button></div></div></div></section><section class="band sec" style="padding:0;margin-top:80px">
   <div class="wrap">
     <div class="rv"><h2>Quer fazer parte <span class="s">do bairro?</span></h2><p>Faça seu cadastro online em dois minutos.</p></div>
     <div class="ctas rv" style="--d:.1s"><a class="btn btn-dark" href="associar">Quero me associar <svg class="ico arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></div>
@@ -150,7 +174,7 @@
       </div>
     </div>
     <nav aria-label="Rodapé">
-<a href="./">Início</a><a href="sobre">Sobre</a><a href="natal">É Natal no Tarraf II</a><a href="empresa-amiga">Empresa Amiga</a><a href="classificados">Classificados</a><a href="indicacoes">Indicações</a><a href="programacao">Programação</a><a href="historias">Histórias</a><a href="contato">Contato</a><a href="associar">Associe-se</a>
+<a href="./">Início</a><a href="sobre">Sobre</a><a href="natal">É Natal no Tarraf II</a><a href="empresa-amiga">Empresa Amiga</a><a href="classificados">Classificados</a><a href="indicacoes">Indicações</a><a href="achados">Achados e perdidos</a><a href="programacao">Programação</a><a href="historias">Histórias</a><a href="contato">Contato</a><a href="associar">Associe-se</a>
     </nav>
     <p class="fine">Feito por moradores, para moradores.</p>
   </div>
