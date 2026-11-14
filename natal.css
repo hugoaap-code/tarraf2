@@ -388,3 +388,16 @@ body:has(.nt-hero) main .band{margin:32px 12px 56px!important}
 .btn.nt-like[aria-pressed="true"]{background:#fff3d6;border-color:var(--sun);color:var(--sun-ink);box-shadow:none}
 .btn.nt-like[aria-pressed="true"] .ico{fill:var(--sun);stroke:var(--sun-ink)}
 .btn.nt-like:active{transform:scale(.95)}
+
+/* Detalhe (Hugo, 14/11/2026): Votar, Curtir e Compartilhar na mesma linha; Pedir votos (WhatsApp) na linha de baixo, inteiro. */
+.nt-d-actions{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:stretch}
+.nt-d-actions .btn{padding:0 14px;min-width:0}
+.nt-d-actions [data-nt-dvote]{white-space:normal;line-height:1.15;text-align:center}
+.nt-d-actions [data-nt-dvote].nt-voted{white-space:normal;flex-wrap:wrap;row-gap:0;align-content:center}
+.nt-d-actions [data-nt-dvote] .nt-undo{font-size:12px}
+.nt-d-actions [data-nt-wa]{grid-column:1/-1}
+@media(max-width:420px){
+  .nt-d-actions .btn{padding:0 11px;font-size:14px;gap:5px}
+  .nt-d-actions [data-nt-dlike] span{display:none}
+}
+@media(max-width:359px){.nt-d-actions [data-nt-dvote] > .ico{display:none}}
