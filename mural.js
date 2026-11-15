@@ -149,7 +149,7 @@ ${x.descricao ? `<p class="mu-desc">${esc(x.descricao)}</p>` : ''}${nota}${acoes
     return S.itens.filter(x => (S.tipo === 'all' || x.tipo === S.tipo)
       && (S.sit === 'all' || (S.sit === 'resolvido' ? x.resolvido : (!x.resolvido && x.situacao === S.sit)))
       && (!q || [x.titulo, x.descricao, x.local].join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(q)))
-      .sort((a, b) => (a.resolvido - b.resolvido) || (b.id - a.id));
+      .sort((a, b) => (a.resolvido - b.resolvido) || String(b.quando || b.criado).slice(0, 10).localeCompare(String(a.quando || a.criado).slice(0, 10)) || (b.id - a.id));   // mais recente (data do ocorrido) primeiro
   }
   function draw() {
     const xs = filtra(), n = xs.length, abertos = xs.filter(x => !x.resolvido).length;
