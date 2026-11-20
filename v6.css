@@ -477,3 +477,6 @@ main .band:has(+ .ntb){margin-bottom:48px}
 /* v6.12 (08/11/2026): chave Pix = CNPJ; mantém o número numa linha só (o botão desce quando falta espaço) */
 .pix-step .pix:has(.pix-key){flex-wrap:wrap}
 .pix-step .pix code.pix-key{flex:1 0 150px;white-space:nowrap;word-break:normal;font-size:15px}
+
+/* terco (20/11/2026): convite do terço na Programação, mostra o título "Terço" no topo */
+.slot.slot-terco .real-photo img{object-position:50% 0}
