@@ -480,3 +480,17 @@ main .band:has(+ .ntb){margin-bottom:48px}
 
 /* terco (20/11/2026): convite do terço na Programação, mostra o título "Terço" no topo */
 .slot.slot-terco .real-photo img{object-position:50% 0}
+/* ---- v6.20 Natal na praça + Papai Noel (21/11/2026): card em destaque na Programação ---- */
+.schedule-grid .slot.slot-papainoel{grid-column:1/-1;border-color:rgba(200,50,43,.28);box-shadow:0 0 0 3px rgba(255,179,44,.22),var(--shadow)}
+.slot.slot-papainoel .slot-when{background:#c8322b;align-self:flex-start}
+.slot.slot-papainoel .slot-when span{color:#ffe3a3}
+.slot.slot-papainoel .slot-cta{align-self:flex-start;margin-top:18px}
+.slot.slot-papainoel .slot-body{display:flex;flex-direction:column}
+.slot.slot-papainoel .real-photo img{object-position:50% 40%}
+@media(min-width:760px){
+  .schedule-grid .slot.slot-papainoel{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:stretch}
+  .slot.slot-papainoel .real-photo{height:100%;margin:0}
+  .slot.slot-papainoel .real-photo img{height:100%;aspect-ratio:auto;object-fit:cover;object-position:50% 50%}
+  .slot.slot-papainoel .slot-body{justify-content:center;padding:34px 36px}
+  .slot.slot-papainoel h3{font-size:32px}
+}
