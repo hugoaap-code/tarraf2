@@ -250,7 +250,7 @@ ${showRank ? `<span class="nt-rank${medal}">${lugar(rank)}</span>` : ''}${nav}</
     function foto(i) {
       const x = S.itens.find(y => y.id === S.aberto); if (!x) return;
       const n = x.fotos.length; S.foto = (i + n) % n;
-      dImg.src = src(x.fotos[S.foto].full); dImg.alt = `${nomeDe(x)}: foto ${S.foto + 1} de ${n}`;
+      dImg.src = src(x.fotos[S.foto].full); dImg.parentNode.style.setProperty('--nt-bg', `url("${dImg.src}")`); dImg.alt = `${nomeDe(x)}: foto ${S.foto + 1} de ${n}`;
       $('.nt-d-count', dlg).textContent = n > 1 ? `${S.foto + 1} / ${n}` : '';
       $$('.nt-d-nav', dlg).forEach(b => { b.hidden = n < 2; });
       $$('button', dThumbs).forEach((b, k) => b.setAttribute('aria-current', String(k === S.foto)));

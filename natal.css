@@ -408,3 +408,7 @@ body:has(.nt-hero) main .band{margin:32px 12px 56px!important}
   .nt-dialog .nt-d-stage img{width:100%;height:auto;max-height:62dvh;object-fit:contain}
 }
 @media(min-width:900px){.nt-dialog .nt-d-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}}
+
+/* ---- detalhe: fundo desfocado da própria foto no lugar das faixas vazias (24/11/2026) ---- */
+.nt-dialog .nt-d-stage{isolation:isolate;background:#0d1f16}
+.nt-dialog .nt-d-stage::before{content:"";position:absolute;inset:-40px;z-index:-1;background:var(--nt-bg,none) center/cover no-repeat;filter:blur(26px) brightness(.6) saturate(1.15)}
