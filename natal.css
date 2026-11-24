@@ -401,3 +401,10 @@ body:has(.nt-hero) main .band{margin:32px 12px 56px!important}
   .nt-d-actions [data-nt-dlike] span{display:none}
 }
 @media(max-width:359px){.nt-d-actions [data-nt-dvote] > .ico{display:none}}
+
+/* ---- detalhe: foto alta aparece inteira (celular e desktop) (24/11/2026) ---- */
+@media(max-width:899px){
+  .nt-dialog .nt-d-stage{aspect-ratio:auto;max-height:none;min-height:240px}
+  .nt-dialog .nt-d-stage img{width:100%;height:auto;max-height:62dvh;object-fit:contain}
+}
+@media(min-width:900px){.nt-dialog .nt-d-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}}
